@@ -258,26 +258,59 @@ export default function Homepage() {
 
                     <div className={styles.cardSpecs}>
                       <div className={styles.cardSpecItem}>
-                        <span className={styles.cardSpecIcon}>📐</span>
+                        <span className={styles.cardSpecIcon}>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <path d="M21.3 8.11 15.89 2.7a1 1 0 0 0-1.41 0L2.7 14.48a1 1 0 0 0 0 1.41l5.41 5.41a1 1 0 0 0 1.42 0L21.3 9.52a1 1 0 0 0 0-1.41Z"/>
+                            <path d="m5.5 12.5 1 1.1"/>
+                            <path d="m8.5 9.5 1 1.1"/>
+                            <path d="m11.5 6.5 1 1.1"/>
+                            <path d="m14.5 3.5 1 1.1"/>
+                          </svg>
+                        </span>
                         <span>{property.lebar} &times; {property.panjang} m</span>
                       </div>
                       <div className={styles.cardSpecItem}>
-                        <span className={styles.cardSpecIcon}>🏢</span>
+                        <span className={styles.cardSpecIcon}>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <rect x="4" y="2" width="16" height="20" rx="2" ry="2"/>
+                            <line x1="9" y1="22" x2="9" y2="16"/>
+                            <line x1="15" y1="22" x2="15" y2="16"/>
+                            <line x1="9" y1="16" x2="15" y2="16"/>
+                            <path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01M12 6h.01M12 10h.01M8 14h.01M16 14h.01M12 14h.01"/>
+                          </svg>
+                        </span>
                         <span>{property.tingkat} Lantai</span>
                       </div>
                       <div className={styles.cardSpecItem}>
-                        <span className={styles.cardSpecIcon}>🧭</span>
+                        <span className={styles.cardSpecIcon}>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                          </svg>
+                        </span>
                         <span>Hadap {hadapArray.join(', ')}</span>
                       </div>
                       <div className={styles.cardSpecItem}>
-                        <span className={styles.cardSpecIcon}>🚗</span>
+                        <span className={styles.cardSpecIcon}>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
+                            <circle cx="7" cy="17" r="2"/>
+                            <circle cx="17" cy="17" r="2"/>
+                            <path d="M13 17H9M21 17H19M5 17H3"/>
+                            <path d="M5 10H19"/>
+                          </svg>
+                        </span>
                         <span>Carport: {property.carport ? 'Ya' : 'Tidak'}</span>
                       </div>
                     </div>
 
                     <div className={styles.cardFooter}>
                       <div className={styles.cardKawasan}>
-                        📍 {kawasanArray.join(', ')}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', marginRight: '6px', color: '#C9A961', verticalAlign: 'middle' }} aria-hidden="true">
+                          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                          <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <span style={{ verticalAlign: 'middle' }}>{kawasanArray.join(', ')}</span>
                       </div>
                       <span className={`badge ${
                         property.siap === 'SIAP_HUNI' 

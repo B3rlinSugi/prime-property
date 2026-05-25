@@ -1,3 +1,4 @@
+import Logo from '@/components/layout/Logo';
 import styles from './page.module.css';
 
 export default function TentangKamiPage() {
@@ -42,22 +43,17 @@ export default function TentangKamiPage() {
           </div>
 
           <div className={styles.profileVisual}>
-            {/* Visual design element representing premium building */}
-            <div style={{
-              background: 'linear-gradient(135deg, #C9A961 0%, #1A1A1A 100%)',
-              height: '400px',
-              borderRadius: '16px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#FFFFFF',
-              padding: '40px',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.1)'
-            }}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '4rem', marginBottom: '16px' }}>🏰</div>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: 700, letterSpacing: '1px' }}>PRIME SELECTION</h3>
-                <p style={{ opacity: 0.8, fontSize: '0.9rem', marginTop: '8px' }}>Only Premium Properties, Certified Legality, and High Growth Potential</p>
+            <div className={styles.visualCard}>
+              <div className={styles.visualCardBadge}>Premium</div>
+              <div className={styles.visualCardInner}>
+                <div className={styles.visualCardLogo}>
+                  <Logo height={44} light={true} showText={false} />
+                </div>
+                <h3 className={styles.visualCardTitle}>PRIME SELECTION</h3>
+                <div className={styles.visualCardDivider}></div>
+                <p className={styles.visualCardQuote}>
+                  &ldquo;Hanya properti dengan spesifikasi unggul, legalitas sempurna, dan potensi pertumbuhan investasi tertinggi.&rdquo;
+                </p>
               </div>
             </div>
           </div>
