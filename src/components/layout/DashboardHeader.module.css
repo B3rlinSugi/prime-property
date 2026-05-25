@@ -350,3 +350,72 @@
   color: var(--color-accent-gold);
   background-color: rgba(201, 169, 97, 0.1);
 }
+
+@media (min-width: 1024px) {
+  .header {
+    position: fixed;
+    left: 24px;
+    top: 24px;
+    bottom: 24px;
+    width: 260px;
+    height: calc(100vh - 48px);
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border-radius: 16px;
+    border: 1px solid rgba(201, 169, 97, 0.15);
+    background-color: #161616;
+    padding: var(--space-6) var(--space-4);
+    gap: var(--space-8);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+  }
+  
+  .nav {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    margin-left: 0;
+    gap: var(--space-2);
+  }
+  
+  .navLink {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+  }
+  
+  .rightSection {
+    margin-left: 0;
+    margin-top: auto;
+    width: 100%;
+  }
+  
+  .userMenu {
+    width: 100%;
+  }
+  
+  .userButton {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    justify-content: space-between;
+  }
+  
+  .dropdown {
+    position: absolute;
+    bottom: 72px; /* Dropdown floats above the button */
+    left: 0;
+    right: 0;
+    width: 100%;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(201, 169, 97, 0.15);
+    background-color: #1A1A1A;
+  }
+  
+  .logo {
+    width: 100%;
+    justify-content: center;
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+}

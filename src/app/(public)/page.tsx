@@ -321,14 +321,19 @@ export default function Homepage() {
             Est. Prime Property &middot; Bekasi
           </div>
           <h1 ref={headingRef} className={styles.heroHeading}>
-            Properti Premium di Tangan Anda
+            Exclusive Property Intelligence Platform
           </h1>
           <p className={styles.heroSubheading}>
-            Prime Property menghadirkan pilihan ruko dan villa premium di lokasi-lokasi paling berkembang dan strategis untuk investasi dan tempat tinggal masa depan Anda.
+            Portal manajemen properti premium penopang investasi ruko komersial dan hunian villa mewah pilihan dengan spesifikasi teknis unggul dan legalitas bersertifikat.
           </p>
-          <a href="#properti-unggulan" className={`${styles.heroCta} gold-shimmer`}>
-            Lihat Properti
-          </a>
+          <div className={styles.heroActions}>
+            <a href="#properti-unggulan" className={`${styles.heroCta} gold-shimmer`}>
+              Lihat Properti
+            </a>
+            <Link href="/kontak" className={styles.heroSecondaryCta}>
+              Hubungi Kami
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -348,14 +353,14 @@ export default function Homepage() {
           </div>
         ) : (
           <div className={styles.grid}>
-            {properties.map((property) => {
+            {properties.map((property, index) => {
               const hadapArray = parseJsonArray(property.hadap);
               const kawasanArray = parseJsonArray(property.kawasan);
 
               return (
                 <article 
                   key={property.id} 
-                  className={`${styles.card} reveal`}
+                  className={`${styles.card} ${index === 0 || index === 4 ? styles.cardWide : ''} reveal`}
                   onMouseMove={handleMouseMove}
                   onMouseLeave={handleMouseLeave}
                 >

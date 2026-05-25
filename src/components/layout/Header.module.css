@@ -7,7 +7,7 @@
   position: sticky;
   top: 0;
   z-index: 200;
-  background: rgba(26, 26, 26, 0.85);
+  background: rgba(13, 13, 13, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   padding: 0 clamp(16px, 4vw, 64px);
@@ -17,7 +17,7 @@
   justify-content: space-between;
   border-bottom: 1px solid rgba(201, 169, 97, 0.15);
   transition: background var(--transition-base, 250ms ease), box-shadow var(--transition-base, 250ms ease);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
 }
 
 /* ─── Logo ──────────────────────────────────── */

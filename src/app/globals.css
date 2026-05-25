@@ -8,24 +8,24 @@
 /* ─── CSS Custom Properties ─────────────────── */
 :root {
   /* Colors — Prime Property Brand */
-  --color-primary: #1A1A1A;
-  --color-primary-light: #2D2D2D;
+  --color-primary: #0D0D0D;
+  --color-primary-light: #161616;
   --color-accent-gold: #C9A961;
   --color-accent-gold-hover: #D4B872;
-  --color-accent-gold-light: rgba(201, 169, 97, 0.1);
+  --color-accent-gold-light: rgba(201, 169, 97, 0.08);
   --color-accent-red: #B33A3A;
   --color-accent-red-hover: #C44545;
   --color-accent-red-light: rgba(179, 58, 58, 0.1);
   --color-white: #FFFFFF;
-  --color-bg: #FFFFFF;
-  --color-bg-secondary: #F5F5F5;
-  --color-bg-dark: #1A1A1A;
-  --color-text: #1A1A1A;
-  --color-text-secondary: #666666;
-  --color-text-light: #999999;
+  --color-bg: #0D0D0D;
+  --color-bg-secondary: #161616;
+  --color-bg-dark: #0D0D0D;
+  --color-text: #FFFFFF;
+  --color-text-secondary: rgba(255, 255, 255, 0.65);
+  --color-text-light: rgba(255, 255, 255, 0.4);
   --color-text-on-dark: #FFFFFF;
-  --color-border: #E0E0E0;
-  --color-border-light: #F0F0F0;
+  --color-border: rgba(201, 169, 97, 0.15);
+  --color-border-light: rgba(255, 255, 255, 0.06);
 
   /* Status Colors */
   --color-status-in-stock: #4CAF50;
