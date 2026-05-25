@@ -1,219 +1,127 @@
 /* ============================================
-   Agent Login Page — Futuristic Dark Luxury
+   Agent Login Page — Centered Dark Luxury
    ============================================ */
 
 .loginPage {
   display: flex;
   min-height: 100vh;
+  justify-content: center;
+  align-items: center;
   background-color: #0D0D0D;
   position: relative;
   overflow: hidden;
+  padding: 24px;
 }
 
-.loginPage::before {
-  content: '';
+/* Waving glowing gold mesh background */
+.wavesBg {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: 40px 40px;
+  inset: 0;
+  background-size: 60px 60px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
-  mask-image: radial-gradient(circle 800px at center, #000 50%, transparent 100%);
-  -webkit-mask-image: radial-gradient(circle 800px at center, #000 50%, transparent 100%);
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse 65% 55% at 50% 50%, #000 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 50%, #000 60%, transparent 100%);
   pointer-events: none;
-}
-
-/* ─── Left Branding Panel (Desktop) ────────── */
-.brandingPanel {
-  display: none;
-  width: 45%;
-  min-width: 420px;
-  background-color: #121212;
-  position: relative;
-  overflow: hidden;
-  border-right: 1px solid rgba(201, 169, 97, 0.15);
-}
-
-.brandingContent {
-  position: relative;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100%;
-  padding: var(--space-16);
 }
 
-/* Decorative background pattern */
-.brandingPanel::before {
+.wavesBg::before {
   content: '';
   position: absolute;
-  top: -20%;
-  right: -15%;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(201, 169, 97, 0.1) 0%,
-    transparent 70%
-  );
-  pointer-events: none;
-}
-
-.brandingPanel::after {
-  content: '';
-  position: absolute;
-  bottom: -10%;
-  left: -10%;
-  width: 400px;
-  height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(201, 169, 97, 0.06) 0%,
-    transparent 70%
-  );
-  pointer-events: none;
-}
-
-.brandingLogo {
-  font-size: 2.25rem;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-white);
-  letter-spacing: 0.08em;
-  line-height: 1.2;
-  margin-bottom: var(--space-2);
-}
-
-.brandingLogoAccent {
-  color: var(--color-accent-gold);
-}
-
-.brandingDivider {
-  width: 48px;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    var(--color-accent-gold) 0%,
-    rgba(201, 169, 97, 0.3) 100%
-  );
-  border: none;
-  border-radius: 2px;
-  margin: var(--space-6) 0;
-}
-
-.brandingTagline {
-  font-size: var(--font-size-lg);
-  color: rgba(255, 255, 255, 0.7);
-  font-weight: var(--font-weight-medium);
-  letter-spacing: 0.02em;
-}
-
-.brandingSubtext {
-  margin-top: var(--space-8);
-  font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.4);
-  line-height: 1.6;
-  max-width: 320px;
-}
-
-/* ─── Right Form Panel ─────────────────────── */
-.formPanel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: var(--space-8);
-  position: relative;
+  inset: 0;
   background: 
-    radial-gradient(circle 350px at 50% 50%, rgba(201, 169, 97, 0.08), transparent 80%),
-    #0D0D0D;
+    radial-gradient(circle 350px at 20% 30%, rgba(201, 169, 97, 0.06), transparent 70%),
+    radial-gradient(circle 350px at 80% 70%, rgba(201, 169, 97, 0.04), transparent 70%);
+  filter: blur(40px);
+  animation: waveMotion 12s ease-in-out infinite alternate;
 }
 
-/* Mobile header */
-.mobileHeader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
-  width: 100%;
-  padding: var(--space-6) var(--space-6);
-  background-color: #121212;
+@keyframes waveMotion {
+  0% { transform: scale(1) translate(0px, 0px); }
+  50% { transform: scale(1.05) translate(15px, -15px); }
+  100% { transform: scale(1) translate(-10px, 20px); }
+}
+
+.ambientGlow {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  border-bottom: 1px solid rgba(201, 169, 97, 0.15);
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(201, 169, 97, 0.12) 0%, transparent 75%);
+  filter: blur(60px);
+  z-index: 1;
+  pointer-events: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.mobileHeaderLogo {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-white);
-  letter-spacing: 0.06em;
-}
-
-.mobileHeaderAccent {
-  color: var(--color-accent-gold);
-}
-
-/* ─── Form Container ───────────────────────── */
+/* ─── Form Container Centered Glass Card ─────── */
 .formContainer {
   width: 100%;
   max-width: 440px;
-  margin-top: 80px;
-  background: rgba(22, 22, 22, 0.7);
-  padding: 44px 36px;
+  background: rgba(22, 22, 22, 0.75);
+  padding: 48px 40px;
   border-radius: 16px;
   border: 1px solid rgba(201, 169, 97, 0.18);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  backdrop-filter: blur(24px);
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(201, 169, 97, 0.02);
+  z-index: 2;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .formContainer:hover {
+  transform: translateY(-4px);
   border-color: rgba(201, 169, 97, 0.35);
-  box-shadow: 0 24px 60px rgba(201, 169, 97, 0.05);
+  box-shadow: 
+    0 35px 70px rgba(0, 0, 0, 0.7),
+    0 0 50px rgba(201, 169, 97, 0.08);
+}
+
+.logoWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
 }
 
 .formTitle {
-  font-size: var(--font-size-2xl);
+  font-size: 1.65rem;
   font-weight: 800;
   color: #FFFFFF;
-  margin-bottom: var(--space-2);
+  margin-bottom: 8px;
   letter-spacing: -0.02em;
+  text-align: center;
 }
 
 .formSubtitle {
-  font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.65);
-  margin-bottom: var(--space-8);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 32px;
+  text-align: center;
   line-height: 1.5;
 }
 
-/* ─── Form ──────────────────────────────────── */
+/* ─── Form Elements ─────────────────────────── */
 .form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: 20px;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: 8px;
 }
 
 .formLabel {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+  font-size: 0.8rem;
+  font-weight: 600;
   color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.5px;
 }
 
 .inputWrapper {
@@ -224,8 +132,8 @@
 
 .formInput {
   width: 100%;
-  padding: 14px var(--space-4);
-  font-size: var(--font-size-sm);
+  padding: 14px 16px;
+  font-size: 0.875rem;
   font-family: var(--font-family);
   color: #FFFFFF;
   background-color: #121212;
@@ -236,7 +144,7 @@
 }
 
 .formInput::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.25);
 }
 
 .formInput:hover {
@@ -291,13 +199,45 @@
   flex-shrink: 0;
 }
 
+/* ─── Row structure (Remember Me / Forgot Pwd) */
+.formRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.rememberMe {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+}
+
+.checkbox {
+  accent-color: #C9A961;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.forgotPassword {
+  color: #C9A961;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.forgotPassword:hover {
+  color: #DECA8A;
+}
+
 /* ─── Field Error ──────────────────────────── */
 .fieldError {
   font-size: var(--font-size-xs);
   color: var(--color-accent-red);
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
   margin-top: 2px;
 }
 
@@ -307,11 +247,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  padding: 14px var(--space-6);
-  margin-top: var(--space-2);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-semibold);
+  gap: 10px;
+  padding: 14px 24px;
+  margin-top: 12px;
+  font-size: 1rem;
+  font-weight: 600;
   font-family: var(--font-family);
   color: #0D0D0D;
   background: linear-gradient(135deg, var(--color-accent-gold) 0%, #D4B872 100%);
@@ -349,25 +289,23 @@
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 /* ─── Global Error Alert ───────────────────── */
 .errorAlert {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-3);
-  padding: var(--space-4);
+  gap: 12px;
+  padding: 16px;
   background-color: rgba(179, 58, 58, 0.1);
   border: 1px solid rgba(179, 58, 58, 0.2);
   border-radius: var(--radius-md);
   color: var(--color-accent-red);
   font-size: var(--font-size-sm);
   line-height: 1.5;
+  margin-bottom: 16px;
   animation: slideIn 0.2s ease-out;
-  margin-bottom: var(--space-4);
 }
 
 .errorAlertIcon {
@@ -378,51 +316,28 @@
 }
 
 @keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* ============================================
-   Responsive — Desktop
-   ============================================ */
-@media (min-width: 1024px) {
-  .brandingPanel {
-    display: block;
-  }
-
-  .mobileHeader {
-    display: none;
-  }
-
-  .formContainer {
-    margin-top: 0;
-  }
-
-  .formPanel {
-    padding: var(--space-12);
-  }
+/* ─── Form Footer ──────────────────────────── */
+.formFooter {
+  margin-top: 24px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
 }
 
-/* ============================================
-   Responsive — Small screens
-   ============================================ */
+.footerLink {
+  color: #C9A961;
+  font-weight: 600;
+}
+
 @media (max-width: 480px) {
-  .formPanel {
-    padding: var(--space-6) var(--space-4);
-  }
-
-  .formTitle {
-    font-size: var(--font-size-xl);
-  }
-
   .formContainer {
-    margin-top: 100px;
     padding: 32px 24px;
+  }
+  .formTitle {
+    font-size: 1.45rem;
   }
 }

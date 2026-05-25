@@ -276,8 +276,10 @@ export default function Homepage() {
 
   return (
     <div className={styles.container}>
-      {/* Hero Section — Split Screen 2 Columns with 3D Dashboard Preview */}
+      {/* Hero Section — Cinematic 3D Orbit Swirling Villa */}
       <section className={styles.hero} onMouseMove={handleHeroMouseMove}>
+        {/* Swirling glow grid mesh background */}
+        <div className={styles.gridMesh}></div>
         <div className={styles.heroContent}>
           {/* Left Column: Headline details */}
           <div className={styles.heroText}>
@@ -288,93 +290,72 @@ export default function Homepage() {
               Exclusive Property Intelligence Platform
             </h1>
             <p className={styles.heroSubheading}>
-              Kelola inventory premium dengan cepat, presisi, dan elegan.
+              Kelola inventory properti premium dengan cepat, presisi, dan elegan. Semua data dalam satu platform.
             </p>
             <div className={styles.heroActions}>
               <a href="#properti-unggulan" className={`${styles.heroCta} gold-shimmer`}>
-                Explore Properties <span className={styles.ctaArrow}>→</span>
+                Lihat Properti <span className={styles.ctaArrow}>→</span>
               </a>
-              <Link href="/agent/login" className={styles.heroSecondaryCta}>
-                Login Agent
+              <Link href="/kontak" className={styles.heroSecondaryCta}>
+                Hubungi Kami
               </Link>
             </div>
           </div>
 
-          {/* Right Column: Next-Gen 3D Floating Dashboard Preview */}
+          {/* Right Column: Breathtaking Cinematic Modern Villa with Swirling Orbits */}
           <div className={styles.heroVisual}>
-            <div className={styles.dashboardContainer}>
-              {/* Radial glow background mesh */}
-              <div className={styles.dashboardGlow}></div>
+            <div className={styles.visualContainer}>
+              {/* Radial glow background light streak */}
+              <div className={styles.ambientGlow}></div>
               
-              {/* Main OS Panel */}
-              <div className={styles.mainDashboardPanel}>
-                <div className={styles.panelHeader}>
-                  <div className={styles.panelDots}>
-                    <span className={styles.dotRed}></span>
-                    <span className={styles.dotYellow}></span>
-                    <span className={styles.dotGreen}></span>
-                  </div>
-                  <div className={styles.panelTitle}>Prime Property OS</div>
-                  <div className={styles.panelBadge}>✦ LIVE</div>
+              {/* Glowing Swirling 3D Orbit Lines wrapping around */}
+              <div className={styles.orbitContainer}>
+                {/* Orbit Line 1 */}
+                <div className={`${styles.orbitRing} ${styles.orbit1}`}>
+                  <svg viewBox="0 0 400 400" className={styles.orbitSvg}>
+                    <ellipse cx="200" cy="200" rx="190" ry="60" className={styles.orbitPath} />
+                  </svg>
+                  <span className={`${styles.orbitParticle} ${styles.part1}`}></span>
                 </div>
-                <div className={styles.panelBody}>
-                  {/* Grid layout within the panel */}
-                  <div className={styles.miniStats}>
-                    <div className={styles.miniStatCard}>
-                      <span className={styles.miniStatLabel}>Portfolio Value</span>
-                      <span className={styles.miniStatValue}>Rp 148.5B</span>
-                      <span className={styles.miniStatTrend}>+12.4%</span>
-                    </div>
-                    <div className={styles.miniStatCard}>
-                      <span className={styles.miniStatLabel}>Active Listings</span>
-                      <span className={styles.miniStatValue}>42 Units</span>
-                      <span className={styles.miniStatTrend} style={{ color: '#4CAF50' }}>92% Stock</span>
-                    </div>
-                  </div>
-                  
-                  {/* SVG mini chart showing growth curve */}
-                  <div className={styles.miniChartContainer}>
-                    <svg className={styles.miniChart} viewBox="0 0 200 60">
-                      <defs>
-                        <linearGradient id="goldGlow" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#C9A961" stopOpacity="0.4" />
-                          <stop offset="100%" stopColor="#C9A961" stopOpacity="0" />
-                        </linearGradient>
-                      </defs>
-                      <path 
-                        d="M0,50 Q30,20 60,35 T120,15 T180,25 L200,10 L200,60 L0,60 Z" 
-                        fill="url(#goldGlow)"
-                      />
-                      <path 
-                        d="M0,50 Q30,20 60,35 T120,15 T180,25 L200,10" 
-                        fill="none" 
-                        stroke="#C9A961" 
-                        strokeWidth="2.5" 
-                      />
-                      <circle cx="200" cy="10" r="4" fill="#C9A961" className={styles.pulsingDot} />
-                    </svg>
-                  </div>
+                
+                {/* Orbit Line 2 */}
+                <div className={`${styles.orbitRing} ${styles.orbit2}`}>
+                  <svg viewBox="0 0 400 400" className={styles.orbitSvg}>
+                    <ellipse cx="200" cy="200" rx="170" ry="70" className={styles.orbitPath} />
+                  </svg>
+                  <span className={`${styles.orbitParticle} ${styles.part2}`}></span>
+                </div>
+                
+                {/* Orbit Line 3 */}
+                <div className={`${styles.orbitRing} ${styles.orbit3}`}>
+                  <svg viewBox="0 0 400 400" className={styles.orbitSvg}>
+                    <ellipse cx="200" cy="200" rx="195" ry="50" className={styles.orbitPath} />
+                  </svg>
+                  <span className={`${styles.orbitParticle} ${styles.part3}`}></span>
                 </div>
               </div>
 
-              {/* Floating Property Card 1 (Aston Villas mockup overlay) */}
-              <div className={`${styles.floatingCard} ${styles.floatCard1}`}>
-                <div className={styles.floatingCardImg} style={{ backgroundImage: 'url(/property-villa.png)' }}></div>
-                <div className={styles.floatingCardInfo}>
-                  <span className={styles.floatingCardTitle}>Aston Villas</span>
-                  <span className={styles.floatingCardPrice}>Rp 1.35B</span>
-                  <div className={styles.floatingCardSpec}>
-                    <span>📐 4.5 &times; 21.5 m</span>
-                  </div>
-                </div>
-              </div>
+              {/* Modern Dark Luxury Villa Image */}
+              <img 
+                src="/luxury-villa.png" 
+                alt="Luxury Modern Villa Architecture" 
+                className={styles.visualImg} 
+              />
 
-              {/* Floating Property Card 2 (Yield Score Intelligence Overlay) */}
-              <div className={`${styles.floatingCard} ${styles.floatCard2}`}>
-                <div className={styles.intelligenceIcon}>✦</div>
+              {/* Floating Analytics cards (mockup from collage) */}
+              <div className={`${styles.overlayCard} ${styles.overlayCardLeft}`}>
+                <span className={styles.overlayCardIcon}>✦</span>
                 <div>
-                  <div className={styles.intelligenceTitle}>Intelligence Score</div>
-                  <div className={styles.intelligenceRating}>AAA Premium Investment</div>
+                  <div className={styles.overlayCardLabel}>Premium Yield</div>
+                  <div className={styles.overlayCardValue}>AAA Rating</div>
+                </div>
+              </div>
+
+              <div className={`${styles.overlayCard} ${styles.overlayCardRight}`}>
+                <span className={styles.overlayCardIcon} style={{ color: '#4CAF50' }}>✓</span>
+                <div>
+                  <div className={styles.overlayCardLabel}>Verification</div>
+                  <div className={styles.overlayCardValue}>100% Secure</div>
                 </div>
               </div>
             </div>

@@ -69,6 +69,25 @@ function DashboardPageContent() {
   // User Role Check
   const isSuperadmin = session?.user?.role === 'SUPERADMIN';
 
+  // Refs
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Keyboard shortcut listener (Request 18 - press / to focus search)
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (
+        e.key === '/' && 
+        document.activeElement?.tagName !== 'INPUT' && 
+        document.activeElement?.tagName !== 'TEXTAREA'
+      ) {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   // UI States
   const [properties, setProperties] = useState<Property[]>([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -307,15 +326,20 @@ function DashboardPageContent() {
       <div className={`${styles.filterPanel} ${mobileFilterOpen ? styles.filterPanelOpen : ''}`}>
         <div className={styles.filterGrid}>
           {/* Row 1 */}
-          <div className="form-group">
+          <div className="form-group" style={{ position: 'relative' }}>
             <label className="form-label">Cari Properti</label>
-            <input 
-              type="text" 
-              className="form-input" 
-              placeholder="Nama, group, atau kawasan..." 
-              value={search}
-              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-            />
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+              <input 
+                ref={searchInputRef}
+                type="text" 
+                className="form-input" 
+                style={{ paddingRight: '42px' }}
+                placeholder="Nama, group, atau kawasan..." 
+                value={search}
+                onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+              />
+              <span className={styles.searchShortcut}>/</span>
+            </div>
           </div>
 
           <div className="form-group">

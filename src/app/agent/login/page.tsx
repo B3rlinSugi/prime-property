@@ -104,158 +104,160 @@ export default function AgentLoginPage() {
 
   return (
     <div className={styles.loginPage}>
-      {/* Left branding panel — desktop only */}
-      <aside className={styles.brandingPanel}>
-        <div className={`${styles.brandingContent} reveal`}>
-          <div style={{ marginBottom: '24px' }}>
-            <Logo height={56} light={true} />
-          </div>
-          <hr className={styles.brandingDivider} />
-          <p className={styles.brandingTagline}>Portal Agent Internal</p>
-          <p className={styles.brandingSubtext}>
-            Kelola properti, pantau listing, dan akses dashboard agent Anda dari satu tempat.
-          </p>
+      {/* Cinematic gold waves background mesh */}
+      <div className={styles.wavesBg}></div>
+      <div className={styles.ambientGlow}></div>
+      
+      {/* Floating glass panel centered */}
+      <div className={`${styles.formContainer} reveal`}>
+        <div className={styles.logoWrapper}>
+          <Logo height={44} light={true} />
         </div>
-      </aside>
+        
+        <h2 className={styles.formTitle}>Login Agent</h2>
+        <p className={styles.formSubtitle}>
+          Masuk untuk mengakses dashboard internal
+        </p>
 
-      {/* Right form panel */}
-      <div className={styles.formPanel}>
-        {/* Mobile header */}
-        <div className={styles.mobileHeader}>
-          <Logo height={32} light={true} />
-        </div>
-
-        <div className={`${styles.formContainer} reveal`}>
-          <h2 className={styles.formTitle}>Masuk ke Dashboard</h2>
-          <p className={styles.formSubtitle}>
-            Silakan masuk dengan akun agent Anda
-          </p>
-
-          {/* Global error alert */}
-          {error && (
-            <div className={styles.errorAlert} role="alert">
-              <svg
-                className={styles.errorAlertIcon}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="8" x2="12" y2="12" />
-                <line x1="12" y1="16" x2="12.01" y2="16" />
-              </svg>
-              <span>{error}</span>
-            </div>
-          )}
-
-          <form className={styles.form} onSubmit={handleSubmit} noValidate>
-            {/* Email field */}
-            <div className={styles.formGroup}>
-              <label htmlFor="email" className={styles.formLabel}>
-                Email
-              </label>
-              <div className={styles.inputWrapper}>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="Email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    if (emailError) setEmailError('');
-                  }}
-                  className={`${styles.formInput} ${emailError ? styles.formInputError : ''}`}
-                  disabled={isLoading}
-                />
-              </div>
-              {emailError && (
-                <span className={styles.fieldError}>{emailError}</span>
-              )}
-            </div>
-
-            {/* Password field */}
-            <div className={styles.formGroup}>
-              <label htmlFor="password" className={styles.formLabel}>
-                Password
-              </label>
-              <div className={styles.inputWrapper}>
-                <input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Password"
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    if (passwordError) setPasswordError('');
-                  }}
-                  className={`${styles.formInput} ${styles.passwordInput} ${passwordError ? styles.formInputError : ''}`}
-                  disabled={isLoading}
-                />
-                <button
-                  type="button"
-                  className={styles.passwordToggle}
-                  onClick={() => setShowPassword(!showPassword)}
-                  tabIndex={-1}
-                  aria-label={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}
-                >
-                  {showPassword ? (
-                    /* Eye-off icon */
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
-                      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
-                      <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24" />
-                      <line x1="1" y1="1" x2="23" y2="23" />
-                    </svg>
-                  ) : (
-                    /* Eye icon */
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-              {passwordError && (
-                <span className={styles.fieldError}>{passwordError}</span>
-              )}
-            </div>
-
-            {/* Submit button */}
-            <button
-              type="submit"
-              className={`${styles.submitButton} gold-shimmer`}
-              disabled={isLoading}
+        {/* Global error alert */}
+        {error && (
+          <div className={styles.errorAlert} role="alert">
+            <svg
+              className={styles.errorAlertIcon}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              {isLoading ? (
-                <>
-                  <span className={styles.spinner} />
-                  <span>Memproses...</span>
-                </>
-              ) : (
-                'Masuk'
-              )}
-            </button>
-          </form>
-        </div>
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <span>{error}</span>
+          </div>
+        )}
+
+        <form className={styles.form} onSubmit={handleSubmit} noValidate>
+          {/* Email field */}
+          <div className={styles.formGroup}>
+            <label htmlFor="email" className={styles.formLabel}>
+              Email
+            </label>
+            <div className={styles.inputWrapper}>
+              <input
+                id="email"
+                type="email"
+                placeholder="you@primeproperty.id"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (emailError) setEmailError('');
+                }}
+                className={`${styles.formInput} ${emailError ? styles.formInputError : ''}`}
+                disabled={isLoading}
+              />
+            </div>
+            {emailError && (
+              <span className={styles.fieldError}>{emailError}</span>
+            )}
+          </div>
+
+          {/* Password field */}
+          <div className={styles.formGroup}>
+            <label htmlFor="password" className={styles.formLabel}>
+              Password
+            </label>
+            <div className={styles.inputWrapper}>
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="••••••••"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (passwordError) setPasswordError('');
+                }}
+                className={`${styles.formInput} ${styles.passwordInput} ${passwordError ? styles.formInputError : ''}`}
+                disabled={isLoading}
+              />
+              <button
+                type="button"
+                className={styles.passwordToggle}
+                onClick={() => setShowPassword(!showPassword)}
+                tabIndex={-1}
+                aria-label={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}
+              >
+                {showPassword ? (
+                  /* Eye-off icon */
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                    <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                ) : (
+                  /* Eye icon */
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                )}
+              </button>
+            </div>
+            {passwordError && (
+              <span className={styles.fieldError}>{passwordError}</span>
+            )}
+          </div>
+
+          {/* Remember me & Forgot Password */}
+          <div className={styles.formRow}>
+            <label className={styles.rememberMe}>
+              <input type="checkbox" className={styles.checkbox} />
+              <span>Ingat saya</span>
+            </label>
+            <a href="#" className={styles.forgotPassword} onClick={(e) => e.preventDefault()}>
+              Lupa password?
+            </a>
+          </div>
+
+          {/* Submit button */}
+          <button
+            type="submit"
+            className={`${styles.submitButton} gold-shimmer`}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <span className={styles.spinner} />
+                <span>Masuk...</span>
+              </>
+            ) : (
+              'Masuk'
+            )}
+          </button>
+        </form>
+
+        <p className={styles.formFooter}>
+          Belum memiliki akses? <span className={styles.footerLink}>Hubungi superadmin.</span>
+        </p>
       </div>
     </div>
   );

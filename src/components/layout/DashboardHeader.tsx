@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useSession, signOut } from 'next-auth/react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Logo from './Logo';
 import styles from './DashboardHeader.module.css';
@@ -65,16 +65,24 @@ export default function DashboardHeader() {
 
   const user = session?.user;
   const isSuperAdmin = user?.role === 'SUPERADMIN';
+  const searchParams = useSearchParams();
 
   const navLinks = [
-    { href: '/agent/dashboard', label: 'Properti', visible: true },
-    { href: '/agent/dashboard/users', label: 'Pengguna', visible: isSuperAdmin },
-    { href: '/agent/dashboard/audit-log', label: 'Audit Log', visible: isSuperAdmin },
+    { href: '#', label: 'Dashboard', icon: '📊', visible: true, dummy: true },
+    { href: '/agent/dashboard', label: 'Properti', icon: '🏢', visible: true, dummy: false },
+    { href: '#', label: 'Analytics', icon: '📈', visible: true, dummy: true },
+    { href: '/agent/dashboard/users', label: 'Admin', icon: '👤', visible: isSuperAdmin, dummy: false },
+    { href: '/agent/dashboard/audit-log', label: 'Audit Log', icon: '📝', visible: isSuperAdmin, dummy: false },
+    { href: '/agent/dashboard?archived=true', label: 'Arsip', icon: '📁', visible: isSuperAdmin, dummy: false },
+    { href: '#', label: 'Pengaturan', icon: '⚙️', visible: true, dummy: true },
   ];
 
   function isActive(href: string): boolean {
+    if (href.includes('archived=true')) {
+      return pathname === '/agent/dashboard' && searchParams.get('archived') === 'true';
+    }
     if (href === '/agent/dashboard') {
-      return pathname === '/agent/dashboard';
+      return pathname === '/agent/dashboard' && searchParams.get('archived') !== 'true';
     }
     return pathname.startsWith(href);
   }
@@ -132,15 +140,30 @@ export default function DashboardHeader() {
         <nav className={styles.nav}>
           {navLinks
             .filter((link) => link.visible)
-            .map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`${styles.navLink} ${isActive(link.href) ? styles.navLinkActive : ''}`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            .map((link) => {
+              if (link.dummy) {
+                return (
+                  <button
+                    key={link.label}
+                    className={styles.navLink}
+                    onClick={() => alert(`${link.label} is part of the Prime Property OS Enterprise Suite.`)}
+                  >
+                    <span style={{ marginRight: '10px' }}>{link.icon}</span>
+                    {link.label}
+                  </button>
+                );
+              }
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`${styles.navLink} ${isActive(link.href) ? styles.navLinkActive : ''}`}
+                >
+                  <span style={{ marginRight: '10px' }}>{link.icon}</span>
+                  {link.label}
+                </Link>
+              );
+            })}
         </nav>
 
         {/* Right section — user menu */}

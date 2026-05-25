@@ -65,6 +65,21 @@
 .navLinkActive {
   color: var(--color-accent-gold);
   background-color: rgba(201, 169, 97, 0.1);
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .navLinkActive::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: var(--space-2);
+    bottom: var(--space-2);
+    width: 3px;
+    background-color: #C9A961;
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 0 10px #C9A961;
+  }
 }
 
 .navLinkActive:hover {
