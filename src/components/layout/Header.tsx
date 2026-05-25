@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Logo from './Logo';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -19,10 +20,8 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
-      <Link href="/" className={styles.logo}>
-        <span className={styles.logoPrime}>PRIME</span>
-        <span className={styles.logoDot}>.</span>
-        <span className={styles.logoProperty}>PROPERTY</span>
+      <Link href="/" className={styles.logo} style={{ display: 'flex', alignItems: 'center' }}>
+        <Logo height={38} light={true} />
       </Link>
 
       {/* Desktop Navigation */}

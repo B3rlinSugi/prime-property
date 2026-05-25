@@ -3,6 +3,7 @@
 import { useState, FormEvent } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Logo from '@/components/layout/Logo';
 import styles from './page.module.css';
 
 export default function AgentLoginPage() {
@@ -89,10 +90,9 @@ export default function AgentLoginPage() {
       {/* Left branding panel — desktop only */}
       <aside className={styles.brandingPanel}>
         <div className={styles.brandingContent}>
-          <h1 className={styles.brandingLogo}>
-            PRIME{' '}
-            <span className={styles.brandingLogoAccent}>PROPERTY</span>
-          </h1>
+          <div style={{ marginBottom: '24px' }}>
+            <Logo height={56} light={true} />
+          </div>
           <hr className={styles.brandingDivider} />
           <p className={styles.brandingTagline}>Portal Agent Internal</p>
           <p className={styles.brandingSubtext}>
@@ -105,9 +105,7 @@ export default function AgentLoginPage() {
       <div className={styles.formPanel}>
         {/* Mobile header */}
         <div className={styles.mobileHeader}>
-          <span className={styles.mobileHeaderLogo}>
-            PRIME <span className={styles.mobileHeaderAccent}>PROPERTY</span>
-          </span>
+          <Logo height={32} light={true} />
         </div>
 
         <div className={styles.formContainer}>

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Logo from './Logo';
 import styles from './DashboardHeader.module.css';
 
 function getInitials(name: string): string {
@@ -123,10 +124,8 @@ export default function DashboardHeader() {
         </button>
 
         {/* Logo */}
-        <Link href="/agent/dashboard" className={styles.logo}>
-          <span className={styles.logoText}>
-            PRIME <span className={styles.logoAccent}>PROPERTY</span>
-          </span>
+        <Link href="/agent/dashboard" className={styles.logo} style={{ display: 'flex', alignItems: 'center' }}>
+          <Logo height={32} light={true} />
         </Link>
 
         {/* Desktop navigation */}

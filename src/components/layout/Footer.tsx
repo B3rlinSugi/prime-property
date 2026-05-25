@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Logo from './Logo';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -6,10 +7,8 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.footerGrid}>
         <div className={styles.footerCol}>
-          <Link href="/" className={styles.footerLogo}>
-            <span className={styles.logoPrime}>PRIME</span>
-            <span className={styles.logoDot}>.</span>
-            <span className={styles.logoProperty}>PROPERTY</span>
+          <Link href="/" className={styles.footerLogo} style={{ display: 'flex', alignItems: 'center' }}>
+            <Logo height={38} light={true} />
           </Link>
           <p className={styles.footerDescription}>
             Prime Property menghadirkan pilihan ruko dan villa premium di lokasi strategis dengan nilai investasi optimal untuk masa depan Anda.
