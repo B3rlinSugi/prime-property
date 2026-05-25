@@ -106,68 +106,198 @@
   pointer-events: none;
 }
 
-/* ─── Two-Column Section ────────────────────── */
+/* ─── Unified Option B: Modern 3-Column Box ─────── */
 
 .contactSection {
   padding: 48px clamp(16px, 4vw, 64px) 80px;
   background-color: #0D0D0D;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
-.contactGrid {
+.unifiedContactBox {
+  background-color: #121212;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
   display: grid;
-  grid-template-columns: 1fr 1.3fr;
-  gap: 40px;
+  grid-template-columns: 1.15fr 1fr 1fr;
+  overflow: hidden;
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
 }
 
-@media (max-width: 960px) {
-  .contactGrid {
+@media (max-width: 1024px) {
+  .unifiedContactBox {
     grid-template-columns: 1fr;
-    gap: 40px;
   }
 }
 
-.contactInfoColumn {
+/* Column 1: Map Block */
+.mapColumn {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 580px;
+}
+
+@media (max-width: 1024px) {
+  .mapColumn {
+    height: 400px;
+    min-height: 400px;
+  }
+}
+
+.googleMap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  filter: grayscale(100%) invert(90%) hue-rotate(180deg) brightness(85%) contrast(90%);
+  opacity: 0.78;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+.googleMap:hover {
+  opacity: 0.95;
+}
+
+.mapGlowOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, transparent 35%, rgba(13, 13, 13, 0.45) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Floating Card inside Map */
+.floatingMapCard {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 3;
+  background: rgba(18, 18, 18, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
-/* ─── Left Side: Cards ──────────────────────── */
-
-.infoCard,
-.waCard,
-.formCard {
-  background-color: #161616;
-  padding: 36px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+.floatingCardTop {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
-.cardSectionTitle {
-  font-size: 1.25rem;
+.floatingCardThumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.floatingCardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.floatingCardTitle {
+  font-size: 0.88rem;
   font-weight: 700;
   color: #FFFFFF;
-  margin-bottom: 28px;
+  margin: 0;
 }
 
-/* Contact Rows */
-.contactItemRow {
+.floatingCardAddress {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.floatingCardBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.floatingCardBtn:hover {
+  background-color: rgba(201, 169, 97, 0.12);
+  border-color: #C9A961;
+  color: #C9A961;
+}
+
+/* Column 2: Hubungi Kami Details */
+.infoColumn {
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .infoColumn {
+    padding: 36px 24px;
+  }
+}
+
+.infoTitle {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.85rem;
+  font-weight: 500;
+  color: #FFFFFF;
+  margin: 0 0 12px;
+}
+
+.infoSubtitle {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.infoItem {
   display: flex;
   gap: 16px;
   align-items: flex-start;
-  margin-bottom: 24px;
 }
 
-.contactItemRow:last-child {
-  margin-bottom: 0;
-}
-
-.iconCircle {
-  width: 36px;
-  height: 36px;
+.infoIconWrapper {
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background-color: rgba(201, 169, 97, 0.06);
   border: 1px solid rgba(201, 169, 97, 0.15);
@@ -175,95 +305,68 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
   flex-shrink: 0;
+  transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.itemContent {
+.infoIconSvg {
+  width: 16px;
+  height: 16px;
+}
+
+.infoItem:hover .infoIconWrapper {
+  background-color: #C9A961;
+  color: #0D0D0D;
+  box-shadow: 0 0 12px rgba(201, 169, 97, 0.3);
+}
+
+.infoText {
   display: flex;
   flex-direction: column;
 }
 
-.itemLabel {
-  font-size: 0.72rem;
+.infoLabel {
+  font-size: 0.7rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
-.itemValue {
-  font-size: 0.88rem;
+.infoValue {
+  font-size: 0.86rem;
   color: rgba(255, 255, 255, 0.85);
   line-height: 1.5;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
-a.itemValue:hover {
+a.infoValue:hover {
   color: #C9A961;
 }
 
-/* WhatsApp Card */
-.waCardHeader {
+/* Column 3: Kirim Pesan Form */
+.formColumn {
+  padding: 48px 40px;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.waIcon {
-  font-size: 1.15rem;
-}
-
-.waTitle {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #FFFFFF;
-}
-
-.waText {
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.45);
-  margin-bottom: 20px;
-  line-height: 1.5;
-}
-
-.waButton {
-  display: inline-flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #C9A961 0%, #B8974D 100%);
-  color: #0D0D0D;
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-decoration: none;
-  box-shadow: 0 4px 12px rgba(201, 169, 97, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  width: fit-content;
+  background-color: rgba(255, 255, 255, 0.005);
+  border-left: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.waButton:hover {
-  transform: translateY(-1.5px);
-  box-shadow: 0 6px 16px rgba(201, 169, 97, 0.3);
-  color: #0D0D0D;
+@media (max-width: 1024px) {
+  .formColumn {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+  }
 }
 
-.waBtnArrow {
-  font-size: 0.9rem;
-}
-
-/* ─── Right Side: Message Form ─────────────── */
-
-.formTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #FFFFFF;
-  margin-bottom: 24px;
+@media (max-width: 640px) {
+  .formColumn {
+    padding: 36px 24px;
+  }
 }
 
 .submitButton {
@@ -296,11 +399,33 @@ a.itemValue:hover {
   box-shadow: none;
 }
 
-.formNote {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.35);
-  margin-top: 16px;
+.btnArrow {
+  font-size: 0.95rem;
+  transition: transform 0.2s ease;
+}
+
+.submitButton:hover .btnArrow {
+  transform: translateX(4px);
+}
+
+.privacyNote {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1.5;
+  margin-top: 20px;
   text-align: center;
+}
+
+.privacyGold {
+  color: #C9A961;
+  transition: color 0.2s ease;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.privacyGold:hover {
+  color: #E8D09B;
+  text-decoration: underline;
 }
 
 /* ─── Google Maps Section ───────────────────── */

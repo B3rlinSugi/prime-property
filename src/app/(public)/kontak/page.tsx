@@ -148,75 +148,108 @@ export default function KontakPage() {
         </div>
       </section>
 
-      {/* ─── Two-Column Contact Form Section ─── */}
+      {/* ─── Unified Option B: Modern Map Focus Section ─── */}
       <section className={styles.contactSection}>
-        <div className={styles.contactGrid}>
-          {/* Left Column: Contact Cards */}
-          <div className={styles.contactInfoColumn}>
-            {/* Info Card */}
-            <div className={`${styles.infoCard} reveal`}>
-              <h2 className={styles.cardSectionTitle}>Informasi Kontak</h2>
-              
-              <div className={styles.contactItemRow}>
-                <div className={styles.iconCircle}>📍</div>
-                <div className={styles.itemContent}>
-                  <span className={styles.itemLabel}>Alamat Kantor</span>
-                  <span className={styles.itemValue}>Jl. Krakatau No.123, Medan, Sumatera Utara 20234</span>
+        <div className={`${styles.unifiedContactBox} reveal`}>
+          {/* Column 1: Map Block */}
+          <div className={styles.mapColumn}>
+            <iframe
+              src="https://maps.google.com/maps?q=Jl.%20Krakatau%20No.123,%20Medan&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className={styles.googleMap}
+            ></iframe>
+            <div className={styles.mapGlowOverlay}></div>
+
+            {/* Floating Card inside Map */}
+            <div className={styles.floatingMapCard}>
+              <div className={styles.floatingCardTop}>
+                <img 
+                  src="/property-villa-1.png" 
+                  alt="Prime Property Office Building" 
+                  className={styles.floatingCardThumb}
+                />
+                <div className={styles.floatingCardMeta}>
+                  <h4 className={styles.floatingCardTitle}>Prime Property Office</h4>
+                  <p className={styles.floatingCardAddress}>
+                    Jl. Krakatau No.123, Medan, Sumatera Utara 20234
+                  </p>
                 </div>
               </div>
-
-              <div className={styles.contactItemRow}>
-                <div className={styles.iconCircle}>📞</div>
-                <div className={styles.itemContent}>
-                  <span className={styles.itemLabel}>Telepon / WhatsApp</span>
-                  <a href="tel:+6281234567890" className={styles.itemValue}>+62 812 3456 7890</a>
-                </div>
-              </div>
-
-              <div className={styles.contactItemRow}>
-                <div className={styles.iconCircle}>✉️</div>
-                <div className={styles.itemContent}>
-                  <span className={styles.itemLabel}>Email</span>
-                  <a href="mailto:info@primeproperty.id" className={styles.itemValue}>info@primeproperty.id</a>
-                </div>
-              </div>
-
-              <div className={styles.contactItemRow}>
-                <div className={styles.iconCircle}>⏱️</div>
-                <div className={styles.itemContent}>
-                  <span className={styles.itemLabel}>Jam Operasional</span>
-                  <span className={styles.itemValue}>
-                    Senin - Sabtu: 09:00 - 18:00 WIB <br />
-                    Minggu & Hari Libur: Tutup
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* WhatsApp CTA Card */}
-            <div className={`${styles.waCard} reveal`}>
-              <div className={styles.waCardHeader}>
-                <span className={styles.waIcon}>💬</span>
-                <h3 className={styles.waTitle}>Chat WhatsApp</h3>
-              </div>
-              <p className={styles.waText}>
-                Dapatkan respon lebih cepat melalui WhatsApp kami.
-              </p>
               <a 
-                href="https://wa.me/6281234567890?text=Halo%20Prime%20Property,%20saya%20tertarik%20dengan%20properti%20Anda."
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.waButton}
+                href="https://maps.google.com/?q=Jl.+Krakatau+No.123,+Medan"
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className={styles.floatingCardBtn}
               >
-                Mulai Chat <span className={styles.waBtnArrow}>↗</span>
+                Lihat di Google Maps <span style={{ marginLeft: '4px' }}>🧭</span>
               </a>
             </div>
           </div>
 
-          {/* Right Column: Kirim Pesan Form */}
-          <div className={`${styles.formCard} reveal`}>
-            <h2 className={styles.formTitle}>Kirim Pesan</h2>
+          {/* Column 2: Hubungi Kami Details */}
+          <div className={styles.infoColumn}>
+            <h2 className={styles.infoTitle}>Hubungi Kami</h2>
+            <p className={styles.infoSubtitle}>
+              Silakan hubungi kami melalui informasi di bawah atau kirim pesan langsung melalui form.
+            </p>
 
+            <div className={styles.infoList}>
+              {/* Block 1 */}
+              <div className={styles.infoItem}>
+                <div className={styles.infoIconWrapper}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.infoIconSvg}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div className={styles.infoText}>
+                  <span className={styles.infoLabel}>Telepon / WhatsApp</span>
+                  <a href="tel:+6281234567890" className={styles.infoValue}>+62 812 3456 7890</a>
+                </div>
+              </div>
+
+              {/* Block 2 */}
+              <div className={styles.infoItem}>
+                <div className={styles.infoIconWrapper}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.infoIconSvg}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div className={styles.infoText}>
+                  <span className={styles.infoLabel}>Email</span>
+                  <a href="mailto:info@primeproperty.id" className={styles.infoValue}>info@primeproperty.id</a>
+                </div>
+              </div>
+
+              {/* Block 3 */}
+              <div className={styles.infoItem}>
+                <div className={styles.infoIconWrapper}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.infoIconSvg}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div className={styles.infoText}>
+                  <span className={styles.infoLabel}>Jam Operasional</span>
+                  <span className={styles.infoValue}>
+                    Senin - Sabtu: 09.00 - 18.00 WIB <br />
+                    Minggu & Hari Libur: Tutup
+                  </span>
+                </div>
+              </div>
+
+              {/* Block 4 */}
+              <div className={styles.infoItem}>
+                <div className={styles.infoIconWrapper}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.infoIconSvg}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div className={styles.infoText}>
+                  <span className={styles.infoLabel}>Alamat Kantor</span>
+                  <span className={styles.infoValue}>Jl. Krakatau No.123, Medan, Sumatera Utara 20234</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Column 3: Kirim Pesan Form */}
+          <div className={styles.formColumn}>
             {submitResult && (
               <div className={`${styles.resultBox} ${submitResult.success ? styles.resultBoxSuccess : styles.resultBoxError}`}>
                 {submitResult.message}
@@ -292,26 +325,31 @@ export default function KontakPage() {
                 )}
               </button>
             </form>
-            <p className={styles.formNote}>
-              Semua field wajib diisi. Pesan Anda akan dikirim ke email admin kami.
+            <p className={styles.privacyNote}>
+              Dengan mengirim pesan, Anda menyetujui <span className={styles.privacyGold}>Kebijakan Privasi</span> kami.
             </p>
           </div>
         </div>
       </section>
 
-      {/* ─── Google Maps Section ─── */}
+      {/* ─── Bottom Google Maps Section ─── */}
       <section className={styles.mapsSection}>
         <div className={styles.mapsHeader}>
           <h2 className={`${styles.sectionTitle} reveal`}>Lokasi Kantor Kami</h2>
         </div>
         
         <div className={`${styles.mapsContainer} reveal`}>
-          {/* Background Map Visual */}
-          <img 
-            src="/map-location.png" 
-            alt="Office Location Map Background Grid" 
-            className={styles.locationMapImg} 
-          />
+          {/* Real Google Map styled Dark */}
+          <iframe
+            src="https://maps.google.com/maps?q=Jl.%20Krakatau%20No.123,%20Medan&t=&z=15&ie=UTF8&iwloc=&output=embed"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen={true}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className={styles.googleMap}
+          ></iframe>
           <div className={styles.locationMapOverlay}></div>
 
           {/* Floating Address Box */}
@@ -327,7 +365,7 @@ export default function KontakPage() {
               rel="noopener noreferrer" 
               className={styles.mapsRedirectBtn}
             >
-              Lihat di Google Maps 🗺️
+              Lihat di Google Maps <span style={{ marginLeft: '4px' }}>🗺️</span>
             </a>
           </div>
         </div>
