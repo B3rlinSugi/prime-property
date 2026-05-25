@@ -168,6 +168,20 @@ a:hover {
   color: var(--color-accent-gold-hover);
 }
 
+@media (min-width: 1024px) {
+  body {
+    cursor: none;
+  }
+  
+  a, button, input, textarea, select {
+    cursor: none !important;
+  }
+  
+  .desktop-cursor {
+    display: block !important;
+  }
+}
+
 table {
   border-collapse: collapse;
   border-spacing: 0;

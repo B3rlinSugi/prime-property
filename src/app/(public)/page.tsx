@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import gsap from 'gsap';
 import styles from './page.module.css';
 
 interface Property {
@@ -131,6 +132,54 @@ const DUMMY_FEATURED: Property[] = [
 export default function Homepage() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  // GSAP SplitText character reveal + custom cursor tracking
+  useEffect(() => {
+    // 1. Text Animation on Load
+    if (headingRef.current) {
+      const text = headingRef.current.innerText;
+      headingRef.current.innerHTML = '';
+      
+      const chars = text.split('').map((char) => {
+        const span = document.createElement('span');
+        span.innerText = char === ' ' ? '\u00A0' : char;
+        span.style.display = 'inline-block';
+        span.style.opacity = '0';
+        span.style.transform = 'translateY(24px) rotate(4deg)';
+        headingRef.current?.appendChild(span);
+        return span;
+      });
+
+      gsap.to(chars, {
+        opacity: 1,
+        y: 0,
+        rotation: 0,
+        stagger: 0.04,
+        duration: 0.8,
+        ease: 'power3.out',
+        delay: 0.1,
+      });
+    }
+
+    // 2. Custom Cursor Tracking (Desktop Only)
+    const onMouseMove = (e: MouseEvent) => {
+      if (cursorRef.current) {
+        gsap.to(cursorRef.current, {
+          x: e.clientX,
+          y: e.clientY,
+          duration: 0.1,
+          ease: 'power2.out',
+        });
+      }
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+    };
+  }, []);
 
   useEffect(() => {
     async function fetchFeaturedProperties() {
@@ -246,13 +295,33 @@ export default function Homepage() {
 
   return (
     <div className={styles.container}>
+      {/* Custom Luxury Dot Cursor (Desktop Only) */}
+      <div 
+        ref={cursorRef} 
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '8px',
+          height: '8px',
+          backgroundColor: '#C9A961',
+          borderRadius: '50%',
+          pointerEvents: 'none',
+          zIndex: 9999,
+          transform: 'translate(-50%, -50%)',
+          display: 'none',
+        }}
+        className="desktop-cursor"
+      />
+
       {/* Hero Section */}
       <section className={styles.hero} onMouseMove={handleHeroMouseMove}>
         <div className={styles.heroContent}>
-          <div className={styles.heroDecorativeLine}></div>
-          <h1 className={styles.heroHeading}>
-            Temukan Properti<br />
-            <span className={styles.heroHeadingAccent}>Impian Anda</span>
+          <div className={styles.heroBadge}>
+            Est. Prime Property &middot; Bekasi
+          </div>
+          <h1 ref={headingRef} className={styles.heroHeading}>
+            Properti Premium di Tangan Anda
           </h1>
           <p className={styles.heroSubheading}>
             Prime Property menghadirkan pilihan ruko dan villa premium di lokasi-lokasi paling berkembang dan strategis untuk investasi dan tempat tinggal masa depan Anda.
