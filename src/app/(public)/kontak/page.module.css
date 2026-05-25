@@ -409,6 +409,22 @@ a.itemValue:hover {
   color: #C9A961;
 }
 
+@media (max-width: 768px) {
+  .mapsContainer {
+    height: 480px;
+    padding: 20px;
+    align-items: flex-end;
+  }
+  .addressFloatingBox {
+    max-width: 100%;
+    width: 100%;
+    padding: 24px;
+  }
+  .locationMapOverlay {
+    background: linear-gradient(to top, rgba(13, 13, 13, 0.8) 0%, transparent 100%);
+  }
+}
+
 /* ─── Toast Results ─────────────────────────── */
 
 .resultBox {
