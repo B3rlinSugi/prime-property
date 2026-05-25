@@ -35,7 +35,7 @@ Sesuai kriteria bebas, kami memilih teknologi terbaik untuk performa optimal, ke
 -   **Framework**: Next.js 16 (App Router) & React 19
 -   **Bahasa**: TypeScript (Strict Type-Safety)
 -   **Styling (CSS)**: Vanilla CSS Modules (Branding Luxury Gold-HSL & Responsif Mobile/Tablet)
--   **Database**: SQLite (Zero-Configuration, Portable lokal)
+-   **Database**: PostgreSQL (Supabase Cloud)
 -   **ORM**: Prisma Client v5.22.0
 -   **Autentikasi**: NextAuth.js v5 (Credentials Provider)
 -   **Enkripsi**: Bcryptjs (Cost factor 10)
