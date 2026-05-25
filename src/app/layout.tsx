@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Prime Property - Premium Real Estate',
+  title: 'Prime Property',
   description: 'Prime Property - Platform properti premium. Temukan ruko dan villa terbaik untuk investasi Anda.',
   keywords: 'properti, real estate, ruko, villa, Prime Property, Indonesia',
 };
