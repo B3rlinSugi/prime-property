@@ -11,7 +11,7 @@ export default function KontakPage() {
           entry.target.classList.add('reveal-active');
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
 
     const revealElements = document.querySelectorAll('.reveal');
     revealElements.forEach((el) => observer.observe(el));
@@ -38,7 +38,7 @@ export default function KontakPage() {
     const newErrors: Record<string, string> = {};
 
     if (!nama.trim()) {
-      newErrors.nama = 'Nama wajib diisi.';
+      newErrors.nama = 'Nama lengkap wajib diisi.';
     }
 
     if (!email.trim()) {
@@ -52,7 +52,7 @@ export default function KontakPage() {
     } else {
       const digits = nomorHp.replace(/\D/g, '');
       if (digits.length < 10) {
-        newErrors.nomorHp = 'Nomor HP minimal 10 digit angka.';
+        newErrors.nomorHp = 'Nomor HP minimal 10 digit.';
       }
     }
 
@@ -91,7 +91,7 @@ export default function KontakPage() {
           success: true,
           message: 'Pesan terkirim. Terima kasih, tim kami akan segera menghubungi Anda.',
         });
-        // Reset form fields
+        // Reset fields
         setNama('');
         setEmail('');
         setNomorHp('');
@@ -101,7 +101,7 @@ export default function KontakPage() {
         const json = await response.json();
         setSubmitResult({
           success: false,
-          message: json.message || 'Gagal mengirim pesan. Silakan coba beberapa saat lagi.',
+          message: json.message || 'Gagal mengirim pesan. Silakan coba kembali.',
         });
       }
     } catch (err) {
@@ -117,65 +117,108 @@ export default function KontakPage() {
 
   return (
     <div className={styles.container}>
-      {/* Hero Banner */}
-      <section className={styles.banner}>
-        <div className={styles.bannerContent}>
-          <h1 className={styles.bannerTitle}>Hubungi Kami</h1>
-          <p className={styles.bannerSubtitle}>
-            Apakah Anda memiliki pertanyaan mengenai unit properti kami? Hubungi kami langsung dan dapatkan konsultasi gratis.
-          </p>
+      {/* ─── Hero / Header Section ─── */}
+      <section className={styles.heroSection}>
+        <div className={styles.heroGrid}>
+          {/* Left: Brand Heading */}
+          <div className={`${styles.heroContent} reveal`}>
+            <span className={styles.heroLabel}>Hubungi Kami</span>
+            <h1 className={styles.heroTitle}>
+              Kami Siap Membantu <br />
+              Anda <br />
+              Mewujudkan <span className={styles.goldText}>Investasi</span> <br />
+              <span className={styles.goldText}>Properti Terbaik</span>
+            </h1>
+            <p className={styles.heroDescription}>
+              Hubungi tim kami untuk informasi lebih lanjut atau konsultasi properti yang Anda butuhkan.
+            </p>
+          </div>
+
+          {/* Right: Gold Pin Map Graphic */}
+          <div className={`${styles.heroVisual} reveal`}>
+            <div className={styles.mapGraphicWrapper}>
+              <img 
+                src="/map.png" 
+                alt="Prime Property Location Map Pointer Glow" 
+                className={styles.mapGraphicImg} 
+              />
+              <div className={styles.mapGlowOverlay}></div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Main Contact Section */}
+      {/* ─── Two-Column Contact Form Section ─── */}
       <section className={styles.contactSection}>
         <div className={styles.contactGrid}>
-          {/* Left Column: Contact Information */}
-          <div className={`${styles.infoPanel} reveal`}>
-            <h2 className={styles.infoTitle}>Informasi Kontak</h2>
-            <ul className={styles.infoList}>
-              <li className={styles.infoItem}>
-                <div className={styles.infoIconWrapper}>📍</div>
-                <div className={styles.infoItemContent}>
-                  <span className={styles.infoLabel}>Alamat Kantor</span>
-                  <span className={styles.infoValue}>Jl. Gatot Subroto No. 123, Medan, Sumatera Utara 20112</span>
+          {/* Left Column: Contact Cards */}
+          <div className={styles.contactInfoColumn}>
+            {/* Info Card */}
+            <div className={`${styles.infoCard} reveal`}>
+              <h2 className={styles.cardSectionTitle}>Informasi Kontak</h2>
+              
+              <div className={styles.contactItemRow}>
+                <div className={styles.iconCircle}>📍</div>
+                <div className={styles.itemContent}>
+                  <span className={styles.itemLabel}>Alamat Kantor</span>
+                  <span className={styles.itemValue}>Jl. Krakatau No.123, Medan, Sumatera Utara 20234</span>
                 </div>
-              </li>
-              <li className={styles.infoItem}>
-                <div className={styles.infoIconWrapper}>📞</div>
-                <div className={styles.infoItemContent}>
-                  <span className={styles.infoLabel}>Telepon</span>
-                  <a href="tel:+6281234567890" className={styles.infoValue}>+62 812-3456-7890</a>
-                </div>
-              </li>
-              <li className={styles.infoItem}>
-                <div className={styles.infoIconWrapper}>✉️</div>
-                <div className={styles.infoItemContent}>
-                  <span className={styles.infoLabel}>Email Resmi</span>
-                  <a href="mailto:info@primeproperty.id" className={styles.infoValue}>info@primeproperty.id</a>
-                </div>
-              </li>
-            </ul>
+              </div>
 
-            <a 
-              href="https://wa.me/6281234567890?text=Halo%20Prime%20Property,%20saya%20tertarik%20dengan%20properti%20Anda."
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.waLinkButton}
-            >
-              💬 Hubungi via WhatsApp
-            </a>
+              <div className={styles.contactItemRow}>
+                <div className={styles.iconCircle}>📞</div>
+                <div className={styles.itemContent}>
+                  <span className={styles.itemLabel}>Telepon / WhatsApp</span>
+                  <a href="tel:+6281234567890" className={styles.itemValue}>+62 812 3456 7890</a>
+                </div>
+              </div>
+
+              <div className={styles.contactItemRow}>
+                <div className={styles.iconCircle}>✉️</div>
+                <div className={styles.itemContent}>
+                  <span className={styles.itemLabel}>Email</span>
+                  <a href="mailto:info@primeproperty.id" className={styles.itemValue}>info@primeproperty.id</a>
+                </div>
+              </div>
+
+              <div className={styles.contactItemRow}>
+                <div className={styles.iconCircle}>⏱️</div>
+                <div className={styles.itemContent}>
+                  <span className={styles.itemLabel}>Jam Operasional</span>
+                  <span className={styles.itemValue}>
+                    Senin - Sabtu: 09:00 - 18:00 WIB <br />
+                    Minggu & Hari Libur: Tutup
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* WhatsApp CTA Card */}
+            <div className={`${styles.waCard} reveal`}>
+              <div className={styles.waCardHeader}>
+                <span className={styles.waIcon}>💬</span>
+                <h3 className={styles.waTitle}>Chat WhatsApp</h3>
+              </div>
+              <p className={styles.waText}>
+                Dapatkan respon lebih cepat melalui WhatsApp kami.
+              </p>
+              <a 
+                href="https://wa.me/6281234567890?text=Halo%20Prime%20Property,%20saya%20tertarik%20dengan%20properti%20Anda."
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.waButton}
+              >
+                Mulai Chat <span className={styles.waBtnArrow}>↗</span>
+              </a>
+            </div>
           </div>
 
-          {/* Right Column: Contact Form */}
-          <div className={`${styles.formPanel} reveal`}>
+          {/* Right Column: Kirim Pesan Form */}
+          <div className={`${styles.formCard} reveal`}>
             <h2 className={styles.formTitle}>Kirim Pesan</h2>
-            <p className={styles.formDescription}>
-              Isi formulir di bawah ini dengan informasi Anda, dan tim konsultan properti kami akan membalas pesan Anda dalam 1x24 jam kerja.
-            </p>
 
             {submitResult && (
-              <div className={`${styles.messageBox} ${submitResult.success ? styles.messageBoxSuccess : styles.messageBoxError}`}>
+              <div className={`${styles.resultBox} ${submitResult.success ? styles.resultBoxSuccess : styles.resultBoxError}`}>
                 {submitResult.message}
               </div>
             )}
@@ -189,49 +232,49 @@ export default function KontakPage() {
                   className={`form-input ${errors.nama ? 'form-input-error' : ''}`}
                   value={nama}
                   onChange={(e) => setNama(e.target.value)}
-                  placeholder="Masukkan nama lengkap Anda"
+                  placeholder="Masukkan nama lengkap"
                   disabled={isSubmitting}
                 />
                 {errors.nama && <span className="form-error">{errors.nama}</span>}
               </div>
 
               <div className="form-group">
-                <label htmlFor="email" className="form-label">Alamat Email</label>
+                <label htmlFor="email" className="form-label">Email</label>
                 <input 
                   type="email" 
                   id="email" 
                   className={`form-input ${errors.email ? 'form-input-error' : ''}`}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="nama@email.com"
+                  placeholder="Masukkan email Anda"
                   disabled={isSubmitting}
                 />
                 {errors.email && <span className="form-error">{errors.email}</span>}
               </div>
 
               <div className="form-group">
-                <label htmlFor="nomorHp" className="form-label">Nomor Handphone (WhatsApp)</label>
+                <label htmlFor="nomorHp" className="form-label">Nomor HP</label>
                 <input 
                   type="tel" 
                   id="nomorHp" 
                   className={`form-input ${errors.nomorHp ? 'form-input-error' : ''}`}
                   value={nomorHp}
                   onChange={(e) => setNomorHp(e.target.value)}
-                  placeholder="Contoh: 081234567890"
+                  placeholder="Masukkan nomor HP Anda"
                   disabled={isSubmitting}
                 />
                 {errors.nomorHp && <span className="form-error">{errors.nomorHp}</span>}
               </div>
 
               <div className="form-group">
-                <label htmlFor="pesan" className="form-label">Pesan Anda</label>
+                <label htmlFor="pesan" className="form-label">Pesan</label>
                 <textarea 
                   id="pesan" 
-                  rows={5}
+                  rows={4}
                   className={`form-input ${errors.pesan ? 'form-input-error' : ''}`}
                   value={pesan}
                   onChange={(e) => setPesan(e.target.value)}
-                  placeholder="Tuliskan detail pertanyaan atau ketertarikan Anda pada properti kami..."
+                  placeholder="Tulis pesan Anda di sini..."
                   disabled={isSubmitting}
                 ></textarea>
                 {errors.pesan && <span className="form-error">{errors.pesan}</span>}
@@ -243,15 +286,49 @@ export default function KontakPage() {
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
-                  <>
-                    <div className={styles.spinner}></div>
-                    <span>Mengirim...</span>
-                  </>
+                  <span>Mengirim...</span>
                 ) : (
-                  <span>Kirim Pesan</span>
+                  <span>Kirim Pesan <span className={styles.btnArrow}>→</span></span>
                 )}
               </button>
             </form>
+            <p className={styles.formNote}>
+              Semua field wajib diisi. Pesan Anda akan dikirim ke email admin kami.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Google Maps Section ─── */}
+      <section className={styles.mapsSection}>
+        <div className={styles.mapsHeader}>
+          <h2 className={`${styles.sectionTitle} reveal`}>Lokasi Kantor Kami</h2>
+        </div>
+        
+        <div className={`${styles.mapsContainer} reveal`}>
+          {/* Background Map Visual */}
+          <img 
+            src="/map-location.png" 
+            alt="Office Location Map Background Grid" 
+            className={styles.locationMapImg} 
+          />
+          <div className={styles.locationMapOverlay}></div>
+
+          {/* Floating Address Box */}
+          <div className={styles.addressFloatingBox}>
+            <h3 className={styles.addressBoxTitle}>Prime Property Office</h3>
+            <p className={styles.addressBoxText}>
+              Jl. Krakatau No.123, Medan, <br />
+              Sumatera Utara 20234
+            </p>
+            <a 
+              href="https://maps.google.com/?q=Jl.+Krakatau+No.123,+Medan" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className={styles.mapsRedirectBtn}
+            >
+              Lihat di Google Maps 🗺️
+            </a>
           </div>
         </div>
       </section>

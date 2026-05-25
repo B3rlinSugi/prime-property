@@ -1,409 +1,447 @@
 /* ============================================
    Tentang Kami — Prime Property
-   Elegant Cinematic Brand Presentation Layout
+   Elegant Editorial presentation matching mockup
    ============================================ */
 
 .container {
   background-color: #0D0D0D;
+  overflow: hidden;
 }
 
-.banner {
-  background: 
-    radial-gradient(circle 350px at 50% 120%, rgba(201, 169, 97, 0.15), transparent 80%),
-    radial-gradient(circle at top right, rgba(201, 169, 97, 0.08), transparent 60%),
-    #0D0D0D;
-  color: #FFFFFF;
-  padding: 100px clamp(16px, 4vw, 64px) 80px;
-  text-align: center;
-  position: relative;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.banner::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: 30px 30px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
-  mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 60%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 60%, transparent 100%);
-  pointer-events: none;
-}
-
-.bannerContent {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.bannerTitle {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2.25rem, 5vw, 3.5rem);
-  font-weight: 500;
-  margin-bottom: 16px;
-  letter-spacing: -0.01em;
-  background: linear-gradient(135deg, #FFFFFF 50%, rgba(255, 255, 255, 0.6) 100%);
+.goldText {
+  color: #C9A961;
+  background: linear-gradient(135deg, #C9A961 40%, #E8D09B 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.bannerSubtitle {
-  font-size: 1.15rem;
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.7;
-}
+/* ─── Hero Section ─────────────────────────── */
 
-/* ─── Profile Section ───────────────────────── */
-
-.profile {
-  padding: 96px clamp(16px, 4vw, 64px);
+.heroSection {
+  padding: 80px clamp(16px, 4vw, 64px) 48px;
   background-color: #0D0D0D;
   position: relative;
 }
 
-.profileGrid {
+.heroGrid {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
-  gap: 64px;
+  gap: 60px;
   max-width: 1200px;
   margin: 0 auto;
   align-items: center;
 }
 
 @media (max-width: 1024px) {
-  .profileGrid {
+  .heroGrid {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 40px;
   }
 }
 
-.profileContent {
+.heroContent {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
 }
 
-.profileLabel {
+.heroLabel {
   color: #C9A961;
   font-size: 0.8rem;
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 2px;
+  text-transform: uppercase;
   margin-bottom: 16px;
+  text-shadow: 0 0 10px rgba(201, 169, 97, 0.25);
 }
 
-.profileTitle {
+.heroTitle {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 2.25rem;
-  font-weight: 600;
+  font-size: clamp(2.25rem, 5vw, 3.8rem);
+  font-weight: 500;
   color: #FFFFFF;
+  line-height: 1.2;
   margin-bottom: 24px;
-  line-height: 1.25;
   letter-spacing: -0.01em;
 }
 
-.profileText {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 1rem;
-  line-height: 1.75;
-  margin-bottom: 20px;
+.heroDescription {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 480px;
+  line-height: 1.7;
+}
+
+/* Right Visual */
+.heroVisual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.visualWrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.visualImg {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.visualGlow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, transparent 30%, rgba(13, 13, 13, 0.5) 100%);
+  pointer-events: none;
+}
+
+/* ─── Stats Grid Row ────────────────────────── */
+
+.statsSection {
+  padding: 48px clamp(16px, 4vw, 64px) 80px;
+  background-color: #0D0D0D;
 }
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-top: 36px;
-  padding-top: 36px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.statItem {
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.statCard {
+  background-color: #161616;
+  padding: 32px 28px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-.statNumber {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 2.25rem;
-  font-weight: 700;
+.statCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(201, 169, 97, 0.25);
+  box-shadow: 0 12px 30px rgba(201, 169, 97, 0.04);
+}
+
+.statIconWrapper {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: rgba(201, 169, 97, 0.08);
+  border: 1.5px solid rgba(201, 169, 97, 0.25);
   color: #C9A961;
-  margin-bottom: 4px;
-  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
 }
 
-.statLabel {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.5);
-  font-weight: 500;
+.statVal {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #C9A961;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.statTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 8px;
+}
+
+.statDesc {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.5;
 }
 
 /* ─── Visi Misi Section ────────────────────── */
 
-.visiMisi {
-  padding: 96px clamp(16px, 4vw, 64px);
+.visiMisiSection {
+  padding: 80px clamp(16px, 4vw, 64px);
   background-color: #0D0D0D;
   border-top: 1px solid rgba(255, 255, 255, 0.04);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  position: relative;
 }
 
-.visiMisiContent {
+.visiMisiHeader {
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  text-align: left;
+}
+
+.sectionTitle {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+}
+
+.visiMisiGrid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 40px;
   max-width: 1200px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  align-items: center;
 }
 
-@media (max-width: 900px) {
-  .visiMisiContent {
+@media (max-width: 1024px) {
+  .visiMisiGrid {
     grid-template-columns: 1fr;
-    gap: 32px;
   }
 }
 
-.visiBox,
-.misiBox {
-  background: #161616;
-  padding: 44px;
-  border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(201, 169, 97, 0.15);
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+.visiMisiLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.visiBox:hover,
-.misiBox:hover {
-  transform: translateY(-4px);
-  border-color: rgba(201, 169, 97, 0.35);
-  box-shadow: 0 16px 40px rgba(201, 169, 97, 0.08);
+.visiCard,
+.misiCard {
+  background-color: #161616;
+  padding: 32px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.sectionBoxTitle {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #FFFFFF;
-  margin-bottom: 24px;
+.cardHeaderRow {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: 16px;
 }
 
-.sectionBoxTitle::before {
-  content: '';
-  display: inline-block;
-  width: 4px;
-  height: 24px;
-  background-color: #C9A961;
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(201, 169, 97, 0.4);
+.cardIconCircle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(201, 169, 97, 0.08);
+  border: 1px solid rgba(201, 169, 97, 0.2);
+  color: #C9A961;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.visiText {
+.cardTitle {
   font-size: 1.15rem;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.85);
-  font-style: italic;
+  font-weight: 600;
+  color: #FFFFFF;
 }
 
+.cardText {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+/* Misi list styling */
 .misiList {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .misiList li {
-  position: relative;
-  padding-left: 28px;
-  margin-bottom: 16px;
-  font-size: 0.975rem;
-  line-height: 1.65;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.misiList li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  top: 1px;
-  color: #C9A961;
-  font-weight: 800;
-  font-size: 1.1rem;
-}
-
-/* ─── Nilai Perusahaan ──────────────────────── */
-
-.values {
-  padding: 96px clamp(16px, 4vw, 64px);
-  background-color: #0D0D0D;
-}
-
-.sectionTitle {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 600;
-  color: #FFFFFF;
-  position: relative;
-  padding-bottom: 16px;
-  margin-bottom: 16px;
-  letter-spacing: -0.01em;
-}
-
-.sectionTitle::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background-color: #C9A961;
-  border-radius: 1.5px;
-  box-shadow: 0 0 12px rgba(201, 169, 97, 0.4);
-}
-
-.sectionSubtitle {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
   color: rgba(255, 255, 255, 0.6);
-  font-size: 1.1rem;
-  max-width: 600px;
-  line-height: 1.6;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.checkIcon {
+  color: #C9A961;
+  font-weight: bold;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Right Lobby Photo Column */
+.visiMisiRight {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.lobbyImageWrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.lobbyImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.lobbyGlowOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(13, 13, 13, 0.4) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ─── Values Section ────────────────────────── */
+
+.valuesSection {
+  padding: 80px clamp(16px, 4vw, 64px);
+  background-color: #0D0D0D;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.valuesHeader {
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  text-align: left;
 }
 
 .valuesGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
   max-width: 1200px;
-  margin: 56px auto 0;
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  .valuesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .valuesGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .valueCard {
-  background: #161616;
-  padding: 36px 32px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  background-color: #161616;
+  padding: 36px 28px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .valueCard:hover {
-  border-color: rgba(201, 169, 97, 0.3);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
-  transform: translateY(-6px);
-}
-
-.valueCardNumber {
-  font-size: 1.65rem;
-  font-weight: 800;
-  color: #C9A961;
-  opacity: 0.6;
-  margin-bottom: 16px;
-  letter-spacing: -0.02em;
-}
-
-.valueCardTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #FFFFFF;
-  margin-bottom: 12px;
-}
-
-.valueCardText {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.95rem;
-  line-height: 1.65;
-}
-
-.profileVisual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.visualCard {
-  background: radial-gradient(circle at top right, rgba(201, 169, 97, 0.12), transparent 70%), #161616;
-  width: 100%;
-  min-height: 420px;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #FFFFFF;
-  padding: 32px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(201, 169, 97, 0.2);
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.visualCard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 24px 48px rgba(201, 169, 97, 0.12);
-  border-color: rgba(201, 169, 97, 0.4);
+  border-color: rgba(201, 169, 97, 0.25);
 }
 
-.visualCardInner {
-  border: 1px solid rgba(201, 169, 97, 0.15);
-  padding: 40px 24px;
-  border-radius: 12px;
-  width: 100%;
-  height: 100%;
+.valueIconCircle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(201, 169, 97, 0.08);
+  border: 1px solid rgba(201, 169, 97, 0.2);
+  color: #C9A961;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
-}
-
-.visualCardLogo {
   margin-bottom: 20px;
 }
 
-.visualCardTitle {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #FFFFFF;
-  letter-spacing: 2px;
-  margin-bottom: 12px;
-  background: linear-gradient(135deg, #C9A961 0%, #F5E0B3 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.visualCardDivider {
-  width: 40px;
-  height: 2px;
-  background-color: #C9A961;
-  margin: 12px 0;
-  border-radius: 1px;
-}
-
-.visualCardQuote {
-  font-size: 0.95rem;
-  font-style: italic;
-  line-height: 1.65;
-  color: rgba(255, 255, 255, 0.85);
-  max-width: 320px;
-}
-
-.visualCardBadge {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(201, 169, 97, 0.1);
-  border: 1px solid rgba(201, 169, 97, 0.3);
-  color: #C9A961;
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 0.7rem;
+.valueTitle {
+  font-size: 1.1rem;
   font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  color: #FFFFFF;
+  margin-bottom: 12px;
+}
+
+.valueText {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.6;
+}
+
+/* ─── Footer Quote Banner ───────────────────── */
+
+.quoteSection {
+  position: relative;
+  padding: 120px 40px;
+  text-align: center;
+  background: 
+    radial-gradient(circle at center, rgba(201, 169, 97, 0.08), transparent 70%),
+    linear-gradient(rgba(13, 13, 13, 0.88), rgba(13, 13, 13, 0.88)),
+    url('/lobby.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.quoteContent {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  position: relative;
+}
+
+.blockquoteText {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.35rem, 3.5vw, 1.85rem);
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.quoteAuthor {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #C9A961;
+  letter-spacing: 0.5px;
 }
