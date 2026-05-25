@@ -7,8 +7,8 @@ async function main() {
   console.log("🌱 Memulai seeding database...");
 
   // --- Users ---
-  const superAdminPassword = await bcrypt.hash("SuperAdmin123!", 10);
-  const adminPassword = await bcrypt.hash("Admin123!", 10);
+  const superAdminPassword = await bcrypt.hash("PrimeSuperSecure2026!", 10);
+  const adminPassword = await bcrypt.hash("PrimeAdminAccess2026!", 10);
 
   const superAdmin = await prisma.user.upsert({
     where: { email: "super@primeproperty.id" },

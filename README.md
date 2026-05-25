@@ -8,11 +8,13 @@ Proyek ini dibangun berdasarkan seluruh butir spesifikasi dokumen **Acceptance C
 
 ## 🔑 Demo Kredensial (Wajib Submission)
 
-Berikut adalah akun demonstrasi bawaan (*seeding*) yang dapat langsung Anda gunakan untuk masuk ke dalam portal internal agen di halaman `/agent/login`:
+Untuk menjaga integritas dan keamanan data seeding pada database bersama agar tidak dimodifikasi secara sembarangan oleh peserta lain, kredensial password untuk akun demonstrasi di bawah ini telah disembunyikan dari berkas publik ini.
+
+**Silakan hubungi pemilik repositori ini / kirim pesan langsung (DM) untuk mendapatkan password demo.**
 
 ### 👑 Akun 1: Superadmin (Akses Penuh - Full CRUD)
 *   **Email**: `super@primeproperty.id`
-*   **Password**: `SuperAdmin123!`
+*   **Password**: `[HUBUNGI VIA DM / JALUR PRIBADI]`
 *   **Wewenang**: 
     *   Mengelola daftar properti secara penuh (Tambah, Edit, dan Hapus unit).
     *   Mengakses halaman pengelolaan akun Admin Agent (Tambah admin, Aktifkan/Nonaktifkan akun, Reset sandi admin).
@@ -21,7 +23,7 @@ Berikut adalah akun demonstrasi bawaan (*seeding*) yang dapat langsung Anda guna
 
 ### 👤 Akun 2: Admin (Akses Terbatas - Read Only)
 *   **Email**: `admin@primeproperty.id`
-*   **Password**: `Admin123!`
+*   **Password**: `[HUBUNGI VIA DM / JALUR PRIBADI]`
 *   **Wewenang**: 
     *   Hanya dapat mencari, menyaring (9 filter), dan melihat detail spesifikasi properti.
     *   Semua tombol tambah, edit, hapus, manajemen pengguna, dan audit log disembunyikan secara visual.
