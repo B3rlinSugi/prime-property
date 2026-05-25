@@ -708,6 +708,12 @@ textarea.form-input {
   color: var(--color-text-light);
 }
 
+/* Hide native browser password reveal eye icon and clear button in Edge/IE */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
 
 /* ─── Cards ─────────────────────────────────── */
 .card {

@@ -156,6 +156,7 @@ a.infoValue:hover {
   background-color: #1ebd58;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(37, 211, 102, 0.3);
+  color: #FFFFFF;
 }
 
 /* ─── Right Panel: Contact Form ──────────────── */
