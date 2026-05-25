@@ -1,0 +1,206 @@
+/* ============================================
+   Footer — Prime Property
+   Dark theme with gold accents, 3-column layout
+   ============================================ */
+
+.footer {
+  background: #1A1A1A;
+  color: #FFFFFF;
+  padding: 64px clamp(16px, 4vw, 64px) 0;
+}
+
+/* ─── Main Content Grid ─────────────────────── */
+.footerGrid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.2fr;
+  gap: 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 48px;
+}
+
+/* ─── Column Styling ────────────────────────── */
+.footerCol {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Logo ──────────────────────────────────── */
+.footerLogo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #FFFFFF;
+  margin-bottom: 16px;
+  user-select: none;
+}
+
+.logoPrime {
+  color: #FFFFFF;
+}
+
+.logoDot {
+  color: #C9A961;
+  margin: 0 1px;
+}
+
+.logoProperty {
+  color: #C9A961;
+}
+
+.footerDescription {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  max-width: 320px;
+}
+
+/* ─── Column Titles ─────────────────────────── */
+.footerTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #C9A961;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 24px;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.footerTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 32px;
+  height: 2px;
+  background: #C9A961;
+  border-radius: 1px;
+}
+
+/* ─── Quick Links ───────────────────────────── */
+.footerLinks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footerLink {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color var(--transition-fast, 150ms ease),
+              padding-left var(--transition-fast, 150ms ease);
+  display: inline-block;
+}
+
+.footerLink:hover {
+  color: #C9A961;
+  padding-left: 4px;
+}
+
+/* ─── Contact Info ──────────────────────────── */
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.contactItem:last-child {
+  margin-bottom: 0;
+}
+
+.contactIcon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: #C9A961;
+  margin-top: 2px;
+}
+
+.contactLink {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: color var(--transition-fast, 150ms ease);
+}
+
+.contactLink:hover {
+  color: #C9A961;
+}
+
+.whatsappBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-top: 16px;
+  transition: background var(--transition-fast, 150ms ease),
+              transform var(--transition-fast, 150ms ease),
+              box-shadow var(--transition-fast, 150ms ease);
+}
+
+.whatsappBtn:hover {
+  background: #1DA851;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+  color: #FFFFFF;
+}
+
+.whatsappIcon {
+  width: 18px;
+  height: 18px;
+}
+
+/* ─── Bottom Bar ────────────────────────────── */
+.footerBottom {
+  border-top: 1px solid rgba(201, 169, 97, 0.15);
+  padding: 24px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footerCopyright {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.8rem;
+  letter-spacing: 0.3px;
+}
+
+/* ─── Responsive ────────────────────────────── */
+@media (max-width: 1024px) {
+  .footerGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer {
+    padding-top: 48px;
+  }
+
+  .footerGrid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .footerBottom {
+    padding: 20px 0;
+  }
+}

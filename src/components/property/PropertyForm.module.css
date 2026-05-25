@@ -1,0 +1,120 @@
+/* ============================================
+   Property Form — Prime Property
+   Luxury Input Fields & Grid Layouts
+   ============================================ */
+
+.formWrapper {
+  background: var(--color-white);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-md);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px 32px;
+}
+
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sectionTitle {
+  grid-column: 1 / -1;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-accent-gold);
+  margin-top: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.sectionTitle:first-of-type {
+  margin-top: 0;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+/* ─── Checkbox and Multi-Select Grids ───────── */
+.checkboxGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkboxInput {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  accent-color: var(--color-accent-gold);
+  cursor: pointer;
+}
+
+.carportToggleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+/* ─── Form Actions ──────────────────────────── */
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.cancelBtn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Input Styling Variations ──────────────── */
+.inputError {
+  border-color: var(--color-accent-red) !important;
+}
+
+.inputError:focus {
+  box-shadow: 0 0 0 3px var(--color-accent-red-light) !important;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(0, 0, 0, 0.15);
+  border-top-color: var(--color-white);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

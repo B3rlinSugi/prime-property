@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String     @id @default(cuid())
+  email       String     @unique
+  password    String
+  name        String
+  role        String     @default("ADMIN") // ADMIN or SUPERADMIN
+  isActive    Boolean    @default(true)
+  failedLogin Int        @default(0)
+  lockedUntil DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  properties  Property[] @relation("CreatedBy")
+  auditLogs   AuditLog[]
+}
+
+model Property {
+  id           String    @id @default(cuid())
+  namaProperty String
+  group        String?
+  lebar        Float
+  panjang      Float
+  hadap        String // JSON string array: ["Utara","Selatan"]
+  tipe         String // RUKO or VILLA
+  tingkat      Float
+  price        BigInt // integer rupiah
+  carport      Boolean
+  status       String    @default("IN_STOCK") // IN_STOCK or SOLD_OUT
+  siap         String // SIAP_HUNI, SIAP_KOSONG, SIAP_HUNI_RENOVASI
+  mapsLink     String?
+  kawasan      String // JSON string array
+  unit         String?
+  deletedAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  createdById  String
+  createdBy    User      @relation("CreatedBy", fields: [createdById], references: [id])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  nama      String
+  email     String
+  nomorHp   String
+  pesan     String
+  ip        String?
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String
+  entity    String
+  entityId  String
+  changes   String? // JSON string
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}

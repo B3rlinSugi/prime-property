@@ -1,0 +1,256 @@
+/* ============================================
+   Header — Prime Property
+   Sticky navigation with dark theme + gold accents
+   ============================================ */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: #1A1A1A;
+  padding: 0 clamp(16px, 4vw, 64px);
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(201, 169, 97, 0.15);
+  transition: background var(--transition-base, 250ms ease);
+}
+
+/* ─── Logo ──────────────────────────────────── */
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #FFFFFF;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.logoPrime {
+  color: #FFFFFF;
+}
+
+.logoDot {
+  color: #C9A961;
+  margin: 0 1px;
+}
+
+.logoProperty {
+  color: #C9A961;
+}
+
+/* ─── Desktop Navigation ────────────────────── */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.navLink {
+  color: #FFFFFF;
+  opacity: 0.8;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: opacity var(--transition-fast, 150ms ease), color var(--transition-fast, 150ms ease);
+  position: relative;
+  padding: 4px 0;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #C9A961;
+  transition: width var(--transition-base, 250ms ease);
+}
+
+.navLink:hover {
+  opacity: 1;
+  color: #FFFFFF;
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+.navLinkActive {
+  opacity: 1;
+}
+
+.navLinkActive::after {
+  width: 100%;
+}
+
+/* ─── Login Agent Button (Subtle) ───────────── */
+.loginBtn {
+  border: 1px solid #C9A961;
+  color: #C9A961;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  background: transparent;
+  transition: background var(--transition-fast, 150ms ease),
+              color var(--transition-fast, 150ms ease),
+              box-shadow var(--transition-fast, 150ms ease);
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.loginBtn:hover {
+  background: rgba(201, 169, 97, 0.1);
+  opacity: 1;
+  box-shadow: 0 0 12px rgba(201, 169, 97, 0.15);
+}
+
+/* ─── Hamburger Button ──────────────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  gap: 5px;
+  z-index: 210;
+  position: relative;
+}
+
+.hamburgerLine {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  transition: transform var(--transition-base, 250ms ease),
+              opacity var(--transition-base, 250ms ease),
+              background var(--transition-base, 250ms ease);
+  transform-origin: center;
+}
+
+/* Hamburger → X animation */
+.hamburgerOpen .hamburgerLine:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburgerOpen .hamburgerLine:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburgerOpen .hamburgerLine:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ─── Mobile Menu Overlay ───────────────────── */
+.mobileOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 199;
+  opacity: 0;
+  transition: opacity var(--transition-base, 250ms ease);
+  pointer-events: none;
+}
+
+.mobileOverlayOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ─── Mobile Menu Panel ─────────────────────── */
+.mobileMenu {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(320px, 85vw);
+  height: 100vh;
+  height: 100dvh;
+  background: #1A1A1A;
+  z-index: 205;
+  flex-direction: column;
+  padding: 88px 32px 32px;
+  transform: translateX(100%);
+  transition: transform var(--transition-slow, 350ms ease);
+  border-left: 1px solid rgba(201, 169, 97, 0.15);
+  overflow-y: auto;
+}
+
+.mobileMenuOpen {
+  transform: translateX(0);
+}
+
+.mobileNavLink {
+  color: #FFFFFF;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: color var(--transition-fast, 150ms ease),
+              padding-left var(--transition-fast, 150ms ease);
+  display: block;
+}
+
+.mobileNavLink:hover {
+  color: #C9A961;
+  padding-left: 8px;
+}
+
+.mobileLoginBtn {
+  display: inline-block;
+  margin-top: 24px;
+  border: 1px solid #C9A961;
+  color: #C9A961;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  background: transparent;
+  transition: background var(--transition-fast, 150ms ease);
+  opacity: 0.7;
+}
+
+.mobileLoginBtn:hover {
+  background: rgba(201, 169, 97, 0.1);
+  opacity: 1;
+}
+
+/* ─── Responsive ────────────────────────────── */
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .mobileOverlay {
+    display: block;
+  }
+
+  .mobileMenu {
+    display: flex;
+  }
+}

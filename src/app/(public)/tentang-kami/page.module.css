@@ -1,0 +1,239 @@
+/* ============================================
+   Tentang Kami — Prime Property
+   Elegant Brand Presentation Layout
+   ============================================ */
+
+.banner {
+  background: linear-gradient(rgba(26, 26, 26, 0.8), rgba(26, 26, 26, 0.8)), #1A1A1A;
+  color: #FFFFFF;
+  padding: 80px clamp(16px, 4vw, 64px);
+  text-align: center;
+}
+
+.bannerContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.bannerTitle {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+.bannerSubtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+/* ─── Profile Section ───────────────────────── */
+
+.profile {
+  padding: 80px clamp(16px, 4vw, 64px);
+  background-color: #FFFFFF;
+}
+
+.profileGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 64px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .profileGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.profileContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.profileLabel {
+  color: #C9A961;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.profileTitle {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.profileText {
+  color: #666666;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid #E5E5E5;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.statNumber {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #C9A961;
+  margin-bottom: 4px;
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  color: #666666;
+  font-weight: 500;
+}
+
+/* ─── Visi Misi Section ────────────────────── */
+
+.visiMisi {
+  padding: 80px clamp(16px, 4vw, 64px);
+  background-color: #F9F9F9;
+}
+
+.visiMisiContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+
+@media (max-width: 900px) {
+  .visiMisiContent {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+
+.visiBox,
+.misiBox {
+  background: #FFFFFF;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.sectionBoxTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sectionBoxTitle::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 24px;
+  background-color: #C9A961;
+  border-radius: 2px;
+}
+
+.visiText {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #555555;
+  font-style: italic;
+}
+
+.misiList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.misiList li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 16px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555555;
+}
+
+.misiList li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  color: #C9A961;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* ─── Nilai Perusahaan ──────────────────────── */
+
+.values {
+  padding: 80px clamp(16px, 4vw, 64px);
+  background-color: #FFFFFF;
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+  max-width: 1200px;
+  margin: 48px auto 0;
+}
+
+.valueCard {
+  background: #FFFFFF;
+  padding: 32px;
+  border-radius: 8px;
+  border: 1px solid #E5E5E5;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.valueCard:hover {
+  border-color: #C9A961;
+  box-shadow: 0 8px 24px rgba(201, 169, 97, 0.08);
+}
+
+.valueCardNumber {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #C9A961;
+  opacity: 0.4;
+  margin-bottom: 16px;
+}
+
+.valueCardTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 12px;
+}
+
+.valueCardText {
+  color: #666666;
+  font-size: 0.925rem;
+  line-height: 1.6;
+}
