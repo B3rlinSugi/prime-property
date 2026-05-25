@@ -5,7 +5,10 @@
 
 .hero {
   min-height: 90vh;
-  background: radial-gradient(circle at top right, rgba(201, 169, 97, 0.15), transparent 60%), #1A1A1A;
+  background: 
+    radial-gradient(circle 350px at var(--mouse-x, 80%) var(--mouse-y, 20%), rgba(201, 169, 97, 0.12), transparent 80%),
+    radial-gradient(circle at top right, rgba(201, 169, 97, 0.1), transparent 60%), 
+    #1A1A1A;
   display: flex;
   align-items: center;
   justify-content: center;

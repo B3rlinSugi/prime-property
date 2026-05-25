@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Logo from '@/components/layout/Logo';
@@ -8,6 +8,23 @@ import styles from './page.module.css';
 
 export default function AgentLoginPage() {
   const router = useRouter();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-active');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      revealElements.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
 
   // Form state
   const [email, setEmail] = useState('');
@@ -89,7 +106,7 @@ export default function AgentLoginPage() {
     <div className={styles.loginPage}>
       {/* Left branding panel — desktop only */}
       <aside className={styles.brandingPanel}>
-        <div className={styles.brandingContent}>
+        <div className={`${styles.brandingContent} reveal`}>
           <div style={{ marginBottom: '24px' }}>
             <Logo height={56} light={true} />
           </div>
@@ -108,7 +125,7 @@ export default function AgentLoginPage() {
           <Logo height={32} light={true} />
         </div>
 
-        <div className={styles.formContainer}>
+        <div className={`${styles.formContainer} reveal`}>
           <h2 className={styles.formTitle}>Masuk ke Dashboard</h2>
           <p className={styles.formSubtitle}>
             Silakan masuk dengan akun agent Anda
@@ -225,7 +242,7 @@ export default function AgentLoginPage() {
             {/* Submit button */}
             <button
               type="submit"
-              className={styles.submitButton}
+              className={`${styles.submitButton} gold-shimmer`}
               disabled={isLoading}
             >
               {isLoading ? (

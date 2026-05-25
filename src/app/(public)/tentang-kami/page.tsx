@@ -1,7 +1,26 @@
+'use client';
+
+import { useEffect } from 'react';
 import Logo from '@/components/layout/Logo';
 import styles from './page.module.css';
 
 export default function TentangKamiPage() {
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-active');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -45px 0px' });
+
+    const revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      revealElements.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
   return (
     <div className={styles.container}>
       {/* Hero Banner */}
@@ -17,7 +36,7 @@ export default function TentangKamiPage() {
       {/* Profil Perusahaan */}
       <section className={styles.profile}>
         <div className={styles.profileGrid}>
-          <div className={styles.profileContent}>
+          <div className={`${styles.profileContent} reveal`}>
             <span className={styles.profileLabel}>Profil Perusahaan</span>
             <h2 className={styles.profileTitle}>Membangun Masa Depan Properti Premium</h2>
             <p className={styles.profileText}>
@@ -42,7 +61,7 @@ export default function TentangKamiPage() {
             </div>
           </div>
 
-          <div className={styles.profileVisual}>
+          <div className={`${styles.profileVisual} reveal`}>
             <div className={styles.visualCard}>
               <div className={styles.visualCardBadge}>Premium</div>
               <div className={styles.visualCardInner}>
@@ -63,14 +82,14 @@ export default function TentangKamiPage() {
       {/* Visi & Misi */}
       <section className={styles.visiMisi}>
         <div className={styles.visiMisiContent}>
-          <div className={styles.visiBox}>
+          <div className={`${styles.visiBox} reveal`}>
             <h3 className={styles.sectionBoxTitle}>Visi Kami</h3>
             <p className={styles.visiText}>
               &ldquo;Menjadi platform dan pengembang properti premium paling terpercaya dan terdepan di Indonesia, menciptakan standar baru dalam kualitas hunian mewah dan investasi komersial.&rdquo;
             </p>
           </div>
 
-          <div className={styles.misiBox}>
+          <div className={`${styles.misiBox} reveal`}>
             <h3 className={styles.sectionBoxTitle}>Misi Kami</h3>
             <ul className={styles.misiList}>
               <li>Menyediakan kurasi unit ruko dan villa berkualitas tinggi dengan legalitas yang 100% aman dan terjamin.</li>
@@ -84,7 +103,7 @@ export default function TentangKamiPage() {
 
       {/* Nilai Perusahaan */}
       <section className={styles.values}>
-        <div className={styles.sectionHeader} style={{ textAlign: 'center', marginBottom: '48px' }}>
+        <div className={`${styles.sectionHeader} reveal`} style={{ textAlign: 'center', marginBottom: '48px' }}>
           <h2 className={styles.sectionTitle}>Nilai-Nilai Kami</h2>
           <p className={styles.sectionSubtitle} style={{ margin: '16px auto 0' }}>
             Pondasi dasar yang memandu setiap langkah, transaksi, dan interaksi bisnis kami
@@ -92,7 +111,7 @@ export default function TentangKamiPage() {
         </div>
 
         <div className={styles.valuesGrid}>
-          <div className={styles.valueCard}>
+          <div className={`${styles.valueCard} reveal`}>
             <div className={styles.valueCardNumber}>01</div>
             <h3 className={styles.valueCardTitle}>Integritas</h3>
             <p className={styles.valueCardText}>
@@ -100,7 +119,7 @@ export default function TentangKamiPage() {
             </p>
           </div>
 
-          <div className={styles.valueCard}>
+          <div className={`${styles.valueCard} reveal`}>
             <div className={styles.valueCardNumber}>02</div>
             <h3 className={styles.valueCardTitle}>Profesionalisme</h3>
             <p className={styles.valueCardText}>
@@ -108,7 +127,7 @@ export default function TentangKamiPage() {
             </p>
           </div>
 
-          <div className={styles.valueCard}>
+          <div className={`${styles.valueCard} reveal`}>
             <div className={styles.valueCardNumber}>03</div>
             <h3 className={styles.valueCardTitle}>Inovasi</h3>
             <p className={styles.valueCardText}>
@@ -116,7 +135,7 @@ export default function TentangKamiPage() {
             </p>
           </div>
 
-          <div className={styles.valueCard}>
+          <div className={`${styles.valueCard} reveal`}>
             <div className={styles.valueCardNumber}>04</div>
             <h3 className={styles.valueCardTitle}>Kepuasan Pelanggan</h3>
             <p className={styles.valueCardText}>

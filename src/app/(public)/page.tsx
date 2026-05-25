@@ -157,6 +157,23 @@ export default function Homepage() {
     fetchFeaturedProperties();
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-active');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    const revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      revealElements.forEach((el) => observer.unobserve(el));
+    };
+  }, [properties, isLoading]);
+
   // Formatting helpers
   const formatRupiah = (amount: string | number) => {
     const num = typeof amount === 'string' ? parseInt(amount, 10) : amount;
@@ -189,10 +206,48 @@ export default function Homepage() {
     }
   };
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const xc = rect.width / 2;
+    const yc = rect.height / 2;
+    const dx = (x - xc) / xc;
+    const dy = (y - yc) / yc;
+    
+    const maxTilt = 8;
+    const rx = -dy * maxTilt;
+    const ry = dx * maxTilt;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-8px)`;
+    card.style.boxShadow = `0 16px 36px rgba(201, 169, 97, 0.15), 0 4px 10px rgba(0, 0, 0, 0.05)`;
+    card.style.borderColor = `rgba(201, 169, 97, 0.3)`;
+    card.style.transition = 'none';
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const card = e.currentTarget;
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+    card.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.03)';
+    card.style.borderColor = 'rgba(0, 0, 0, 0.05)';
+    card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease, border-color 0.5s ease';
+  };
+
+  const handleHeroMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const hero = e.currentTarget;
+    const rect = hero.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    hero.style.setProperty('--mouse-x', `${x}px`);
+    hero.style.setProperty('--mouse-y', `${y}px`);
+  };
+
   return (
     <div className={styles.container}>
       {/* Hero Section */}
-      <section className={styles.hero}>
+      <section className={styles.hero} onMouseMove={handleHeroMouseMove}>
         <div className={styles.heroContent}>
           <div className={styles.heroDecorativeLine}></div>
           <h1 className={styles.heroHeading}>
@@ -202,7 +257,7 @@ export default function Homepage() {
           <p className={styles.heroSubheading}>
             Prime Property menghadirkan pilihan ruko dan villa premium di lokasi-lokasi paling berkembang dan strategis untuk investasi dan tempat tinggal masa depan Anda.
           </p>
-          <a href="#properti-unggulan" className={styles.heroCta}>
+          <a href="#properti-unggulan" className={`${styles.heroCta} gold-shimmer`}>
             Lihat Properti
           </a>
         </div>
@@ -210,7 +265,7 @@ export default function Homepage() {
 
       {/* Featured Properties Section */}
       <section id="properti-unggulan" className={styles.featured}>
-        <div className={styles.sectionHeader}>
+        <div className={`${styles.sectionHeader} reveal`}>
           <h2 className={styles.sectionTitle}>Properti Unggulan</h2>
           <p className={styles.sectionSubtitle}>
             Pilihan unit properti terbaik yang telah dikurasi oleh tim ahli kami
@@ -229,7 +284,12 @@ export default function Homepage() {
               const kawasanArray = parseJsonArray(property.kawasan);
 
               return (
-                <article key={property.id} className={styles.card}>
+                <article 
+                  key={property.id} 
+                  className={`${styles.card} reveal`}
+                  onMouseMove={handleMouseMove}
+                  onMouseLeave={handleMouseLeave}
+                >
                   <div className={styles.cardImagePlaceholder}>
                     <span className={styles.cardImageText}>
                       {getTipeLabel(property.tipe).toUpperCase()}
@@ -332,7 +392,7 @@ export default function Homepage() {
 
       {/* Value Proposition Section */}
       <section className={styles.valueProps}>
-        <div className={styles.sectionHeader}>
+        <div className={`${styles.sectionHeader} reveal`}>
           <h2 className={styles.sectionTitle}>Mengapa Prime Property</h2>
           <p className={styles.sectionSubtitle}>
             Komitmen kami untuk memberikan standar kualitas tertinggi dalam setiap layanan
@@ -340,7 +400,7 @@ export default function Homepage() {
         </div>
 
         <div className={styles.valueGrid}>
-          <div className={styles.valueCard}>
+          <div className={`${styles.valueCard} reveal`}>
             <div className={styles.valueIconWrapper}>
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
             </div>
@@ -350,7 +410,7 @@ export default function Homepage() {
             </p>
           </div>
 
-          <div className={styles.valueCard}>
+          <div className={`${styles.valueCard} reveal`}>
             <div className={styles.valueIconWrapper}>
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             </div>
@@ -360,7 +420,7 @@ export default function Homepage() {
             </p>
           </div>
 
-          <div className={styles.valueCard}>
+          <div className={`${styles.valueCard} reveal`}>
             <div className={styles.valueIconWrapper}>
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
@@ -370,7 +430,7 @@ export default function Homepage() {
             </p>
           </div>
 
-          <div className={styles.valueCard}>
+          <div className={`${styles.valueCard} reveal`}>
             <div className={styles.valueIconWrapper}>
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
             </div>
@@ -384,12 +444,12 @@ export default function Homepage() {
 
       {/* CTA Section */}
       <section className={styles.ctaBanner}>
-        <div className={styles.ctaContent}>
+        <div className={`${styles.ctaContent} reveal`}>
           <h2 className={styles.ctaTitle}>Siap Menemukan Properti Terbaik?</h2>
           <p className={styles.ctaSubtitle}>
             Tim penasihat properti profesional kami siap membantu Anda memilih unit ruko atau villa yang paling sesuai dengan kebutuhan Anda.
           </p>
-          <Link href="/kontak" className={styles.ctaBtn}>
+          <Link href="/kontak" className={`${styles.ctaBtn} gold-shimmer`}>
             Hubungi Kami
           </Link>
         </div>

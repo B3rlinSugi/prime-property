@@ -1,9 +1,26 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import styles from './page.module.css';
 
 export default function KontakPage() {
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-active');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    const revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      revealElements.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
+
   // Form fields state
   const [nama, setNama] = useState('');
   const [email, setEmail] = useState('');
@@ -114,7 +131,7 @@ export default function KontakPage() {
       <section className={styles.contactSection}>
         <div className={styles.contactGrid}>
           {/* Left Column: Contact Information */}
-          <div className={styles.infoPanel}>
+          <div className={`${styles.infoPanel} reveal`}>
             <h2 className={styles.infoTitle}>Informasi Kontak</h2>
             <ul className={styles.infoList}>
               <li className={styles.infoItem}>
@@ -151,7 +168,7 @@ export default function KontakPage() {
           </div>
 
           {/* Right Column: Contact Form */}
-          <div className={styles.formPanel}>
+          <div className={`${styles.formPanel} reveal`}>
             <h2 className={styles.formTitle}>Kirim Pesan</h2>
             <p className={styles.formDescription}>
               Isi formulir di bawah ini dengan informasi Anda, dan tim konsultan properti kami akan membalas pesan Anda dalam 1x24 jam kerja.
@@ -222,7 +239,7 @@ export default function KontakPage() {
 
               <button 
                 type="submit" 
-                className={styles.submitButton} 
+                className={`${styles.submitButton} gold-shimmer`} 
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
