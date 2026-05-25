@@ -16,6 +16,7 @@ import {
   formatTanggalWaktu 
 } from '@/lib/utils';
 import styles from './page.module.css';
+import { SkeletonTableRow } from '@/components/ui/Skeleton';
 
 interface Property {
   id: string;
@@ -564,10 +565,33 @@ function DashboardPageContent() {
       {/* Property Table */}
       <div className="table-wrapper" style={{ minHeight: '300px' }}>
         {isLoading ? (
-          <div style={{ padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <div className="spinner"></div>
-            <p style={{ marginTop: '16px', color: 'var(--color-text-secondary)' }}>Memuat data properti...</p>
-          </div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Nama Properti</th>
+                <th>Group</th>
+                <th>Dimensi (L&times;P)</th>
+                <th>Hadap</th>
+                <th>Tipe</th>
+                <th>Lantai</th>
+                <th>Harga</th>
+                <th>Carport</th>
+                <th>Status</th>
+                <th>Kesiapan</th>
+                <th>Kawasan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <SkeletonTableRow cols={11} />
+              <SkeletonTableRow cols={11} />
+              <SkeletonTableRow cols={11} />
+              <SkeletonTableRow cols={11} />
+              <SkeletonTableRow cols={11} />
+              <SkeletonTableRow cols={11} />
+              <SkeletonTableRow cols={11} />
+              <SkeletonTableRow cols={11} />
+            </tbody>
+          </table>
         ) : properties.length === 0 ? (
           <div className="table-empty">
             <div style={{ fontSize: '3rem', marginBottom: '16px' }}>🗃️</div>

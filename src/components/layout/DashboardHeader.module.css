@@ -419,6 +419,7 @@
   .dropdown {
     position: absolute;
     bottom: 72px; /* Dropdown floats above the button */
+    top: auto; /* Reset top so bottom takes precedence */
     left: 0;
     right: 0;
     width: 100%;

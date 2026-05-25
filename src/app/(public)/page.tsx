@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import styles from './page.module.css';
+import { SkeletonCard } from '@/components/ui/Skeleton';
 
 interface Property {
   id: string;
@@ -63,7 +64,7 @@ const DUMMY_FEATURED: Property[] = [
     id: 'feat-3',
     namaProperty: 'Mentari Residence',
     group: 'Mentari',
-    lebar: 4,
+    lebar: 6,
     panjang: 17,
     hadap: JSON.stringify(['Timur']),
     tipe: 'RUKO',
@@ -78,12 +79,12 @@ const DUMMY_FEATURED: Property[] = [
   },
   {
     id: 'feat-4',
-    namaProperty: 'Permai Square',
+    namaProperty: 'Permai 123',
     group: 'Permai 123',
     lebar: 5,
-    panjang: 18,
+    panjang: 17,
     hadap: JSON.stringify(['Barat']),
-    tipe: 'RUKO',
+    tipe: 'VILLA',
     tingkat: 2.5,
     price: '1850000000',
     carport: true,
@@ -363,52 +364,43 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* Featured Properties Bento Grid Section */}
+      {/* Featured Properties Section */}
       <section id="properti-unggulan" className={styles.featured}>
         <div className={`${styles.sectionHeader} reveal`}>
-          <h2 className={styles.sectionTitle}>Featured Properties</h2>
-          <p className={styles.sectionSubtitle}>
-            Premium assets curated for private consultants and elite investment portfolios
-          </p>
+          <h2 className={styles.sectionTitle}>Properti Unggulan</h2>
+          <Link href="/agent/login" className={styles.sectionLink}>
+            Lihat Semua <span style={{ marginLeft: '4px' }}>→</span>
+          </Link>
         </div>
 
         {isLoading ? (
-          <div className={styles.loadingWrapper}>
-            <div className="spinner"></div>
-            <p>Memuat properti unggulan...</p>
+          <div className={styles.grid}>
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
           </div>
         ) : (
           <div className={styles.grid}>
-            {properties.map((property, idx) => {
+            {(properties.length > 0 ? properties : DUMMY_FEATURED).map((property, idx) => {
               const hadapArray = parseJsonArray(property.hadap);
               const kawasanArray = parseJsonArray(property.kawasan);
-              
-              // Symmetrical yet dynamic Bento grid classifications
-              const bentoClass = 
-                idx === 0 
-                  ? `${styles.card} ${styles.bentoWide} reveal` 
-                  : idx === 3 
-                  ? `${styles.card} ${styles.bentoTall} reveal` 
-                  : `${styles.card} ${styles.bentoStandard} reveal`;
+              const imageUrl = `/property-villa-${(idx % 6) + 1}.png`;
 
               return (
                 <article 
                   key={property.id} 
-                  className={bentoClass}
-                  onMouseMove={handleMouseMove}
-                  onMouseLeave={handleMouseLeave}
+                  className={`${styles.card} reveal`}
                 >
                   {/* Property Visual Box utilizing generated listing photo placeholder */}
                   <div 
                     className={styles.cardImagePlaceholder}
-                    style={{ backgroundImage: 'url(/property-villa.png)' }}
+                    style={{ backgroundImage: `url(${imageUrl})` }}
                   >
                     <div className={styles.cardBadges}>
-                      <span className={`badge ${
-                        property.status === 'IN_STOCK' 
-                          ? 'badge-in-stock' 
-                          : 'badge-sold-out'
-                      }`}>
+                      <span className={property.status === 'IN_STOCK' ? styles.cardBadgeInStock : styles.cardBadgeSoldOut}>
                         {property.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
                       </span>
                     </div>
@@ -416,13 +408,7 @@ export default function Homepage() {
 
                   {/* Card Data Content */}
                   <div className={styles.cardBody}>
-                    <div className={styles.cardHeader}>
-                      <h3 className={styles.cardTitle}>{property.namaProperty}</h3>
-                      {property.group && (
-                        <span className={styles.cardGroup}>{property.group}</span>
-                      )}
-                    </div>
-                    
+                    <h3 className={styles.cardTitle}>{property.namaProperty}</h3>
                     <div className={styles.cardKawasan}>
                       {kawasanArray.join(', ')}
                     </div>
@@ -435,32 +421,12 @@ export default function Homepage() {
                     <div className={styles.cardSpecs}>
                       <div className={styles.cardSpecItem}>
                         <span className={styles.cardSpecIcon}>📐</span>
-                        <span>{property.lebar} &times; {property.panjang} m</span>
+                        <span>{property.lebar} &times; {property.panjang}</span>
                       </div>
                       <div className={styles.cardSpecItem}>
                         <span className={styles.cardSpecIcon}>🏢</span>
                         <span>{property.tingkat} Lt</span>
                       </div>
-                      <div className={styles.cardSpecItem}>
-                        <span className={styles.cardSpecIcon}>🧭</span>
-                        <span>Hadap {hadapArray.join(', ')}</span>
-                      </div>
-                      <div className={styles.cardSpecItem}>
-                        <span className={styles.cardSpecIcon}>🚗</span>
-                        <span>Carport {property.carport ? '✓' : '—'}</span>
-                      </div>
-                    </div>
-
-                    <div className={styles.cardFooter}>
-                      <span className={`badge ${
-                        property.siap === 'SIAP_HUNI' 
-                          ? 'badge-siap-huni' 
-                          : property.siap === 'SIAP_KOSONG' 
-                          ? 'badge-siap-kosong' 
-                          : 'badge-siap-renovasi'
-                      }`}>
-                        {getSiapLabel(property.siap)}
-                      </span>
                     </div>
                   </div>
                 </article>

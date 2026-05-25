@@ -1,0 +1,114 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #0d0d0d;
+  color: var(--color-white);
+  font-family: var(--font-family);
+  padding: var(--space-6);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* Reusing grid mesh pattern */
+.gridMesh {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gridMesh::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, transparent 30%, #0d0d0d 80%);
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 480px;
+  gap: var(--space-4);
+  animation: fadeIn var(--transition-slow) ease-out;
+}
+
+.logoWrapper {
+  margin-bottom: var(--space-2);
+}
+
+.errorCode {
+  font-size: clamp(6rem, 12vw, 9rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-accent-gold);
+  letter-spacing: -4px;
+  text-shadow: 0 0 40px rgba(201, 169, 97, 0.2);
+  position: relative;
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: var(--space-1);
+}
+
+.description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: linear-gradient(135deg, var(--color-accent-gold) 0%, #D4B872 100%);
+  color: #0d0d0d;
+  padding: 14px 32px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px rgba(201, 169, 97, 0.2);
+  transition: all var(--transition-base);
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(201, 169, 97, 0.35);
+  color: #0d0d0d;
+}
+
+.ctaButtonActive {
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

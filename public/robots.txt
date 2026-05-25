@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /agent/
+Disallow: /api/
+
+Sitemap: https://prime-property.vercel.app/sitemap.xml

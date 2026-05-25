@@ -68,13 +68,12 @@ export default function DashboardHeader() {
   const searchParams = useSearchParams();
 
   const navLinks = [
-    { href: '#', label: 'Dashboard', icon: '📊', visible: true, dummy: true },
+    { href: '/agent/dashboard/analytics', label: 'Dashboard', icon: '📊', visible: true, dummy: false },
     { href: '/agent/dashboard', label: 'Properti', icon: '🏢', visible: true, dummy: false },
-    { href: '#', label: 'Analytics', icon: '📈', visible: true, dummy: true },
     { href: '/agent/dashboard/users', label: 'Admin', icon: '👤', visible: isSuperAdmin, dummy: false },
     { href: '/agent/dashboard/audit-log', label: 'Audit Log', icon: '📝', visible: isSuperAdmin, dummy: false },
     { href: '/agent/dashboard?archived=true', label: 'Arsip', icon: '📁', visible: isSuperAdmin, dummy: false },
-    { href: '#', label: 'Pengaturan', icon: '⚙️', visible: true, dummy: true },
+    { href: '/agent/dashboard/settings', label: 'Pengaturan', icon: '⚙️', visible: true, dummy: false },
   ];
 
   function isActive(href: string): boolean {

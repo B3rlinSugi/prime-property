@@ -384,55 +384,57 @@
 }
 
 .sectionHeader {
-  max-width: 1200px;
-  margin: 0 auto 56px;
+  max-width: 100%;
+  margin: 0 auto 36px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  padding-bottom: 20px;
 }
 
 .sectionTitle {
-  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-size: 1.75rem;
   font-weight: 700;
   color: #FFFFFF;
-  position: relative;
-  padding-bottom: 16px;
-  margin-bottom: 16px;
   letter-spacing: -0.01em;
 }
 
-.sectionTitle::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background-color: #C9A961;
-  border-radius: 1.5px;
-  box-shadow: 0 0 12px rgba(201, 169, 97, 0.4);
+.sectionLink {
+  color: #C9A961;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  transition: color var(--transition-fast);
 }
 
-.sectionSubtitle {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1.1rem;
-  max-width: 600px;
-  line-height: 1.6;
+.sectionLink:hover {
+  color: var(--color-accent-gold-hover);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 32px;
-  max-width: 1200px;
-  margin: 0 auto;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  max-width: 100%;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
   }
 }
 
@@ -525,67 +527,68 @@
 }
 
 .cardTitle {
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: #FFFFFF;
-  margin: 0;
+  margin: 0 0 4px;
   line-height: 1.3;
 }
 
-.cardGroup {
-  font-size: 0.75rem;
-  color: #C9A961;
-  background-color: rgba(201, 169, 97, 0.08);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
 .cardKawasan {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.45);
-  margin-bottom: 12px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 8px;
 }
 
 .cardPrice {
-  font-size: 1.35rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #C9A961;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   letter-spacing: -0.01em;
 }
 
 .cardSpecs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
-  padding-top: 16px;
+  display: flex;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .cardSpecItem {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.65);
+  gap: 6px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .cardSpecIcon {
-  font-size: 1rem;
+  font-size: 0.9rem;
   flex-shrink: 0;
 }
 
-.cardFooter {
-  margin-top: auto;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+.cardBadgeInStock {
+  background-color: rgba(76, 175, 80, 0.15);
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  padding: 4px 10px;
+  font-size: 0.7rem;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.cardBadgeSoldOut {
+  background-color: rgba(244, 67, 54, 0.15);
+  color: #F44336;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  padding: 4px 10px;
+  font-size: 0.7rem;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 /* ─── Value Props Section ─────────────────── */

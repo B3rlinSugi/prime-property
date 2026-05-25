@@ -767,7 +767,7 @@ input::-ms-clear {
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--font-size-sm);
+  font-size: 13px;
 }
 
 .table thead {
@@ -776,10 +776,10 @@ input::-ms-clear {
 }
 
 .table th {
-  padding: var(--space-3) var(--space-4);
+  padding: 8px 6px;
   text-align: left;
   font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-xs);
+  font-size: 11px;
   color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -787,9 +787,15 @@ input::-ms-clear {
 }
 
 .table td {
-  padding: var(--space-4);
+  padding: 10px 6px;
   border-bottom: 1px solid var(--color-border-light);
   vertical-align: middle;
+}
+
+/* Compact badges inside tables to save horizontal space */
+.table .badge {
+  padding: 2.5px 8px !important;
+  font-size: 11px !important;
 }
 
 .table tbody tr {
