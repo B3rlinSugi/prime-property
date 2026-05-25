@@ -135,31 +135,14 @@ export default function Homepage() {
   const [isLoading, setIsLoading] = useState(true);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
-  // GSAP SplitText character reveal
+  // GSAP line-level reveal animation
   useEffect(() => {
     if (headingRef.current) {
-      const text = headingRef.current.innerText;
-      headingRef.current.innerHTML = '';
-      
-      const chars = text.split('').map((char) => {
-        const span = document.createElement('span');
-        span.innerText = char === ' ' ? '\u00A0' : char;
-        span.style.display = 'inline-block';
-        span.style.opacity = '0';
-        span.style.transform = 'translateY(24px) rotate(4deg)';
-        headingRef.current?.appendChild(span);
-        return span;
-      });
-
-      gsap.to(chars, {
-        opacity: 1,
-        y: 0,
-        rotation: 0,
-        stagger: 0.03,
-        duration: 0.8,
-        ease: 'power3.out',
-        delay: 0.1,
-      });
+      const lines = headingRef.current.querySelectorAll('span');
+      gsap.fromTo(lines, 
+        { opacity: 0, y: 32 }, 
+        { opacity: 1, y: 0, stagger: 0.2, duration: 1, ease: 'power4.out', delay: 0.1 }
+      );
     }
   }, []);
 
@@ -288,7 +271,8 @@ export default function Homepage() {
               Welcome to Prime Property
             </div>
             <h1 ref={headingRef} className={styles.heroHeading}>
-              Exclusive Property Intelligence Platform
+              <span className={styles.heroHeadingLine1}>Exclusive Property</span>
+              <span className={styles.heroHeadingLine2}>Intelligence Platform</span>
             </h1>
             <p className={styles.heroSubheading}>
               Kelola inventory properti premium dengan cepat, presisi, dan elegan. Semua data dalam satu platform.

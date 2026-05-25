@@ -401,37 +401,44 @@
   }
   
   .rightSection {
-    margin-left: 0;
-    margin-top: auto;
-    width: 100%;
-  }
-  
-  .userMenu {
-    width: 100%;
-  }
-  
-  .userButton {
-    width: 100%;
-    padding: var(--space-3) var(--space-4);
-    justify-content: space-between;
-  }
-  
-  .dropdown {
-    position: absolute;
-    bottom: 72px; /* Dropdown floats above the button */
-    top: auto; /* Reset top so bottom takes precedence */
-    left: 0;
-    right: 0;
-    width: 100%;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(201, 169, 97, 0.15);
-    background-color: #1A1A1A;
+    display: none !important; /* Hide user profile from sidebar on desktop, as it's now in the top bar */
   }
   
   .logo {
-    width: 100%;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebarCollapseBtn {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .sidebarCollapseBtn {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    padding-bottom: var(--space-4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.45);
+    padding: 6px;
+    border-radius: 4px;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+  }
+  
+  .sidebarCollapseBtn:hover {
+    color: var(--color-accent-gold);
+    background-color: rgba(255, 255, 255, 0.05);
   }
 }

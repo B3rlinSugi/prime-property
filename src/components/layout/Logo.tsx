@@ -24,27 +24,37 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
     >
       {/* ─── LOGO MARK (SYMBOL) ─── */}
       <g transform="translate(10, 10)">
-        {/* Gold Hexagon Outline */}
+        {/* Gold Pentagon House Outline */}
         <polygon
-          points="40,5 75,25 75,65 40,85 5,65 5,25"
+          points="40,5 75,28 75,78 5,78 5,28"
           stroke={accentColor}
           strokeWidth="3.5"
           strokeLinejoin="round"
-          fill="rgba(201, 169, 97, 0.05)"
+          fill="rgba(201, 169, 97, 0.03)"
         />
-        {/* House Line inside Hexagon */}
+        {/* Inner Central Pillar */}
         <path
-          d="M 22,50 L 40,32 L 58,50 L 58,68 L 22,68 Z"
-          stroke="#FFFFFF"
+          d="M 40,78 L 40,30"
+          stroke={accentColor}
           strokeWidth="3"
+          strokeLinecap="round"
+        />
+        {/* Inner Chevron 1 (Upper) */}
+        <path
+          d="M 22,50 L 40,32 L 58,50"
+          stroke={accentColor}
+          strokeWidth="3.5"
           strokeLinejoin="round"
+          strokeLinecap="round"
           fill="none"
         />
-        {/* House Door */}
+        {/* Inner Chevron 2 (Lower) */}
         <path
-          d="M 35,68 L 35,56 L 45,56 L 45,68"
+          d="M 22,65 L 40,47 L 58,65"
           stroke={accentColor}
-          strokeWidth="2.5"
+          strokeWidth="3.5"
+          strokeLinejoin="round"
+          strokeLinecap="round"
           fill="none"
         />
       </g>

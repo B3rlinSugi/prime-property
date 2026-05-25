@@ -81,15 +81,21 @@
 }
 
 .heroHeading {
-  font-size: clamp(2.25rem, 5vw, 3.75rem);
-  font-weight: 800;
-  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.25rem, 5.5vw, 4.3rem);
+  font-weight: 500;
   line-height: 1.15;
   margin-bottom: 20px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
-.heroHeadingAccent {
+.heroHeadingLine1 {
+  color: #FFFFFF;
+}
+
+.heroHeadingLine2 {
   color: #C9A961;
   background: linear-gradient(135deg, #C9A961 40%, #E8D09B 100%);
   -webkit-background-clip: text;
@@ -252,10 +258,9 @@
 
 .orbitPath {
   fill: none;
-  stroke: rgba(201, 169, 97, 0.22);
-  stroke-width: 1.5;
-  stroke-dasharray: 6 3;
-  filter: drop-shadow(0 0 4px rgba(201, 169, 97, 0.2));
+  stroke: rgba(201, 169, 97, 0.45);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 8px rgba(201, 169, 97, 0.5));
 }
 
 .orbitParticle {

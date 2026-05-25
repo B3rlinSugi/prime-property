@@ -41,10 +41,11 @@
 }
 
 .bannerTitle {
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: clamp(2.25rem, 5vw, 3.5rem);
-  font-weight: 800;
+  font-weight: 500;
   margin-bottom: 16px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   background: linear-gradient(135deg, #FFFFFF 50%, rgba(255, 255, 255, 0.6) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -97,8 +98,9 @@
 }
 
 .infoTitle {
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #FFFFFF;
   margin-bottom: 36px;
   position: relative;
@@ -212,8 +214,9 @@ a.infoValue:hover {
 }
 
 .formTitle {
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #FFFFFF;
   margin-bottom: 16px;
 }

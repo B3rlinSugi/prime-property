@@ -315,48 +315,25 @@ function DashboardPageContent() {
         </div>
       </div>
 
-      {/* Mobile Filter Toggle */}
-      <button 
-        className={styles.filterToggleBtn} 
-        onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
-      >
-        🔎 {mobileFilterOpen ? 'Tutup Filter' : 'Buka Panel Filter'}
-      </button>
-
-      {/* Collapsible Filter Panel */}
-      <div className={`${styles.filterPanel} ${mobileFilterOpen ? styles.filterPanelOpen : ''}`}>
-        <div className={styles.filterGrid}>
-          {/* Row 1 */}
-          <div className="form-group" style={{ position: 'relative' }}>
-            <label className="form-label">Cari Properti</label>
-            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-              <input 
-                ref={searchInputRef}
-                type="text" 
-                className="form-input" 
-                style={{ paddingRight: '42px' }}
-                placeholder="Nama, group, atau kawasan..." 
-                value={search}
-                onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-              />
-              <span className={styles.searchShortcut}>/</span>
-            </div>
-          </div>
-
-          <div className="form-group">
+      {/* Sleek Horizontal Filter Panel matching the screenshot */}
+      <div className={styles.filterPanel}>
+        <div className={styles.filterRow}>
+          {/* 1. Kawasan */}
+          <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label">Kawasan</label>
             <div className="form-select-wrapper">
               <select 
                 className="form-select"
                 onChange={(e) => {
-                  if (e.target.value && !selectedKawasan.includes(e.target.value)) {
+                  if (e.target.value && e.target.value !== 'Semua' && !selectedKawasan.includes(e.target.value)) {
                     setSelectedKawasan([...selectedKawasan, e.target.value]);
                     setPage(1);
                   }
-                  e.target.value = '';
+                  e.target.value = 'Semua';
                 }}
+                value="Semua"
               >
-                <option value="">Pilih Kawasan...</option>
+                <option value="Semua">Semua</option>
                 {KAWASAN_OPTIONS.map((k) => (
                   <option key={k} value={k} disabled={selectedKawasan.includes(k)}>
                     {k}
@@ -366,20 +343,34 @@ function DashboardPageContent() {
             </div>
           </div>
 
-          <div className="form-group">
+          {/* 2. Lebar Min */}
+          <div className="form-group" style={{ marginBottom: 0 }}>
+            <label className="form-label">Lebar Min (m)</label>
+            <input 
+              type="number" 
+              className="form-input" 
+              placeholder="Min" 
+              value={lebarMin}
+              onChange={(e) => { setLebarMin(e.target.value); setPage(1); }}
+            />
+          </div>
+
+          {/* 3. Hadap */}
+          <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label">Hadap</label>
             <div className="form-select-wrapper">
               <select 
                 className="form-select"
                 onChange={(e) => {
-                  if (e.target.value && !selectedHadap.includes(e.target.value)) {
+                  if (e.target.value && e.target.value !== 'Semua' && !selectedHadap.includes(e.target.value)) {
                     setSelectedHadap([...selectedHadap, e.target.value]);
                     setPage(1);
                   }
-                  e.target.value = '';
+                  e.target.value = 'Semua';
                 }}
+                value="Semua"
               >
-                <option value="">Pilih Hadap...</option>
+                <option value="Semua">Semua</option>
                 {HADAP_OPTIONS.map((h) => (
                   <option key={h} value={h} disabled={selectedHadap.includes(h)}>
                     {h}
@@ -389,123 +380,112 @@ function DashboardPageContent() {
             </div>
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Kesiapan Unit</label>
-            <div className="form-select-wrapper">
-              <select 
-                className="form-select"
-                onChange={(e) => {
-                  if (e.target.value && !selectedSiap.includes(e.target.value)) {
-                    setSelectedSiap([...selectedSiap, e.target.value]);
-                    setPage(1);
-                  }
-                  e.target.value = '';
-                }}
-              >
-                <option value="">Pilih Kesiapan...</option>
-                {SIAP_OPTIONS.map((s) => (
-                  <option key={s.value} value={s.value} disabled={selectedSiap.includes(s.value)}>
-                    {s.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Row 2 */}
-          <div className="form-group">
-            <label className="form-label">Lebar Min. (m)</label>
+          {/* 4. Harga Max */}
+          <div className="form-group" style={{ marginBottom: 0 }}>
+            <label className="form-label">Harga Max</label>
             <input 
               type="number" 
               className="form-input" 
-              placeholder="Lebar..." 
-              value={lebarMin}
-              onChange={(e) => { setLebarMin(e.target.value); setPage(1); }}
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Harga Max. (Rupiah)</label>
-            <input 
-              type="number" 
-              className="form-input" 
-              placeholder="Harga max..." 
+              placeholder="Maks" 
               value={priceMax}
               onChange={(e) => { setPriceMax(e.target.value); setPage(1); }}
             />
-            {priceMax && (
-              <span className="form-hint" style={{ color: 'var(--color-accent-gold)', fontWeight: 600 }}>
-                {formatRupiah(Number(priceMax))}
-              </span>
-            )}
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Carport</label>
+          {/* 5. Tipe */}
+          <div className="form-group" style={{ marginBottom: 0 }}>
+            <label className="form-label">Tipe</label>
             <div className="form-select-wrapper">
               <select 
                 className="form-select"
-                value={carport}
-                onChange={(e) => { setCarport(e.target.value); setPage(1); }}
+                value={tipe}
+                onChange={(e) => { setTipe(e.target.value); setPage(1); }}
               >
                 <option value="Semua">Semua</option>
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
+                <option value="RUKO">Ruko</option>
+                <option value="VILLA">Villa</option>
               </select>
             </div>
           </div>
-        </div>
 
-        {/* Filter Footer row: radio groups + clear buttons */}
-        <div className={styles.filterRowFull}>
-          <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-            <div className="form-group" style={{ marginBottom: 0 }}>
-              <label className="form-label" style={{ fontSize: '0.8rem' }}>Tipe Properti</label>
-              <div className={styles.radioGroup}>
-                {['Semua', 'RUKO', 'VILLA'].map((t) => (
-                  <button 
-                    key={t}
-                    className={`${styles.radioBtn} ${tipe === t ? styles.radioBtnActive : ''}`}
-                    onClick={() => { setTipe(t); setPage(1); }}
-                  >
-                    {t === 'Semua' ? 'Semua' : t === 'RUKO' ? 'Ruko' : 'Villa'}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="form-group" style={{ marginBottom: 0 }}>
-              <label className="form-label" style={{ fontSize: '0.8rem' }}>Status Unit</label>
-              <div className={styles.radioGroup}>
-                {['Semua', 'IN_STOCK', 'SOLD_OUT'].map((s) => (
-                  <button 
-                    key={s}
-                    className={`${styles.radioBtn} ${status === s ? styles.radioBtnActive : ''}`}
-                    onClick={() => { setStatus(s); setPage(1); }}
-                  >
-                    {s === 'Semua' ? 'Semua' : s === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
-                  </button>
-                ))}
-              </div>
+          {/* 6. Status */}
+          <div className="form-group" style={{ marginBottom: 0 }}>
+            <label className="form-label">Status</label>
+            <div className="form-select-wrapper">
+              <select 
+                className="form-select"
+                value={status}
+                onChange={(e) => { setStatus(e.target.value); setPage(1); }}
+              >
+                <option value="Semua">Semua</option>
+                <option value="IN_STOCK">In Stock</option>
+                <option value="SOLD_OUT">Sold Out</option>
+              </select>
             </div>
           </div>
 
-          <div className={styles.filterActions}>
-            <button className="btn btn-secondary" onClick={handleResetFilters}>
-              Reset Filter
+          {/* 7. Filter Lainnya */}
+          <div className={styles.filterLainnyaWrapper}>
+            <button 
+              className={styles.filterLainnyaBtn}
+              onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
+            >
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#C9A961' }}>
+                <line x1="4" y1="21" x2="4" y2="14" />
+                <line x1="4" y1="10" x2="4" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12" y2="3" />
+                <line x1="20" y1="21" x2="20" y2="16" />
+                <line x1="20" y1="12" x2="20" y2="3" />
+                <line x1="1" y1="14" x2="7" y2="14" />
+                <line x1="9" y1="8" x2="15" y2="8" />
+                <line x1="17" y1="16" x2="23" y2="16" />
+              </svg>
+              Filter Lainnya
             </button>
           </div>
         </div>
+
+        {/* Collapsible extra filters like Carport */}
+        {mobileFilterOpen && (
+          <div className={styles.collapsibleRow}>
+            <div className="form-group" style={{ margin: '16px 0 0', maxWidth: '200px' }}>
+              <label className="form-label">Carport</label>
+              <div className="form-select-wrapper">
+                <select 
+                  className="form-select"
+                  value={carport}
+                  onChange={(e) => { setCarport(e.target.value); setPage(1); }}
+                >
+                  <option value="Semua">Semua</option>
+                  <option value="Ya">Ya</option>
+                  <option value="Tidak">Tidak</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Filter Chips Display */}
       {(selectedKawasan.length > 0 || selectedHadap.length > 0 || selectedSiap.length > 0 || search || lebarMin || priceMax || tipe !== 'Semua' || status !== 'Semua' || carport !== 'Semua') && (
         <div className={styles.chipsContainer}>
-          <span className={styles.chipsLabel}>Filter Aktif:</span>
           {search && (
             <span className="chip">
               Cari: &ldquo;{search}&rdquo;
               <button className="chip-remove" onClick={() => setSearch('')}>&times;</button>
+            </span>
+          )}
+          {selectedKawasan.map((k) => (
+            <span key={k} className="chip">
+              {k}
+              <button className="chip-remove" onClick={() => removeKawasan(k)}>&times;</button>
+            </span>
+          ))}
+          {status !== 'Semua' && (
+            <span className="chip">
+              Status: {getStatusLabel(status)}
+              <button className="chip-remove" onClick={() => setStatus('Semua')}>&times;</button>
             </span>
           )}
           {tipe !== 'Semua' && (
@@ -514,12 +494,12 @@ function DashboardPageContent() {
               <button className="chip-remove" onClick={() => setTipe('Semua')}>&times;</button>
             </span>
           )}
-          {status !== 'Semua' && (
-            <span className="chip">
-              Status: {getStatusLabel(status)}
-              <button className="chip-remove" onClick={() => setStatus('Semua')}>&times;</button>
+          {selectedHadap.map((h) => (
+            <span key={h} className="chip">
+              Hadap: {h}
+              <button className="chip-remove" onClick={() => removeHadap(h)}>&times;</button>
             </span>
-          )}
+          ))}
           {carport !== 'Semua' && (
             <span className="chip">
               Carport: {carport}
@@ -538,18 +518,6 @@ function DashboardPageContent() {
               <button className="chip-remove" onClick={() => setPriceMax('')}>&times;</button>
             </span>
           )}
-          {selectedKawasan.map((k) => (
-            <span key={k} className="chip">
-              Kawasan: {k}
-              <button className="chip-remove" onClick={() => removeKawasan(k)}>&times;</button>
-            </span>
-          ))}
-          {selectedHadap.map((h) => (
-            <span key={h} className="chip">
-              Hadap: {h}
-              <button className="chip-remove" onClick={() => removeHadap(h)}>&times;</button>
-            </span>
-          ))}
           {selectedSiap.map((s) => (
             <span key={s} className="chip">
               Kesiapan: {getSiapLabel(s)}
@@ -557,7 +525,7 @@ function DashboardPageContent() {
             </span>
           ))}
           <button className={styles.chipReset} onClick={handleResetFilters}>
-            Hapus Semua
+            Reset Filter
           </button>
         </div>
       )}
