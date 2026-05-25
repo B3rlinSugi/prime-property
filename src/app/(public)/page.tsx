@@ -327,22 +327,6 @@ export default function Homepage() {
                 className={styles.visualImg} 
               />
 
-              {/* Floating Analytics cards (mockup from collage) */}
-              <div className={`${styles.overlayCard} ${styles.overlayCardLeft}`}>
-                <span className={styles.overlayCardIcon}>✦</span>
-                <div>
-                  <div className={styles.overlayCardLabel}>Premium Yield</div>
-                  <div className={styles.overlayCardValue}>AAA Rating</div>
-                </div>
-              </div>
-
-              <div className={`${styles.overlayCard} ${styles.overlayCardRight}`}>
-                <span className={styles.overlayCardIcon} style={{ color: '#4CAF50' }}>✓</span>
-                <div>
-                  <div className={styles.overlayCardLabel}>Verification</div>
-                  <div className={styles.overlayCardValue}>100% Secure</div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
