@@ -42,29 +42,51 @@ export default function Header() {
 
       {/* Mobile Hamburger Menu Icon */}
       <button 
-        className={styles.hamburger} 
+        className={`${styles.hamburger} ${mobileMenuOpen ? styles.hamburgerOpen : ''}`} 
         onClick={toggleMobileMenu} 
         aria-label="Toggle Navigation Menu"
         aria-expanded={mobileMenuOpen}
       >
-        <span className={`${styles.bar} ${mobileMenuOpen ? styles.bar1 : ''}`}></span>
-        <span className={`${styles.bar} ${mobileMenuOpen ? styles.bar2 : ''}`}></span>
-        <span className={`${styles.bar} ${mobileMenuOpen ? styles.bar3 : ''}`}></span>
+        <span className={styles.hamburgerLine}></span>
+        <span className={styles.hamburgerLine}></span>
+        <span className={styles.hamburgerLine}></span>
       </button>
+
+      {/* Mobile Navigation Drawer Overlay */}
+      <div 
+        className={`${styles.mobileOverlay} ${mobileMenuOpen ? styles.mobileOverlayOpen : ''}`}
+        onClick={() => setMobileMenuOpen(false)}
+      ></div>
 
       {/* Mobile Navigation Drawer */}
       <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
         <nav className={styles.mobileNav}>
-          <Link href="/" className={isActive('/')} onClick={() => setMobileMenuOpen(false)}>
+          <Link 
+            href="/" 
+            className={`${styles.mobileNavLink} ${pathname === '/' ? styles.mobileNavLinkActive : ''}`} 
+            onClick={() => setMobileMenuOpen(false)}
+          >
             Beranda
           </Link>
-          <Link href="/tentang-kami" className={isActive('/tentang-kami')} onClick={() => setMobileMenuOpen(false)}>
+          <Link 
+            href="/tentang-kami" 
+            className={`${styles.mobileNavLink} ${pathname === '/tentang-kami' ? styles.mobileNavLinkActive : ''}`} 
+            onClick={() => setMobileMenuOpen(false)}
+          >
             Tentang Kami
           </Link>
-          <Link href="/kontak" className={isActive('/kontak')} onClick={() => setMobileMenuOpen(false)}>
+          <Link 
+            href="/kontak" 
+            className={`${styles.mobileNavLink} ${pathname === '/kontak' ? styles.mobileNavLinkActive : ''}`} 
+            onClick={() => setMobileMenuOpen(false)}
+          >
             Kontak
           </Link>
-          <Link href="/agent/login" className={styles.mobileLoginBtn} onClick={() => setMobileMenuOpen(false)}>
+          <Link 
+            href="/agent/login" 
+            className={styles.mobileLoginBtn} 
+            onClick={() => setMobileMenuOpen(false)}
+          >
             Login Agent
           </Link>
         </nav>

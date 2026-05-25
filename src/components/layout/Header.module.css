@@ -198,6 +198,17 @@
   transform: translateX(0);
 }
 
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.mobileNavLinkActive {
+  color: #C9A961 !important;
+  font-weight: 600 !important;
+}
+
 .mobileNavLink {
   color: #FFFFFF;
   font-size: 1.1rem;

@@ -1345,6 +1345,13 @@ input::-ms-clear {
     --container-padding: var(--space-4);
   }
 
+  /* Prevent automatic iOS Safari zoom-in on input focus */
+  .form-input,
+  .form-select,
+  textarea.form-input {
+    font-size: 16px !important;
+  }
+
   html {
     font-size: 15px;
   }
