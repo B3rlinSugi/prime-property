@@ -9,8 +9,8 @@ interface LogoProps {
 export default function Logo({ height = 48, light = false, showText = true }: LogoProps) {
   // Scale calculations based on height
   const width = showText ? (height * 3.2) : height;
-  const textColor = light ? '#FFFFFF' : '#1A1A1A';
-  const rightSymbolColor = light ? '#FFFFFF' : '#1A1A1A';
+  const textColor = '#FFFFFF'; // Force premium white text for dark luxury theme
+  const accentColor = '#C9A961'; // Gold Accent
 
   return (
     <svg
@@ -23,35 +23,43 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
       aria-label="Prime Property Logo"
     >
       {/* ─── LOGO MARK (SYMBOL) ─── */}
-      <g>
-        {/* Left Gold Shape (Angled up-right) */}
-        <path
-          d="M 25,65 L 50,30 L 50,85 L 38,85 L 38,48 Z"
-          fill="#C9A961"
+      <g transform="translate(10, 10)">
+        {/* Gold Hexagon Outline */}
+        <polygon
+          points="40,5 75,25 75,65 40,85 5,65 5,25"
+          stroke={accentColor}
+          strokeWidth="3.5"
+          strokeLinejoin="round"
+          fill="rgba(201, 169, 97, 0.05)"
         />
-        {/* Center Red Pillar */}
+        {/* House Line inside Hexagon */}
         <path
-          d="M 54,30 L 66,30 L 66,85 L 54,85 Z"
-          fill="#B33A3A"
+          d="M 22,50 L 40,32 L 58,50 L 58,68 L 22,68 Z"
+          stroke="#FFFFFF"
+          strokeWidth="3"
+          strokeLinejoin="round"
+          fill="none"
         />
-        {/* Right Dark/White Shape (Angled up-left) */}
+        {/* House Door */}
         <path
-          d="M 95,65 L 70,30 L 70,85 L 82,85 L 82,48 Z"
-          fill={rightSymbolColor}
+          d="M 35,68 L 35,56 L 45,56 L 45,68"
+          stroke={accentColor}
+          strokeWidth="2.5"
+          fill="none"
         />
       </g>
 
       {/* ─── LOGO TEXT (PRIME PROPERTY) ─── */}
       {showText && (
-        <g transform="translate(115, 0)">
-          {/* "PRIME" - Bold, Modern, Geometric */}
+        <g transform="translate(105, 0)">
+          {/* "PRIME" */}
           <text
             x="0"
             y="48"
             fill={textColor}
             style={{
               fontFamily: "'Inter', -apple-system, sans-serif",
-              fontSize: '34px',
+              fontSize: '32px',
               fontWeight: 800,
               letterSpacing: '5px',
             }}
@@ -59,41 +67,20 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
             PRIME
           </text>
           
-          {/* Divider Horizontal Lines & "PROPERTY" */}
-          {/* Left line */}
-          <line
-            x1="3"
-            y1="72"
-            x2="35"
-            y2="72"
-            stroke={textColor}
-            strokeWidth="1.5"
-            opacity="0.8"
-          />
-          {/* "PROPERTY" text */}
+          {/* "PROPERTY" */}
           <text
-            x="45"
+            x="3"
             y="76"
-            fill={textColor}
+            fill={accentColor}
             style={{
               fontFamily: "'Inter', -apple-system, sans-serif",
-              fontSize: '11px',
-              fontWeight: 600,
-              letterSpacing: '3px',
+              fontSize: '14px',
+              fontWeight: 500,
+              letterSpacing: '8.5px',
             }}
           >
             PROPERTY
           </text>
-          {/* Right line */}
-          <line
-            x1="126"
-            y1="72"
-            x2="158"
-            y2="72"
-            stroke={textColor}
-            strokeWidth="1.5"
-            opacity="0.8"
-          />
         </g>
       )}
     </svg>

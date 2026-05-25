@@ -1,13 +1,38 @@
 /* ============================================
    Tentang Kami — Prime Property
-   Elegant Brand Presentation Layout
+   Elegant Cinematic Brand Presentation Layout
    ============================================ */
 
+.container {
+  background-color: #0D0D0D;
+}
+
 .banner {
-  background: linear-gradient(rgba(26, 26, 26, 0.8), rgba(26, 26, 26, 0.8)), #1A1A1A;
+  background: 
+    radial-gradient(circle 350px at 50% 120%, rgba(201, 169, 97, 0.15), transparent 80%),
+    radial-gradient(circle at top right, rgba(201, 169, 97, 0.08), transparent 60%),
+    #0D0D0D;
   color: #FFFFFF;
-  padding: 80px clamp(16px, 4vw, 64px);
+  padding: 100px clamp(16px, 4vw, 64px) 80px;
   text-align: center;
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: 30px 30px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 60%, transparent 100%);
+  pointer-events: none;
 }
 
 .bannerContent {
@@ -16,23 +41,27 @@
 }
 
 .bannerTitle {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 800;
   margin-bottom: 16px;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #FFFFFF 50%, rgba(255, 255, 255, 0.6) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .bannerSubtitle {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.6;
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.7;
 }
 
 /* ─── Profile Section ───────────────────────── */
 
 .profile {
-  padding: 80px clamp(16px, 4vw, 64px);
-  background-color: #FFFFFF;
+  padding: 96px clamp(16px, 4vw, 64px);
+  background-color: #0D0D0D;
+  position: relative;
 }
 
 .profileGrid {
@@ -47,7 +76,7 @@
 @media (max-width: 1024px) {
   .profileGrid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 48px;
   }
 }
 
@@ -58,7 +87,7 @@
 
 .profileLabel {
   color: #C9A961;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -68,25 +97,26 @@
 .profileTitle {
   font-size: 2.25rem;
   font-weight: 700;
-  color: #1A1A1A;
+  color: #FFFFFF;
   margin-bottom: 24px;
-  line-height: 1.2;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
 .profileText {
-  color: #666666;
+  color: rgba(255, 255, 255, 0.7);
   font-size: 1rem;
-  line-height: 1.7;
-  margin-bottom: 16px;
+  line-height: 1.75;
+  margin-bottom: 20px;
 }
 
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  margin-top: 32px;
-  padding-top: 32px;
-  border-top: 1px solid #E5E5E5;
+  margin-top: 36px;
+  padding-top: 36px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .statItem {
@@ -95,23 +125,27 @@
 }
 
 .statNumber {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 2.25rem;
+  font-weight: 800;
   color: #C9A961;
   margin-bottom: 4px;
+  letter-spacing: -0.01em;
 }
 
 .statLabel {
   font-size: 0.85rem;
-  color: #666666;
+  color: rgba(255, 255, 255, 0.5);
   font-weight: 500;
 }
 
 /* ─── Visi Misi Section ────────────────────── */
 
 .visiMisi {
-  padding: 80px clamp(16px, 4vw, 64px);
-  background-color: #F9F9F9;
+  padding: 96px clamp(16px, 4vw, 64px);
+  background-color: #0D0D0D;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  position: relative;
 }
 
 .visiMisiContent {
@@ -119,30 +153,38 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 64px;
+  gap: 48px;
 }
 
 @media (max-width: 900px) {
   .visiMisiContent {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 32px;
   }
 }
 
 .visiBox,
 .misiBox {
-  background: #FFFFFF;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: #161616;
+  padding: 44px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(201, 169, 97, 0.15);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.visiBox:hover,
+.misiBox:hover {
+  transform: translateY(-4px);
+  border-color: rgba(201, 169, 97, 0.35);
+  box-shadow: 0 16px 40px rgba(201, 169, 97, 0.08);
 }
 
 .sectionBoxTitle {
   font-size: 1.5rem;
-  font-weight: 600;
-  color: #1A1A1A;
-  margin-bottom: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -155,12 +197,13 @@
   height: 24px;
   background-color: #C9A961;
   border-radius: 2px;
+  box-shadow: 0 0 10px rgba(201, 169, 97, 0.4);
 }
 
 .visiText {
-  font-size: 1.1rem;
-  line-height: 1.7;
-  color: #555555;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
   font-style: italic;
 }
 
@@ -174,26 +217,56 @@
   position: relative;
   padding-left: 28px;
   margin-bottom: 16px;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #555555;
+  font-size: 0.975rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .misiList li::before {
   content: '✓';
   position: absolute;
   left: 0;
-  top: 2px;
+  top: 1px;
   color: #C9A961;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1.1rem;
 }
 
 /* ─── Nilai Perusahaan ──────────────────────── */
 
 .values {
-  padding: 80px clamp(16px, 4vw, 64px);
-  background-color: #FFFFFF;
+  padding: 96px clamp(16px, 4vw, 64px);
+  background-color: #0D0D0D;
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  position: relative;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: #C9A961;
+  border-radius: 1.5px;
+  box-shadow: 0 0 12px rgba(201, 169, 97, 0.4);
+}
+
+.sectionSubtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.1rem;
+  max-width: 600px;
+  line-height: 1.6;
 }
 
 .valuesGrid {
@@ -201,41 +274,43 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 32px;
   max-width: 1200px;
-  margin: 48px auto 0;
+  margin: 56px auto 0;
 }
 
 .valueCard {
-  background: #FFFFFF;
-  padding: 32px;
-  border-radius: 8px;
-  border: 1px solid #E5E5E5;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  background: #161616;
+  padding: 36px 32px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
 }
 
 .valueCard:hover {
-  border-color: #C9A961;
-  box-shadow: 0 8px 24px rgba(201, 169, 97, 0.08);
+  border-color: rgba(201, 169, 97, 0.3);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+  transform: translateY(-6px);
 }
 
 .valueCardNumber {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.65rem;
+  font-weight: 800;
   color: #C9A961;
-  opacity: 0.4;
+  opacity: 0.6;
   margin-bottom: 16px;
+  letter-spacing: -0.02em;
 }
 
 .valueCardTitle {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #1A1A1A;
+  color: #FFFFFF;
   margin-bottom: 12px;
 }
 
 .valueCardText {
-  color: #666666;
-  font-size: 0.925rem;
-  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+  line-height: 1.65;
 }
 
 .profileVisual {
@@ -246,7 +321,7 @@
 }
 
 .visualCard {
-  background: radial-gradient(circle at top right, rgba(201, 169, 97, 0.12), transparent 70%), #1A1A1A;
+  background: radial-gradient(circle at top right, rgba(201, 169, 97, 0.12), transparent 70%), #161616;
   width: 100%;
   min-height: 420px;
   border-radius: 16px;
@@ -256,7 +331,7 @@
   align-items: center;
   color: #FFFFFF;
   padding: 32px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(201, 169, 97, 0.2);
   position: relative;
   overflow: hidden;
@@ -266,7 +341,7 @@
 
 .visualCard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 24px 48px rgba(201, 169, 97, 0.1);
+  box-shadow: 0 24px 48px rgba(201, 169, 97, 0.12);
   border-color: rgba(201, 169, 97, 0.4);
 }
 
@@ -309,7 +384,7 @@
 .visualCardQuote {
   font-size: 0.95rem;
   font-style: italic;
-  line-height: 1.6;
+  line-height: 1.65;
   color: rgba(255, 255, 255, 0.85);
   max-width: 320px;
 }
@@ -328,4 +403,3 @@
   letter-spacing: 1px;
   text-transform: uppercase;
 }
-

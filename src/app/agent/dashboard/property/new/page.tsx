@@ -88,7 +88,7 @@ export default function NewPropertyPage() {
   return (
     <div className="container">
       <div style={{ maxWidth: '1000px', margin: '0 auto 24px' }}>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-primary)' }}>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-text)' }}>
           Tambah Properti Baru
         </h1>
         <p style={{ color: 'var(--color-text-secondary)', marginTop: '4px' }}>

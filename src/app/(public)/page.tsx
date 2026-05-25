@@ -23,18 +23,18 @@ interface Property {
   unit: string | null;
 }
 
-// Fallback dummy properties (highly realistic)
+// Fallback dummy properties (highly realistic, matching screenshot data)
 const DUMMY_FEATURED: Property[] = [
   {
     id: 'feat-1',
     namaProperty: 'Aston Villas',
     group: 'Mentari',
-    lebar: 8,
-    panjang: 18,
+    lebar: 4.5,
+    panjang: 21.5,
     hadap: JSON.stringify(['Utara']),
     tipe: 'VILLA',
     tingkat: 2,
-    price: '2850000000',
+    price: '1350000000',
     carport: true,
     status: 'IN_STOCK',
     siap: 'SIAP_HUNI',
@@ -47,84 +47,84 @@ const DUMMY_FEATURED: Property[] = [
     namaProperty: 'Banyan Tree Blok A',
     group: 'Permai 123',
     lebar: 6,
-    panjang: 15,
+    panjang: 20,
     hadap: JSON.stringify(['Selatan']),
     tipe: 'VILLA',
     tingkat: 2,
-    price: '1650000000',
+    price: '2750000000',
     carport: true,
     status: 'IN_STOCK',
     siap: 'SIAP_HUNI',
     mapsLink: 'https://maps.google.com/?q=3.6120,98.6650',
-    kawasan: JSON.stringify(['Cemara Asri']),
+    kawasan: JSON.stringify(['Pancing']),
     unit: 'Gate siap',
   },
   {
     id: 'feat-3',
-    namaProperty: 'Griya Mentari Ruko',
+    namaProperty: 'Mentari Residence',
     group: 'Mentari',
-    lebar: 4.5,
-    panjang: 16,
+    lebar: 4,
+    panjang: 17,
     hadap: JSON.stringify(['Timur']),
     tipe: 'RUKO',
-    tingkat: 3,
-    price: '1350000000',
+    tingkat: 1,
+    price: '950000000',
     carport: false,
-    status: 'IN_STOCK',
+    status: 'SOLD_OUT',
     siap: 'SIAP_KOSONG',
     mapsLink: 'https://maps.google.com/?q=3.5850,98.6920',
-    kawasan: JSON.stringify(['Pancing']),
+    kawasan: JSON.stringify(['Tembung']),
     unit: 'Siap Huni',
   },
   {
     id: 'feat-4',
-    namaProperty: 'Puri Indah Residence',
-    group: 'Project Ville',
-    lebar: 10,
-    panjang: 20,
-    hadap: JSON.stringify(['Barat', 'Utara']),
-    tipe: 'VILLA',
-    tingkat: 2,
-    price: '4200000000',
+    namaProperty: 'Permai Square',
+    group: 'Permai 123',
+    lebar: 5,
+    panjang: 18,
+    hadap: JSON.stringify(['Barat']),
+    tipe: 'RUKO',
+    tingkat: 2.5,
+    price: '1850000000',
     carport: true,
     status: 'IN_STOCK',
-    siap: 'SIAP_HUNI_RENOVASI',
+    siap: 'SIAP_HUNI',
     mapsLink: 'https://maps.google.com/?q=3.5720,98.6310',
-    kawasan: JSON.stringify(['Sunggal']),
+    kawasan: JSON.stringify(['Helvetia']),
     unit: 'Ready Siap huni',
   },
   {
     id: 'feat-5',
-    namaProperty: 'Golden Gate Business Loft',
-    group: 'Golden Gate',
-    lebar: 5,
-    panjang: 18,
-    hadap: JSON.stringify(['Utara', 'Selatan']),
-    tipe: 'RUKO',
-    tingkat: 4,
-    price: '3100000000',
+    namaProperty: 'Cemara Asri',
+    group: 'Cemara Asri',
+    lebar: 4.25,
+    panjang: 16,
+    hadap: JSON.stringify(['Utara']),
+    tipe: 'VILLA',
+    tingkat: 2,
+    price: '1250000000',
     carport: true,
     status: 'IN_STOCK',
-    siap: 'SIAP_HUNI',
+    siap: 'SIAP_KOSONG',
     mapsLink: 'https://maps.google.com/?q=3.5910,98.6790',
-    kawasan: JSON.stringify(['Helvetia']),
+    kawasan: JSON.stringify(['Kuala']),
     unit: 'Gate siap',
   },
   {
     id: 'feat-6',
-    namaProperty: 'Griya Mentari Indah',
-    group: 'Mentari',
-    lebar: 7,
-    panjang: 16,
+    namaProperty: 'Project Ville',
+    group: 'Project Ville',
+    lebar: 6,
+    panjang: 25,
     hadap: JSON.stringify(['Selatan']),
     tipe: 'VILLA',
-    tingkat: 1.5,
-    price: '1250000000',
+    tingkat: 3.5,
+    price: '3250000000',
     carport: true,
-    status: 'IN_STOCK',
+    status: 'SOLD_OUT',
     siap: 'SIAP_HUNI',
     mapsLink: null,
-    kawasan: JSON.stringify(['Medan Kota']),
+    kawasan: JSON.stringify(['Krakatau']),
     unit: null,
   },
 ];
@@ -132,12 +132,10 @@ const DUMMY_FEATURED: Property[] = [
 export default function Homepage() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const cursorRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
-  // GSAP SplitText character reveal + custom cursor tracking
+  // GSAP SplitText character reveal
   useEffect(() => {
-    // 1. Text Animation on Load
     if (headingRef.current) {
       const text = headingRef.current.innerText;
       headingRef.current.innerHTML = '';
@@ -156,29 +154,12 @@ export default function Homepage() {
         opacity: 1,
         y: 0,
         rotation: 0,
-        stagger: 0.04,
+        stagger: 0.03,
         duration: 0.8,
         ease: 'power3.out',
         delay: 0.1,
       });
     }
-
-    // 2. Custom Cursor Tracking (Desktop Only)
-    const onMouseMove = (e: MouseEvent) => {
-      if (cursorRef.current) {
-        gsap.to(cursorRef.current, {
-          x: e.clientX,
-          y: e.clientY,
-          duration: 0.1,
-          ease: 'power2.out',
-        });
-      }
-    };
-
-    window.addEventListener('mousemove', onMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-    };
   }, []);
 
   useEffect(() => {
@@ -188,7 +169,7 @@ export default function Homepage() {
         if (response.ok) {
           const json = await response.json();
           if (json && json.data && json.data.length > 0) {
-            setProperties(json.data);
+            setProperties(json.data.slice(0, 6));
           } else {
             setProperties(DUMMY_FEATURED);
           }
@@ -213,7 +194,7 @@ export default function Homepage() {
           entry.target.classList.add('reveal-active');
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
 
     const revealElements = document.querySelectorAll('.reveal');
     revealElements.forEach((el) => observer.observe(el));
@@ -266,22 +247,22 @@ export default function Homepage() {
     const dx = (x - xc) / xc;
     const dy = (y - yc) / yc;
     
-    const maxTilt = 8;
+    const maxTilt = 5;
     const rx = -dy * maxTilt;
     const ry = dx * maxTilt;
     
-    card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-8px)`;
-    card.style.boxShadow = `0 16px 36px rgba(201, 169, 97, 0.15), 0 4px 10px rgba(0, 0, 0, 0.05)`;
-    card.style.borderColor = `rgba(201, 169, 97, 0.3)`;
+    card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+    card.style.boxShadow = `0 12px 30px rgba(201, 169, 97, 0.12), 0 4px 10px rgba(0, 0, 0, 0.3)`;
+    card.style.borderColor = `rgba(201, 169, 97, 0.25)`;
     card.style.transition = 'none';
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
     const card = e.currentTarget;
     card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
-    card.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.03)';
-    card.style.borderColor = 'rgba(0, 0, 0, 0.05)';
-    card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease, border-color 0.5s ease';
+    card.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
+    card.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+    card.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, border-color 0.4s ease';
   };
 
   const handleHeroMouseMove = (e: React.MouseEvent<HTMLElement>) => {
@@ -295,44 +276,40 @@ export default function Homepage() {
 
   return (
     <div className={styles.container}>
-      {/* Custom Luxury Dot Cursor (Desktop Only) */}
-      <div 
-        ref={cursorRef} 
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '8px',
-          height: '8px',
-          backgroundColor: '#C9A961',
-          borderRadius: '50%',
-          pointerEvents: 'none',
-          zIndex: 9999,
-          transform: 'translate(-50%, -50%)',
-          display: 'none',
-        }}
-        className="desktop-cursor"
-      />
-
-      {/* Hero Section */}
+      {/* Hero Section — Split Screen 2 Columns */}
       <section className={styles.hero} onMouseMove={handleHeroMouseMove}>
         <div className={styles.heroContent}>
-          <div className={styles.heroBadge}>
-            Est. Prime Property &middot; Bekasi
+          {/* Left Column: Headline details */}
+          <div className={styles.heroText}>
+            <div className={styles.heroWelcome}>
+              Welcome to Prime Property
+            </div>
+            <h1 ref={headingRef} className={styles.heroHeading}>
+              Exclusive Property Intelligence Platform
+            </h1>
+            <p className={styles.heroSubheading}>
+              Kelola inventory properti premium dengan cepat, presisi, dan elegan. Semua data dalam satu platform.
+            </p>
+            <div className={styles.heroActions}>
+              <a href="#properti-unggulan" className={`${styles.heroCta} gold-shimmer`}>
+                Lihat Properti <span className={styles.ctaArrow}>→</span>
+              </a>
+              <Link href="/kontak" className={styles.heroSecondaryCta}>
+                Hubungi Kami
+              </Link>
+            </div>
           </div>
-          <h1 ref={headingRef} className={styles.heroHeading}>
-            Exclusive Property Intelligence Platform
-          </h1>
-          <p className={styles.heroSubheading}>
-            Portal manajemen properti premium penopang investasi ruko komersial dan hunian villa mewah pilihan dengan spesifikasi teknis unggul dan legalitas bersertifikat.
-          </p>
-          <div className={styles.heroActions}>
-            <a href="#properti-unggulan" className={`${styles.heroCta} gold-shimmer`}>
-              Lihat Properti
-            </a>
-            <Link href="/kontak" className={styles.heroSecondaryCta}>
-              Hubungi Kami
-            </Link>
+
+          {/* Right Column: Premium Mockup visual with glowing neon arch */}
+          <div className={styles.heroVisual}>
+            <div className={styles.visualArchContainer}>
+              <div className={styles.visualArch}></div>
+              <img 
+                src="/luxury-villa.png" 
+                alt="Luxury Modern Architecture Visual" 
+                className={styles.visualImg} 
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -348,36 +325,39 @@ export default function Homepage() {
 
         {isLoading ? (
           <div className={styles.loadingWrapper}>
-            <div className={styles.spinner}></div>
+            <div className="spinner"></div>
             <p>Memuat properti unggulan...</p>
           </div>
         ) : (
           <div className={styles.grid}>
-            {properties.map((property, index) => {
+            {properties.map((property) => {
               const hadapArray = parseJsonArray(property.hadap);
               const kawasanArray = parseJsonArray(property.kawasan);
 
               return (
                 <article 
                   key={property.id} 
-                  className={`${styles.card} ${index === 0 || index === 4 ? styles.cardWide : ''} reveal`}
+                  className={`${styles.card} reveal`}
                   onMouseMove={handleMouseMove}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className={styles.cardImagePlaceholder}>
-                    <span className={styles.cardImageText}>
-                      {getTipeLabel(property.tipe).toUpperCase()}
-                    </span>
+                  {/* Property Visual Box utilizing generated listing photo placeholder */}
+                  <div 
+                    className={styles.cardImagePlaceholder}
+                    style={{ backgroundImage: 'url(/property-villa.png)' }}
+                  >
                     <div className={styles.cardBadges}>
-                      <span className={`badge badge-primary`}>
-                        {getTipeLabel(property.tipe)}
-                      </span>
-                      <span className={`badge ${property.status === 'IN_STOCK' ? 'badge-in-stock' : 'badge-sold-out'}`}>
+                      <span className={`badge ${
+                        property.status === 'IN_STOCK' 
+                          ? 'badge-in-stock' 
+                          : 'badge-sold-out'
+                      }`}>
                         {property.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
                       </span>
                     </div>
                   </div>
 
+                  {/* Card Data Content */}
                   <div className={styles.cardBody}>
                     <div className={styles.cardHeader}>
                       <h3 className={styles.cardTitle}>{property.namaProperty}</h3>
@@ -385,67 +365,36 @@ export default function Homepage() {
                         <span className={styles.cardGroup}>{property.group}</span>
                       )}
                     </div>
+                    
+                    <div className={styles.cardKawasan}>
+                      {kawasanArray.join(', ')}
+                    </div>
 
                     <div className={styles.cardPrice}>
                       {formatRupiah(property.price)}
                     </div>
 
+                    {/* Symmetrical specification footer details */}
                     <div className={styles.cardSpecs}>
                       <div className={styles.cardSpecItem}>
-                        <span className={styles.cardSpecIcon}>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                            <path d="M21.3 8.11 15.89 2.7a1 1 0 0 0-1.41 0L2.7 14.48a1 1 0 0 0 0 1.41l5.41 5.41a1 1 0 0 0 1.42 0L21.3 9.52a1 1 0 0 0 0-1.41Z"/>
-                            <path d="m5.5 12.5 1 1.1"/>
-                            <path d="m8.5 9.5 1 1.1"/>
-                            <path d="m11.5 6.5 1 1.1"/>
-                            <path d="m14.5 3.5 1 1.1"/>
-                          </svg>
-                        </span>
+                        <span className={styles.cardSpecIcon}>📐</span>
                         <span>{property.lebar} &times; {property.panjang} m</span>
                       </div>
                       <div className={styles.cardSpecItem}>
-                        <span className={styles.cardSpecIcon}>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                            <rect x="4" y="2" width="16" height="20" rx="2" ry="2"/>
-                            <line x1="9" y1="22" x2="9" y2="16"/>
-                            <line x1="15" y1="22" x2="15" y2="16"/>
-                            <line x1="9" y1="16" x2="15" y2="16"/>
-                            <path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01M12 6h.01M12 10h.01M8 14h.01M16 14h.01M12 14h.01"/>
-                          </svg>
-                        </span>
-                        <span>{property.tingkat} Lantai</span>
+                        <span className={styles.cardSpecIcon}>🏢</span>
+                        <span>{property.tingkat} Lt</span>
                       </div>
                       <div className={styles.cardSpecItem}>
-                        <span className={styles.cardSpecIcon}>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                            <circle cx="12" cy="12" r="10"/>
-                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
-                          </svg>
-                        </span>
+                        <span className={styles.cardSpecIcon}>🧭</span>
                         <span>Hadap {hadapArray.join(', ')}</span>
                       </div>
                       <div className={styles.cardSpecItem}>
-                        <span className={styles.cardSpecIcon}>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
-                            <circle cx="7" cy="17" r="2"/>
-                            <circle cx="17" cy="17" r="2"/>
-                            <path d="M13 17H9M21 17H19M5 17H3"/>
-                            <path d="M5 10H19"/>
-                          </svg>
-                        </span>
-                        <span>Carport: {property.carport ? 'Ya' : 'Tidak'}</span>
+                        <span className={styles.cardSpecIcon}>🚗</span>
+                        <span>Carport {property.carport ? '✓' : '—'}</span>
                       </div>
                     </div>
 
                     <div className={styles.cardFooter}>
-                      <div className={styles.cardKawasan}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', marginRight: '6px', color: '#C9A961', verticalAlign: 'middle' }} aria-hidden="true">
-                          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-                          <circle cx="12" cy="10" r="3"/>
-                        </svg>
-                        <span style={{ verticalAlign: 'middle' }}>{kawasanArray.join(', ')}</span>
-                      </div>
                       <span className={`badge ${
                         property.siap === 'SIAP_HUNI' 
                           ? 'badge-siap-huni' 
@@ -464,53 +413,57 @@ export default function Homepage() {
         )}
       </section>
 
-      {/* Value Proposition Section */}
+      {/* Why Choose Us Section */}
       <section className={styles.valueProps}>
         <div className={`${styles.sectionHeader} reveal`}>
-          <h2 className={styles.sectionTitle}>Mengapa Prime Property</h2>
+          <h2 className={styles.sectionTitle}>Mengapa Prime Property?</h2>
           <p className={styles.sectionSubtitle}>
             Komitmen kami untuk memberikan standar kualitas tertinggi dalam setiap layanan
           </p>
         </div>
 
         <div className={styles.valueGrid}>
+          {/* Proposition 1 */}
           <div className={`${styles.valueCard} reveal`}>
             <div className={styles.valueIconWrapper}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.iconSvg}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
-            <h3 className={styles.valueTitle}>Lokasi Strategis</h3>
+            <h3 className={styles.valueTitle}>Data Akurat & Terpercaya</h3>
             <p className={styles.valueText}>
-              Seluruh portofolio properti kami terletak di kawasan-kawasan dengan aksesibilitas tinggi dan nilai pertumbuhan cepat.
+              Semua informasi properti diverifikasi secara ketat dan selalu diperbarui untuk menjamin legalitas aset.
             </p>
           </div>
 
+          {/* Proposition 2 */}
           <div className={`${styles.valueCard} reveal`}>
             <div className={styles.valueIconWrapper}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.iconSvg}><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5" /><polyline points="12 22 12 12" /><line x1="12" y1="12" x2="22" y2="8.5" /><line x1="12" y1="12" x2="2" y2="8.5" /></svg>
             </div>
-            <h3 className={styles.valueTitle}>Harga Kompetitif</h3>
+            <h3 className={styles.valueTitle}>Inventory Premium</h3>
             <p className={styles.valueText}>
-              Kami memberikan harga terbaik dengan nilai apresiasi aset jangka panjang yang tinggi untuk investasi optimal.
+              Koleksi unit ruko komersial dan villa mewah pilihan di lokasi-lokasi paling strategis dengan capital gain tinggi.
             </p>
           </div>
 
+          {/* Proposition 3 */}
           <div className={`${styles.valueCard} reveal`}>
             <div className={styles.valueIconWrapper}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.iconSvg}><rect x="3" y="3" width="7" height="9" /><rect x="14" y="3" width="7" height="5" /><rect x="14" y="12" width="7" height="9" /><rect x="3" y="16" width="7" height="5" /></svg>
             </div>
-            <h3 className={styles.valueTitle}>Terpercaya</h3>
+            <h3 className={styles.valueTitle}>Manajemen Mudah</h3>
             <p className={styles.valueText}>
-              Kami telah dipercaya oleh ribuan investor dan keluarga dalam menyediakan aset properti legal dan bermutu tinggi.
+              Portal platform agen internal yang intuitif untuk mengelola, menyaring, dan melacak seluruh data listing properti.
             </p>
           </div>
 
+          {/* Proposition 4 */}
           <div className={`${styles.valueCard} reveal`}>
             <div className={styles.valueIconWrapper}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.iconSvg}><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
             </div>
-            <h3 className={styles.valueTitle}>Layanan Prima</h3>
+            <h3 className={styles.valueTitle}>Keamanan Terjamin</h3>
             <p className={styles.valueText}>
-              Tim sales dan customer service profesional kami siap membimbing Anda dari proses pencarian hingga serah terima kunci.
+              Sistem keamanan berlapis, database-backed limiter, audit log security, dan otorisasi role terenskripsi.
             </p>
           </div>
         </div>
@@ -521,7 +474,7 @@ export default function Homepage() {
         <div className={`${styles.ctaContent} reveal`}>
           <h2 className={styles.ctaTitle}>Siap Menemukan Properti Terbaik?</h2>
           <p className={styles.ctaSubtitle}>
-            Tim penasihat properti profesional kami siap membantu Anda memilih unit ruko atau villa yang paling sesuai dengan kebutuhan Anda.
+            Hubungi tim konsultan properti profesional kami untuk memilih unit ruko komersial atau villa premium impian Anda.
           </p>
           <Link href="/kontak" className={`${styles.ctaBtn} gold-shimmer`}>
             Hubungi Kami

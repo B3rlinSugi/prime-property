@@ -591,7 +591,7 @@ function DashboardPageContent() {
                       animation: isNew ? 'highlight 4s ease-out' : 'none'
                     }}
                   >
-                    <td style={{ fontWeight: 600, color: 'var(--color-primary)' }}>
+                    <td style={{ fontWeight: 600, color: 'var(--color-text)' }}>
                       {property.namaProperty}
                     </td>
                     <td>{property.group || '—'}</td>
@@ -706,160 +706,169 @@ function DashboardPageContent() {
         {selectedProperty && (
           <>
             <div className={styles.drawerHeader}>
-              <h2 className={styles.drawerTitle}>{selectedProperty.namaProperty}</h2>
-              <button className={styles.drawerCloseBtn} onClick={() => setSelectedProperty(null)}>
-                &times;
-              </button>
-            </div>
-
-            <div className={styles.drawerBody}>
-              <div className={styles.drawerSectionTitle}>Detail Unit</div>
-              <div className={styles.drawerGrid}>
-                <div>
-                  <div className={styles.drawerLabel}>Tipe Properti</div>
-                  <div className={styles.drawerValue}>
-                    <span className={`badge ${selectedProperty.tipe === 'RUKO' ? 'badge-primary' : 'badge-secondary'}`}>
-                      {getTipeLabel(selectedProperty.tipe)}
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <div className={styles.drawerLabel}>Status Unit</div>
-                  <div className={styles.drawerValue}>
-                    <span className={`badge ${selectedProperty.status === 'IN_STOCK' ? 'badge-in-stock' : 'badge-sold-out'}`}>
-                      {getStatusLabel(selectedProperty.status)}
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <div className={styles.drawerLabel}>Group</div>
-                  <div className={styles.drawerValue}>{selectedProperty.group || '—'}</div>
-                </div>
-
-                <div>
-                  <div className={styles.drawerLabel}>Kesiapan</div>
-                  <div className={styles.drawerValue}>
-                    <span className={`badge ${
-                      selectedProperty.siap === 'SIAP_HUNI' 
-                        ? 'badge-siap-huni' 
-                        : selectedProperty.siap === 'SIAP_KOSONG' 
-                        ? 'badge-siap-kosong' 
-                        : 'badge-siap-renovasi'
-                    }`}>
-                      {getSiapLabel(selectedProperty.siap)}
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <div className={styles.drawerLabel}>Dimensi (L &times; P)</div>
-                  <div className={styles.drawerValue}>{formatDimensi(selectedProperty.lebar, selectedProperty.panjang)}</div>
-                </div>
-
-                <div>
-                  <div className={styles.drawerLabel}>Lantai</div>
-                  <div className={styles.drawerValue}>{selectedProperty.tingkat} Lantai</div>
-                </div>
-
-                <div>
-                  <div className={styles.drawerLabel}>Hadap</div>
-                  <div className={styles.drawerValue}>{formatHadap(selectedProperty.hadap)}</div>
-                </div>
-
-                <div>
-                  <div className={styles.drawerLabel}>Carport</div>
-                  <div className={styles.drawerValue}>{selectedProperty.carport ? 'Tersedia (Ya)' : 'Tidak Ada'}</div>
-                </div>
-
-                {selectedProperty.unit && (
-                  <div>
-                    <div className={styles.drawerLabel}>Keterangan Unit</div>
-                    <div className={styles.drawerValue}>{selectedProperty.unit}</div>
-                  </div>
-                )}
-              </div>
-
-              <div className={styles.drawerSectionTitle}>Investasi</div>
-              <div style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-accent-gold)' }}>
-                {formatRupiah(Number(selectedProperty.price))}
-              </div>
-
-              <div className={styles.drawerSectionTitle}>Lokasi</div>
-              <div>
-                <div className={styles.drawerLabel}>Kawasan</div>
-                <div className={styles.drawerTags}>
-                  {parseJsonArray(selectedProperty.kawasan).map((k: string) => (
-                    <span key={k} className="chip" style={{ margin: 0 }}>
-                      {k}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {selectedProperty.mapsLink && (
-                <a 
-                  href={selectedProperty.mapsLink} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className={styles.drawerMapsBtn}
-                >
-                  🗺️ Buka di Google Maps
-                </a>
-              )}
-
-              <div className={styles.drawerSectionTitle}>Riwayat & Pengunggah</div>
-              <div className={styles.drawerGrid}>
-                <div>
-                  <div className={styles.drawerLabel}>Dibuat Oleh</div>
-                  <div className={styles.drawerValue} style={{ fontSize: '0.9rem' }}>
-                    {selectedProperty.createdBy?.name || 'Super Admin'}
-                  </div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--color-text-light)' }}>
-                    {selectedProperty.createdBy?.email}
-                  </div>
-                </div>
-
-                <div>
-                  <div className={styles.drawerLabel}>Tanggal Diunggah</div>
-                  <div className={styles.drawerValue} style={{ fontSize: '0.85rem', fontWeight: 500 }}>
-                    {formatTanggalWaktu(selectedProperty.createdAt)}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {isSuperadmin && (
-              <div className={styles.drawerFooter}>
-                {showArchived ? (
-                  <button 
-                    className="btn btn-primary" 
-                    style={{ flex: 1 }}
-                    onClick={() => handleRestore(selectedProperty)}
-                  >
-                    ♻️ Pulihkan Properti
-                  </button>
-                ) : (
+              <h2 className={styles.drawerTitle}>Detail Properti</h2>
+              <div className={styles.drawerHeaderActions}>
+                {isSuperadmin && !showArchived && (
                   <>
                     <Link 
                       href={`/agent/dashboard/property/${selectedProperty.id}/edit`} 
-                      className="btn btn-primary id-edit-btn"
-                      style={{ flex: 1, textDecoration: 'none', textAlign: 'center' }}
+                      className={styles.headerEditBtn}
                     >
-                      Edit Properti
+                      Edit
                     </Link>
                     <button 
-                      className="btn btn-danger" 
-                      style={{ flex: 1 }}
+                      className={styles.headerDeleteBtn}
                       onClick={() => setDeleteTarget(selectedProperty)}
                     >
-                      Hapus Properti
+                      Hapus
                     </button>
                   </>
                 )}
+                {isSuperadmin && showArchived && (
+                  <button 
+                    className={styles.headerRestoreBtn}
+                    onClick={() => handleRestore(selectedProperty)}
+                  >
+                    Pulihkan
+                  </button>
+                )}
+                <button className={styles.drawerCloseBtn} onClick={() => setSelectedProperty(null)}>
+                  &times;
+                </button>
               </div>
-            )}
+            </div>
+
+            <div className={styles.drawerBody}>
+              <div className={styles.drawerSplitLayout}>
+                {/* Left Side: Property Photo with status badge */}
+                <div 
+                  className={styles.drawerPhoto}
+                  style={{ backgroundImage: 'url(/property-villa.png)' }}
+                >
+                  <span className={`badge ${
+                    selectedProperty.status === 'IN_STOCK' ? 'badge-in-stock' : 'badge-sold-out'
+                  }`}>
+                    {getStatusLabel(selectedProperty.status)}
+                  </span>
+                </div>
+
+                {/* Right Side: Specifications list */}
+                <div className={styles.drawerSpecsColumn}>
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Nama Property</span>
+                    <span className={styles.drawerSpecVal}>{selectedProperty.namaProperty}</span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Group</span>
+                    <span className={styles.drawerSpecVal}>{selectedProperty.group || 'Mentari'}</span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Lebar</span>
+                    <span className={styles.drawerSpecVal}>{selectedProperty.lebar} m</span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Panjang</span>
+                    <span className={styles.drawerSpecVal}>{selectedProperty.panjang} m</span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Hadap</span>
+                    <span className={styles.drawerSpecVal}>{formatHadap(selectedProperty.hadap)}</span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Tipe</span>
+                    <span className={styles.drawerSpecVal}>{getTipeLabel(selectedProperty.tipe)}</span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Tingkat</span>
+                    <span className={styles.drawerSpecVal}>{selectedProperty.tingkat}</span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Harga</span>
+                    <span className={styles.drawerSpecValGold}>{formatRupiah(Number(selectedProperty.price))}</span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Carport</span>
+                    <span className={styles.drawerSpecVal}>{selectedProperty.carport ? 'Ya' : 'Tidak'}</span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Status</span>
+                    <span className={styles.drawerSpecVal}>
+                      <span className={`badge ${selectedProperty.status === 'IN_STOCK' ? 'badge-in-stock' : 'badge-sold-out'}`}>
+                        {getStatusLabel(selectedProperty.status)}
+                      </span>
+                    </span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Siap</span>
+                    <span className={styles.drawerSpecVal}>
+                      <span className={`badge ${
+                        selectedProperty.siap === 'SIAP_HUNI' 
+                          ? 'badge-siap-huni' 
+                          : selectedProperty.siap === 'SIAP_KOSONG' 
+                          ? 'badge-siap-kosong' 
+                          : 'badge-siap-renovasi'
+                      }`}>
+                        {getSiapLabel(selectedProperty.siap)}
+                      </span>
+                    </span>
+                  </div>
+
+                  {selectedProperty.mapsLink && (
+                    <div className={styles.drawerDataRow}>
+                      <span className={styles.drawerSpecLabel}>Maps Link</span>
+                      <span className={styles.drawerSpecVal}>
+                        <a href={selectedProperty.mapsLink} target="_blank" rel="noopener noreferrer" className={styles.drawerMapsLinkSpan}>
+                          Buka di Google Maps ↗
+                        </a>
+                      </span>
+                    </div>
+                  )}
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Kawasan</span>
+                    <span className={styles.drawerSpecVal}>{formatKawasan(selectedProperty.kawasan)}</span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Unit</span>
+                    <span className={styles.drawerSpecVal}>{selectedProperty.unit || 'Ready Siap Huni'}</span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Dibuat Oleh</span>
+                    <span className={styles.drawerSpecVal}>{selectedProperty.createdBy?.name || 'Superadmin'}</span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Dibuat Pada</span>
+                    <span className={styles.drawerSpecVal}>{formatTanggalWaktu(selectedProperty.createdAt)}</span>
+                  </div>
+
+                  <div className={styles.drawerDataRow}>
+                    <span className={styles.drawerSpecLabel}>Diupdate Pada</span>
+                    <span className={styles.drawerSpecVal}>{formatTanggalWaktu(selectedProperty.updatedAt)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Extra static high-fidelity text box in screenshot */}
+              <div className={styles.drawerAdditionalInfo}>
+                <h4 className={styles.additionalInfoTitle}>Informasi Tambahan</h4>
+                <p className={styles.additionalInfoText}>
+                  Lokasi strategis, dekat pusat bisnis dan fasilitas umum. Unit komersial berpotensi apresiasi kapital tinggi.
+                </p>
+              </div>
+            </div>
           </>
         )}
       </div>
