@@ -338,7 +338,7 @@ export default function Homepage() {
               Pilihan properti terbaik dengan lokasi strategis dan nilai investasi tinggi.
             </p>
           </div>
-          <Link href="/agent/login" className={styles.sectionLink}>
+          <Link href="/properti" className={styles.sectionLink}>
             Lihat Semua <span className={styles.sectionLinkArrow}>➔</span>
           </Link>
         </div>

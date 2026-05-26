@@ -3,6 +3,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Logo from '@/components/layout/Logo';
 import styles from './page.module.css';
 
@@ -104,6 +105,12 @@ export default function AgentLoginPage() {
 
   return (
     <div className={styles.loginPage}>
+      {/* Sleek Floating Back Button */}
+      <Link href="/" className={styles.backBtn}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={styles.backIconSvg}><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Kembali ke Beranda
+      </Link>
+
       {/* Cinematic gold waves background mesh */}
       <div className={styles.wavesBg}></div>
       <div className={styles.ambientGlow}></div>

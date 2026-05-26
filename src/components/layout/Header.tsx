@@ -21,13 +21,19 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <Link href="/" className={styles.logo} style={{ display: 'flex', alignItems: 'center' }}>
-        <Logo height={38} light={true} />
+        <Logo height={48} light={true} />
       </Link>
 
       {/* Desktop Navigation */}
       <nav className={styles.nav}>
         <Link href="/" className={isActive('/')}>
           Beranda
+        </Link>
+        <Link href="/properti" className={isActive('/properti')}>
+          Properti
+        </Link>
+        <Link href="/simulasi-kpr" className={isActive('/simulasi-kpr')}>
+          Simulasi KPR
         </Link>
         <Link href="/tentang-kami" className={isActive('/tentang-kami')}>
           Tentang Kami
@@ -67,6 +73,20 @@ export default function Header() {
             onClick={() => setMobileMenuOpen(false)}
           >
             Beranda
+          </Link>
+          <Link 
+            href="/properti" 
+            className={`${styles.mobileNavLink} ${pathname === '/properti' ? styles.mobileNavLinkActive : ''}`} 
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Properti
+          </Link>
+          <Link 
+            href="/simulasi-kpr" 
+            className={`${styles.mobileNavLink} ${pathname === '/simulasi-kpr' ? styles.mobileNavLinkActive : ''}`} 
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Simulasi KPR
           </Link>
           <Link 
             href="/tentang-kami" 

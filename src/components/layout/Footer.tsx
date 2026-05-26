@@ -9,7 +9,7 @@ export default function Footer() {
         {/* Column 1: Brand & Socials */}
         <div className={styles.footerCol}>
           <Link href="/" className={styles.footerLogo} style={{ display: 'flex', alignItems: 'center' }}>
-            <Logo height={38} light={true} />
+            <Logo height={48} light={true} />
           </Link>
           <p className={styles.footerDescription}>
             Platform manajemen properti premium dengan standar profesional, transparan, dan terpercaya.
@@ -41,6 +41,12 @@ export default function Footer() {
           <ul className={styles.footerLinks}>
             <li>
               <Link href="/" className={styles.footerLink}>Beranda</Link>
+            </li>
+            <li>
+              <Link href="/properti" className={styles.footerLink}>Properti</Link>
+            </li>
+            <li>
+              <Link href="/simulasi-kpr" className={styles.footerLink}>Simulasi KPR</Link>
             </li>
             <li>
               <Link href="/tentang-kami" className={styles.footerLink}>Tentang Kami</Link>
