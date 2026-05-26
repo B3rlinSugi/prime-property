@@ -416,29 +416,58 @@
   margin: 0 auto 36px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  padding-bottom: 20px;
+  padding-bottom: 24px;
 }
 
 .sectionTitle {
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.75rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #FFFFFF;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.sectionSubtitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+  line-height: 1.5;
 }
 
 .sectionLink {
+  border: 1.5px solid rgba(201, 169, 97, 0.4);
+  background: transparent;
   color: #C9A961;
-  font-size: 0.9rem;
+  padding: 10px 24px;
+  font-size: 0.85rem;
   font-weight: 600;
-  display: flex;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+  display: inline-flex;
   align-items: center;
-  transition: color var(--transition-fast);
+  gap: 8px;
 }
 
 .sectionLink:hover {
-  color: var(--color-accent-gold-hover);
+  background: rgba(201, 169, 97, 0.08);
+  border-color: #C9A961;
+  color: #C9A961;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 15px rgba(201, 169, 97, 0.15);
+}
+
+.sectionLinkArrow {
+  font-size: 0.95rem;
+  transition: transform 0.2s ease;
+}
+
+.sectionLink:hover .sectionLinkArrow {
+  transform: translateX(3px);
 }
 
 .grid {
@@ -516,8 +545,69 @@
 
 .card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 16px 36px rgba(201, 169, 97, 0.12);
-  border-color: rgba(201, 169, 97, 0.35) !important;
+  border-color: #C9A961 !important;
+  box-shadow: 0 12px 30px rgba(201, 169, 97, 0.22), 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Card Wishlist overlay and title elements */
+.wishlistBtnImg {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(22, 22, 22, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 5;
+}
+
+.wishlistBtnImg:hover {
+  background: rgba(201, 169, 97, 0.2);
+  border-color: #C9A961;
+  color: #C9A961;
+  transform: scale(1.08);
+}
+
+.heartIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.cardTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.wishlistBtnTitle {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.wishlistBtnTitle:hover {
+  color: #C9A961;
+  transform: scale(1.15);
+}
+
+.heartIconSmall {
+  width: 14px;
+  height: 14px;
 }
 
 .cardImagePlaceholder {
@@ -578,7 +668,7 @@
 
 .cardSpecs {
   display: flex;
-  gap: 16px;
+  justify-content: space-between;
   margin-top: auto;
   padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -761,3 +851,294 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* ─── Premium Glassmorphic Detail Modal ──────── */
+
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(8, 8, 8, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+  padding: 20px;
+}
+
+.modalContent {
+  background: #121212;
+  border: 1px solid rgba(201, 169, 97, 0.22);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(201, 169, 97, 0.08);
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  animation: slideUpModal 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes slideUpModal {
+  0% { transform: translateY(30px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.modalCloseBtn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.modalCloseBtn:hover {
+  background: rgba(201, 169, 97, 0.15);
+  border-color: #C9A961;
+  color: #C9A961;
+  transform: rotate(90deg);
+}
+
+.modalGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .modalGrid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+/* Left Column: Visual elements */
+.modalVisualCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.modalHeroImg {
+  width: 100%;
+  height: 280px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modalImageBadges {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.modalBadgeInStock {
+  background: rgba(76, 175, 80, 0.15);
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.modalBadgeSoldOut {
+  background: rgba(244, 67, 54, 0.15);
+  color: #F44336;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.modalBadgeType {
+  background: rgba(201, 169, 97, 0.15);
+  color: #C9A961;
+  border: 1px solid rgba(201, 169, 97, 0.3);
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Real Map inside Modal */
+.modalMapWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modalMapTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.modalMapIframeContainer {
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+}
+
+.modalGoogleMap {
+  width: 100%;
+  height: 100%;
+  border: none;
+  filter: grayscale(100%) invert(90%) hue-rotate(180deg) brightness(85%) contrast(90%);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.modalGoogleMap:hover {
+  opacity: 1;
+}
+
+/* Right Column: Text & Spec Details */
+.modalDetailsCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.modalHeaderSec {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  padding-bottom: 16px;
+}
+
+.modalKawasan {
+  font-size: 0.8rem;
+  color: rgba(201, 169, 97, 0.85);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.modalTitle {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.85rem;
+  font-weight: 500;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.modalPrice {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #C9A961;
+  margin-top: 4px;
+}
+
+.modalSpecsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.modalSpecCard {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modalSpecLabel {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modalSpecVal {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.modalDescSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalSectionSub {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.modalDescText {
+  font-size: 0.86rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.modalWaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #C9A961 0%, #B8974D 100%);
+  color: #0D0D0D;
+  padding: 14px 28px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(201, 169, 97, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.modalWaBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(201, 169, 97, 0.4);
+  color: #0D0D0D;
+}
+

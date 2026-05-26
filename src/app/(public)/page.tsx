@@ -45,7 +45,7 @@ const DUMMY_FEATURED: Property[] = [
   },
   {
     id: 'feat-2',
-    namaProperty: 'Banyan Tree Blok A',
+    namaProperty: 'Banyan Tree (Blok A)',
     group: 'Permai 123',
     lebar: 6,
     panjang: 20,
@@ -64,7 +64,7 @@ const DUMMY_FEATURED: Property[] = [
     id: 'feat-3',
     namaProperty: 'Mentari Residence',
     group: 'Mentari',
-    lebar: 6,
+    lebar: 4,
     panjang: 17,
     hadap: JSON.stringify(['Timur']),
     tipe: 'RUKO',
@@ -133,6 +133,7 @@ const DUMMY_FEATURED: Property[] = [
 export default function Homepage() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   // GSAP line-level reveal animation
@@ -335,9 +336,14 @@ export default function Homepage() {
       {/* Featured Properties Section */}
       <section id="properti-unggulan" className={styles.featured}>
         <div className={`${styles.sectionHeader} reveal`}>
-          <h2 className={styles.sectionTitle}>Properti Unggulan</h2>
+          <div>
+            <h2 className={styles.sectionTitle}>PROPERTI UNGGULAN</h2>
+            <p className={styles.sectionSubtitle}>
+              Pilihan properti terbaik dengan lokasi strategis dan nilai investasi tinggi.
+            </p>
+          </div>
           <Link href="/agent/login" className={styles.sectionLink}>
-            Lihat Semua <span style={{ marginLeft: '4px' }}>→</span>
+            Lihat Semua <span className={styles.sectionLinkArrow}>➔</span>
           </Link>
         </div>
 
@@ -361,6 +367,8 @@ export default function Homepage() {
                 <article 
                   key={property.id} 
                   className={`${styles.card} reveal`}
+                  onClick={() => setSelectedProperty(property)}
+                  style={{ cursor: 'pointer' }}
                 >
                   {/* Property Visual Box utilizing generated listing photo placeholder */}
                   <div 
@@ -372,11 +380,36 @@ export default function Homepage() {
                         {property.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
                       </span>
                     </div>
+
+                    {/* Image wishlist overlay heart */}
+                    <button 
+                      className={styles.wishlistBtnImg} 
+                      aria-label="Save Property"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        alert(`${property.namaProperty} ditambahkan ke wishlist!`);
+                      }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.heartIcon}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </button>
                   </div>
 
                   {/* Card Data Content */}
                   <div className={styles.cardBody}>
-                    <h3 className={styles.cardTitle}>{property.namaProperty}</h3>
+                    <div className={styles.cardTitleRow}>
+                      <h3 className={styles.cardTitle}>{property.namaProperty}</h3>
+                      <button 
+                        className={styles.wishlistBtnTitle} 
+                        aria-label="Favorite"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          alert(`${property.namaProperty} difavoritkan!`);
+                        }}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.heartIconSmall}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                      </button>
+                    </div>
+
                     <div className={styles.cardKawasan}>
                       {kawasanArray.join(', ')}
                     </div>
@@ -385,7 +418,7 @@ export default function Homepage() {
                       {formatRupiah(property.price)}
                     </div>
 
-                    {/* Symmetrical specification footer details */}
+                    {/* Symmetrical specification footer details aligned left & right */}
                     <div className={styles.cardSpecs}>
                       <div className={styles.cardSpecItem}>
                         <span className={styles.cardSpecIcon}>📐</span>
@@ -472,6 +505,110 @@ export default function Homepage() {
           </Link>
         </div>
       </section>
+
+      {/* ─── Premium Glassmorphic Property Detail Modal ─── */}
+      {selectedProperty && (
+        <div className={styles.modalBackdrop} onClick={() => setSelectedProperty(null)}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.modalCloseBtn} onClick={() => setSelectedProperty(null)} aria-label="Tutup Detail">
+              ✕
+            </button>
+            
+            <div className={styles.modalGrid}>
+              {/* Left Column: Image & Location Map */}
+              <div className={styles.modalVisualCol}>
+                <div 
+                  className={styles.modalHeroImg} 
+                  style={{ backgroundImage: `url(/property-villa-${(DUMMY_FEATURED.findIndex(p => p.id === selectedProperty.id) % 6) + 1}.png)` }}
+                >
+                  <div className={styles.modalImageBadges}>
+                    <span className={selectedProperty.status === 'IN_STOCK' ? styles.modalBadgeInStock : styles.modalBadgeSoldOut}>
+                      {selectedProperty.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
+                    </span>
+                    <span className={styles.modalBadgeType}>
+                      {getTipeLabel(selectedProperty.tipe)}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Real Google Map styled Dark for this Property */}
+                <div className={styles.modalMapWrapper}>
+                  <h4 className={styles.modalMapTitle}>Lokasi Properti</h4>
+                  <div className={styles.modalMapIframeContainer}>
+                    <iframe
+                      src={`https://maps.google.com/maps?q=${encodeURIComponent(selectedProperty.namaProperty + ' ' + parseJsonArray(selectedProperty.kawasan).join(' ') + ' Medan')}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen={true}
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className={styles.modalGoogleMap}
+                    ></iframe>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Key Details & Actions */}
+              <div className={styles.modalDetailsCol}>
+                <div className={styles.modalHeaderSec}>
+                  <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
+                  <h2 className={styles.modalTitle}>{selectedProperty.namaProperty}</h2>
+                  <div className={styles.modalPrice}>{formatRupiah(selectedProperty.price)}</div>
+                </div>
+
+                {/* Specs Grid */}
+                <div className={styles.modalSpecsGrid}>
+                  <div className={styles.modalSpecCard}>
+                    <span className={styles.modalSpecLabel}>Dimensi</span>
+                    <span className={styles.modalSpecVal}>{selectedProperty.lebar} &times; {selectedProperty.panjang} m</span>
+                  </div>
+                  <div className={styles.modalSpecCard}>
+                    <span className={styles.modalSpecLabel}>Tingkat</span>
+                    <span className={styles.modalSpecVal}>{selectedProperty.tingkat} Lantai</span>
+                  </div>
+                  <div className={styles.modalSpecCard}>
+                    <span className={styles.modalSpecLabel}>Hadap</span>
+                    <span className={styles.modalSpecVal}>{parseJsonArray(selectedProperty.hadap).join(', ')}</span>
+                  </div>
+                  <div className={styles.modalSpecCard}>
+                    <span className={styles.modalSpecLabel}>Carport</span>
+                    <span className={styles.modalSpecVal}>{selectedProperty.carport ? 'Tersedia' : 'Tidak Ada'}</span>
+                  </div>
+                  <div className={styles.modalSpecCard}>
+                    <span className={styles.modalSpecLabel}>Status Unit</span>
+                    <span className={styles.modalSpecVal}>{getSiapLabel(selectedProperty.siap)}</span>
+                  </div>
+                  <div className={styles.modalSpecCard}>
+                    <span className={styles.modalSpecLabel}>Info Tambahan</span>
+                    <span className={styles.modalSpecVal}>{selectedProperty.unit || '-'}</span>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div className={styles.modalDescSection}>
+                  <h4 className={styles.modalSectionSub}>Deskripsi Properti</h4>
+                  <p className={styles.modalDescText}>
+                    {selectedProperty.tipe === 'VILLA' 
+                      ? 'Villa mewah dengan desain arsitektur modern kontemporer yang menyajikan kenyamanan eksklusif bagi keluarga Anda. Berlokasi di kawasan premium bebas banjir dengan sistem keamanan terpadu 24 jam dan akses langsung ke fasilitas utama kota. Hunian ideal dengan tata ruang yang lapang, sirkulasi udara sejuk, serta pencahayaan alami optimal untuk kualitas hidup premium.' 
+                      : 'Ruko komersial strategis yang sangat cocok untuk kantor bisnis, outlet retail premium, maupun investasi jangka panjang. Memiliki tingkat traffic harian yang sangat tinggi, area parkir luas untuk kenyamanan pelanggan, serta berada di pusat pertumbuhan ekonomi utama kota dengan potensi capital gain yang luar biasa berkembang.'}
+                  </p>
+                </div>
+
+                {/* WhatsApp Action Button */}
+                <a 
+                  href={`https://wa.me/6281234567890?text=${encodeURIComponent(`Halo Prime Property, saya sangat tertarik dengan unit *${selectedProperty.namaProperty}* di kawasan *${parseJsonArray(selectedProperty.kawasan).join(', ')}* yang ditawarkan dengan harga *${formatRupiah(selectedProperty.price)}*. Apakah unit ini masih tersedia untuk jadwal survey lokasi?`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${styles.modalWaBtn} gold-shimmer`}
+                >
+                  Hubungi Agen via WhatsApp <span style={{ marginLeft: '4px' }}>💬</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
