@@ -472,6 +472,9 @@
   text-align: center;
   transition: all 0.2s ease;
   box-shadow: 0 4px 15px rgba(201, 169, 97, 0.2);
+  border: none;
+  cursor: pointer;
+  width: 100%;
 }
 
 .actionSearchPropertiesBtn:hover {
@@ -484,7 +487,7 @@
 .calcAdvisorySection {
   padding: 0 clamp(16px, 4vw, 64px);
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto 32px;
   width: 100%;
 }
 
@@ -522,4 +525,842 @@
   color: rgba(255, 255, 255, 0.35);
   line-height: 1.5;
   margin: 0;
+}
+
+/* ─── REAL-TIME PROPERTIES MATCHING USER BUDGET STYLES ─── */
+.matchingPropertiesSection {
+  padding: 64px clamp(16px, 4vw, 64px) 64px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.matchingSectionHeader {
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.matchingSectionTitle {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0 0 6px;
+}
+
+.matchingSectionSubtitle {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.matchingSectionSubtitle strong {
+  color: #C9A961;
+}
+
+.catalogGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .catalogGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .catalogGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Symmetrical Premium Card */
+.propertyCard {
+  background: rgba(22, 22, 22, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.propertyCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(201, 169, 97, 0.3);
+  box-shadow: 0 12px 30px rgba(201, 169, 97, 0.08);
+}
+
+.cardImageContainer {
+  width: 100%;
+  height: 220px;
+  position: relative;
+  background-color: #161616;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.cardImageTag {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease-out, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.imageLoaded {
+  opacity: 1;
+}
+
+.propertyCard:hover .cardImageTag {
+  transform: scale(1.03);
+}
+
+.cardBadgeContainer {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+
+.badgeInStock {
+  background: rgba(76, 175, 80, 0.15);
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.25);
+  padding: 3px 8px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.badgeSoldOut {
+  background: rgba(244, 67, 54, 0.15);
+  color: #F44336;
+  border: 1px solid rgba(244, 67, 54, 0.25);
+  padding: 3px 8px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.badgeType {
+  background: rgba(201, 169, 97, 0.15);
+  color: #C9A961;
+  border: 1px solid rgba(201, 169, 97, 0.25);
+  padding: 3px 8px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.cardContent {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+
+.cardTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.1px;
+}
+
+.wishlistBtn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  padding: 4px;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.wishlistBtn:hover {
+  color: #ff3b30;
+  transform: scale(1.08);
+}
+
+.heartIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.cardKawasan {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #C9A961;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.cardPrice {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 14px;
+}
+
+.cardSpecs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 12px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.cardSpecItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cardSpecIcon {
+  font-size: 0.8rem;
+}
+
+/* Skeletons loader */
+.skeletonCard {
+  background: rgba(22, 22, 22, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.skeletonImage {
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.01) 25%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.01) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+.skeletonTextTitle {
+  width: 60%;
+  height: 16px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.01) 25%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.01) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeletonTextSub {
+  width: 35%;
+  height: 10px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.01) 25%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.01) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeletonTextPrice {
+  width: 45%;
+  height: 20px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.01) 25%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.01) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  margin-top: 6px;
+}
+
+.skeletonSpecs {
+  width: 100%;
+  height: 24px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.01) 25%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.01) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Elegant Warning Empty State */
+.emptyBudgetState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 32px;
+  max-width: 580px;
+  margin: 40px auto;
+  background: rgba(179, 58, 58, 0.04);
+  border: 1.5px dashed rgba(179, 58, 58, 0.25);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.4s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.emptyBudgetIcon {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  animation: pulseIcon 2s infinite ease-in-out;
+}
+
+@keyframes pulseIcon {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.emptyBudgetTitle {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0 0 10px;
+  letter-spacing: 0.5px;
+}
+
+.emptyBudgetText {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+.emptyBudgetText strong {
+  color: #C9A961;
+  font-weight: 700;
+}
+
+.emptyBudgetAdvice {
+  font-size: 0.82rem;
+  color: #C9A961;
+  background: rgba(201, 169, 97, 0.08);
+  border: 1px solid rgba(201, 169, 97, 0.15);
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin: 0;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ============================================
+   💎 Premium Glassmorphic Details Modal
+   ============================================ */
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(8, 8, 8, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+  padding: 20px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalContent {
+  background: rgba(18, 18, 18, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 1100px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.8),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    0 0 40px rgba(201, 169, 97, 0.04);
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  animation: slideUpModal 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes slideUpModal {
+  0% { transform: translateY(30px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.modalCloseBtn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.modalCloseBtn:hover {
+  background: rgba(201, 169, 97, 0.15);
+  border-color: #C9A961;
+  color: #C9A961;
+  transform: rotate(90deg);
+}
+
+.modalGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .modalGrid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+.modalVisualCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Premium Segmented Control */
+.modalTabWrapper {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 16px;
+}
+
+.segmentedControl {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 9999px;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.controlTabBtn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 8px 20px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  outline: none;
+}
+
+.controlTabBtn:hover {
+  color: #FFFFFF;
+}
+
+.controlTabActive {
+  background: rgba(201, 169, 97, 0.12) !important;
+  color: #C9A961 !important;
+  border: 1.5px solid rgba(201, 169, 97, 0.25) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  padding: 6.5px 18.5px !important;
+}
+
+.tabIconSvg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
+  transition: transform 0.2s ease;
+}
+
+.recordingDot {
+  width: 7px;
+  height: 7px;
+  background-color: #ff3b30;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px #ff3b30, 0 0 15px #ff3b30;
+  animation: pulseDot 1.5s infinite;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.25); opacity: 1; box-shadow: 0 0 10px #ff3b30, 0 0 18px #ff3b30; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+
+.modalGalleryContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.modalSlider {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: background-image 0.3s ease;
+}
+
+.modalSlideLabel {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: rgba(18, 18, 18, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 30px;
+  padding: 6px 14px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 5;
+}
+
+.slideDot {
+  color: #C9A961;
+}
+
+.modalNavBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(22, 22, 22, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 6;
+}
+
+.modalNavBtnLeft { left: 16px; }
+.modalNavBtnRight { right: 16px; }
+
+.modalSlideCount {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: rgba(18, 18, 18, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 0.5px;
+}
+
+.modalThumbRow {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.modalThumbRow::-webkit-scrollbar {
+  height: 4px;
+}
+
+.modalThumbRow::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.modalThumbRow::-webkit-scrollbar-thumb {
+  background: rgba(201, 169, 97, 0.2);
+  border-radius: 4px;
+}
+
+.modalThumbWrapper {
+  width: 76px;
+  height: 52px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.modalThumbWrapperActive {
+  border-color: #C9A961 !important;
+  opacity: 1 !important;
+  transform: translateY(-1px);
+}
+
+.modalThumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modalVideoContainer {
+  width: 100%;
+  height: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: #000000;
+}
+
+/* Modal Map */
+.modalMapWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modalMapTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.modalMapIframeContainer {
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modalGoogleMap {
+  width: 100%;
+  height: 100%;
+  border: none;
+  filter: grayscale(100%) invert(90%) hue-rotate(180deg) brightness(85%) contrast(90%);
+  opacity: 0.8;
+}
+
+/* Modal details */
+.modalDetailsCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.modalHeaderSec {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  padding-bottom: 16px;
+}
+
+.modalHeaderTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 48px;
+}
+
+.modalHeaderLeftGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.modalKawasan {
+  font-size: 0.8rem;
+  color: #C9A961;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.modalBadges {
+  display: flex;
+  gap: 8px;
+}
+
+.modalBadgeInStock {
+  background: rgba(76, 175, 80, 0.15);
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.25);
+  padding: 3px 8px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.modalBadgeSoldOut {
+  background: rgba(244, 67, 54, 0.15);
+  color: #F44336;
+  border: 1px solid rgba(244, 67, 54, 0.25);
+  padding: 3px 8px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.modalBadgeType {
+  background: rgba(201, 169, 97, 0.15);
+  color: #C9A961;
+  border: 1px solid rgba(201, 169, 97, 0.25);
+  padding: 3px 8px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.modalTitle {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.85rem;
+  font-weight: 500;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.modalPrice {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #C9A961;
+  margin-top: 4px;
+}
+
+.modalSpecsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.modalSpecCard {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.specIcon {
+  color: #C9A961;
+  font-size: 1.1rem;
+}
+
+.modalSpecMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.modalSpecLabel {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.modalSpecVal {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.modalDescSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalSectionSub {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.modalDescText {
+  font-size: 0.86rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+}
+
+.modalWaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #C9A961 0%, #B8974D 100%);
+  color: #0D0D0D;
+  padding: 14px 28px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(201, 169, 97, 0.25);
+  width: 100%;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+}
+
+.modalWaBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(201, 169, 97, 0.4);
+  color: #0D0D0D;
 }
