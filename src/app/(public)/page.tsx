@@ -24,6 +24,19 @@ interface Property {
   unit: string | null;
 }
 
+// Deterministic image mapper to prevent invalid indices (e.g. /property-villa-0.png)
+const getPropertyImageIndex = (propertyId: string): number => {
+  if (propertyId.startsWith('feat-')) {
+    const num = parseInt(propertyId.split('-')[1], 10);
+    if (!isNaN(num)) return ((num - 1) % 6) + 1;
+  }
+  let hash = 0;
+  for (let i = 0; i < propertyId.length; i++) {
+    hash = propertyId.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return (Math.abs(hash) % 6) + 1;
+};
+
 // Fallback dummy properties (highly realistic, matching screenshot data)
 const DUMMY_FEATURED: Property[] = [
   {
@@ -134,6 +147,8 @@ export default function Homepage() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [activeModalTab, setActiveModalTab] = useState<'gallery' | 'video'>('gallery');
+  const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   // GSAP line-level reveal animation
@@ -361,7 +376,8 @@ export default function Homepage() {
             {(properties.length > 0 ? properties : DUMMY_FEATURED).map((property, idx) => {
               const hadapArray = parseJsonArray(property.hadap);
               const kawasanArray = parseJsonArray(property.kawasan);
-              const imageUrl = `/property-villa-${(idx % 6) + 1}.png`;
+              const imageIndex = getPropertyImageIndex(property.id);
+              const imageUrl = `/property-villa-${imageIndex}.png`;
 
               return (
                 <article 
@@ -507,108 +523,211 @@ export default function Homepage() {
       </section>
 
       {/* ─── Premium Glassmorphic Property Detail Modal ─── */}
-      {selectedProperty && (
-        <div className={styles.modalBackdrop} onClick={() => setSelectedProperty(null)}>
-          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.modalCloseBtn} onClick={() => setSelectedProperty(null)} aria-label="Tutup Detail">
-              ✕
-            </button>
-            
-            <div className={styles.modalGrid}>
-              {/* Left Column: Image & Location Map */}
-              <div className={styles.modalVisualCol}>
-                <div 
-                  className={styles.modalHeroImg} 
-                  style={{ backgroundImage: `url(/property-villa-${(DUMMY_FEATURED.findIndex(p => p.id === selectedProperty.id) % 6) + 1}.png)` }}
-                >
-                  <div className={styles.modalImageBadges}>
-                    <span className={selectedProperty.status === 'IN_STOCK' ? styles.modalBadgeInStock : styles.modalBadgeSoldOut}>
-                      {selectedProperty.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
-                    </span>
-                    <span className={styles.modalBadgeType}>
-                      {getTipeLabel(selectedProperty.tipe)}
-                    </span>
+      {selectedProperty && (() => {
+        const imageIndex = getPropertyImageIndex(selectedProperty.id);
+
+        // Generate 5 distinct high-quality images deterministically for each property
+        const slideImages = [
+          { url: `/property-villa-${imageIndex}.png`, label: 'FASAD DEPAN (FACADE)' },
+          { url: '/lobby.png', label: 'LOBI RESEPSIONIS (LOBBY)' },
+          { url: `/property-villa-${((imageIndex) % 6) + 1}.png`, label: 'RUANG DALAM (INTERIOR)' },
+          { url: `/property-villa-${((imageIndex + 1) % 6) + 1}.png`, label: 'AREA TERBUKA (OUTDOOR)' },
+          { url: `/property-villa-${((imageIndex + 2) % 6) + 1}.png`, label: 'AREA DINAMIS & SOSIAL' }
+        ];
+
+        const handleNextSlide = () => {
+          setActiveSlideIndex((prev) => (prev + 1) % 5);
+        };
+
+        const handlePrevSlide = () => {
+          setActiveSlideIndex((prev) => (prev - 1 + 5) % 5);
+        };
+
+        return (
+          <div className={styles.modalBackdrop} onClick={() => {
+            setSelectedProperty(null);
+            setActiveModalTab('gallery');
+            setActiveSlideIndex(0);
+          }}>
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+              <button 
+                className={styles.modalCloseBtn} 
+                onClick={() => {
+                  setSelectedProperty(null);
+                  setActiveModalTab('gallery');
+                  setActiveSlideIndex(0);
+                }} 
+                aria-label="Tutup Detail"
+              >
+                ✕
+              </button>
+              
+              <div className={styles.modalGrid}>
+                {/* Left Column: Media Gallery / Video Walkthrough & Location Map */}
+                <div className={styles.modalVisualCol}>
+                  {/* Media Tab Selector */}
+                  <div className={styles.modalTabWrapper}>
+                    <button 
+                      className={`${styles.modalTabBtn} ${activeModalTab === 'gallery' ? styles.modalTabBtnActive : ''}`}
+                      onClick={() => setActiveModalTab('gallery')}
+                    >
+                      <span style={{ marginRight: '6px' }}>🖼️</span> FOTO GALERI
+                    </button>
+                    <button 
+                      className={`${styles.modalTabBtn} ${activeModalTab === 'video' ? styles.modalTabBtnActive : ''}`}
+                      onClick={() => {
+                        setActiveModalTab('video');
+                        setActiveSlideIndex(0);
+                      }}
+                    >
+                      <span style={{ marginRight: '6px' }}>📹</span> VIDEO WALKTHROUGH <span className={styles.videoDot}></span>
+                    </button>
+                  </div>
+
+                  {/* Media Display Block */}
+                  {activeModalTab === 'gallery' ? (
+                    <div className={styles.modalGalleryContainer}>
+                      {/* Active Slide Box */}
+                      <div 
+                        className={styles.modalSlider}
+                        style={{ backgroundImage: `url(${slideImages[activeSlideIndex].url})` }}
+                      >
+                        {/* Badge and labels overlays */}
+                        <div className={styles.modalImageBadges}>
+                          <span className={selectedProperty.status === 'IN_STOCK' ? styles.modalBadgeInStock : styles.modalBadgeSoldOut}>
+                            {selectedProperty.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
+                          </span>
+                          <span className={styles.modalBadgeType}>
+                            {getTipeLabel(selectedProperty.tipe)}
+                          </span>
+                        </div>
+
+                        <div className={styles.modalSlideLabel}>
+                          <span className={styles.slideDot}>●</span> {slideImages[activeSlideIndex].label}
+                        </div>
+
+                        {/* Slide Navigation Arrows */}
+                        <button className={`${styles.modalNavBtn} ${styles.modalNavBtnLeft}`} onClick={handlePrevSlide} aria-label="Slide Sebelumnya">
+                          ‹
+                        </button>
+                        <button className={`${styles.modalNavBtn} ${styles.modalNavBtnRight}`} onClick={handleNextSlide} aria-label="Slide Berikutnya">
+                          ›
+                        </button>
+
+                        <div className={styles.modalSlideCount}>
+                          FOTO {activeSlideIndex + 1} / 5
+                        </div>
+                      </div>
+
+                      {/* Horizontal Scrollable Thumbnails below visual slider */}
+                      <div className={styles.modalThumbRow}>
+                        {slideImages.map((slide, idx) => (
+                          <div 
+                            key={idx}
+                            className={`${styles.modalThumbWrapper} ${activeSlideIndex === idx ? styles.modalThumbWrapperActive : ''}`}
+                            onClick={() => setActiveSlideIndex(idx)}
+                          >
+                            <img src={slide.url} alt={slide.label} className={styles.modalThumbImg} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    /* Video Walkthrough Player */
+                    <div className={styles.modalVideoWrapper}>
+                      <div className={styles.modalVideoContainer}>
+                        <iframe
+                          src="https://www.youtube.com/embed/tPe9n8P6Azo?autoplay=1&mute=1"
+                          title="Cinematic Property Tour Video Walkthrough"
+                          width="100%"
+                          height="100%"
+                          style={{ border: 0 }}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen={true}
+                        ></iframe>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Real Google Map styled Dark for this Property */}
+                  <div className={styles.modalMapWrapper}>
+                    <h4 className={styles.modalMapTitle}>Lokasi Properti</h4>
+                    <div className={styles.modalMapIframeContainer}>
+                      <iframe
+                        src={`https://maps.google.com/maps?q=${encodeURIComponent(selectedProperty.namaProperty + ' ' + parseJsonArray(selectedProperty.kawasan).join(' ') + ' Medan')}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0 }}
+                        allowFullScreen={true}
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        className={styles.modalGoogleMap}
+                      ></iframe>
+                    </div>
                   </div>
                 </div>
 
-                {/* Real Google Map styled Dark for this Property */}
-                <div className={styles.modalMapWrapper}>
-                  <h4 className={styles.modalMapTitle}>Lokasi Properti</h4>
-                  <div className={styles.modalMapIframeContainer}>
-                    <iframe
-                      src={`https://maps.google.com/maps?q=${encodeURIComponent(selectedProperty.namaProperty + ' ' + parseJsonArray(selectedProperty.kawasan).join(' ') + ' Medan')}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      allowFullScreen={true}
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      className={styles.modalGoogleMap}
-                    ></iframe>
+                {/* Right Column: Key Details & Actions */}
+                <div className={styles.modalDetailsCol}>
+                  <div className={styles.modalHeaderSec}>
+                    <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
+                    <h2 className={styles.modalTitle}>{selectedProperty.namaProperty}</h2>
+                    <div className={styles.modalPrice}>{formatRupiah(selectedProperty.price)}</div>
                   </div>
-                </div>
-              </div>
 
-              {/* Right Column: Key Details & Actions */}
-              <div className={styles.modalDetailsCol}>
-                <div className={styles.modalHeaderSec}>
-                  <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
-                  <h2 className={styles.modalTitle}>{selectedProperty.namaProperty}</h2>
-                  <div className={styles.modalPrice}>{formatRupiah(selectedProperty.price)}</div>
-                </div>
+                  {/* Specs Grid */}
+                  <div className={styles.modalSpecsGrid}>
+                    <div className={styles.modalSpecCard}>
+                      <span className={styles.modalSpecLabel}>Dimensi</span>
+                      <span className={styles.modalSpecVal}>{selectedProperty.lebar} &times; {selectedProperty.panjang} m</span>
+                    </div>
+                    <div className={styles.modalSpecCard}>
+                      <span className={styles.modalSpecLabel}>Tingkat</span>
+                      <span className={styles.modalSpecVal}>{selectedProperty.tingkat} Lantai</span>
+                    </div>
+                    <div className={styles.modalSpecCard}>
+                      <span className={styles.modalSpecLabel}>Hadap</span>
+                      <span className={styles.modalSpecVal}>{parseJsonArray(selectedProperty.hadap).join(', ')}</span>
+                    </div>
+                    <div className={styles.modalSpecCard}>
+                      <span className={styles.modalSpecLabel}>Carport</span>
+                      <span className={styles.modalSpecVal}>{selectedProperty.carport ? 'Tersedia' : 'Tidak Ada'}</span>
+                    </div>
+                    <div className={styles.modalSpecCard}>
+                      <span className={styles.modalSpecLabel}>Status Unit</span>
+                      <span className={styles.modalSpecVal}>{getSiapLabel(selectedProperty.siap)}</span>
+                    </div>
+                    <div className={styles.modalSpecCard}>
+                      <span className={styles.modalSpecLabel}>Info Tambahan</span>
+                      <span className={styles.modalSpecVal}>{selectedProperty.unit || '-'}</span>
+                    </div>
+                  </div>
 
-                {/* Specs Grid */}
-                <div className={styles.modalSpecsGrid}>
-                  <div className={styles.modalSpecCard}>
-                    <span className={styles.modalSpecLabel}>Dimensi</span>
-                    <span className={styles.modalSpecVal}>{selectedProperty.lebar} &times; {selectedProperty.panjang} m</span>
+                  {/* Description */}
+                  <div className={styles.modalDescSection}>
+                    <h4 className={styles.modalSectionSub}>Deskripsi Properti</h4>
+                    <p className={styles.modalDescText}>
+                      {selectedProperty.tipe === 'VILLA' 
+                        ? 'Villa mewah dengan desain arsitektur modern kontemporer yang menyajikan kenyamanan eksklusif bagi keluarga Anda. Berlokasi di kawasan premium bebas banjir dengan sistem keamanan terpadu 24 jam dan akses langsung ke fasilitas utama kota. Hunian ideal dengan tata ruang yang lapang, sirkulasi udara sejuk, serta pencahayaan alami optimal untuk kualitas hidup premium.' 
+                        : 'Ruko komersial strategis yang sangat cocok untuk kantor bisnis, outlet retail premium, maupun investasi jangka panjang. Memiliki tingkat traffic harian yang sangat tinggi, area parkir luas untuk kenyamanan pelanggan, serta berada di pusat pertumbuhan ekonomi utama kota dengan potensi capital gain yang luar biasa berkembang.'}
+                    </p>
                   </div>
-                  <div className={styles.modalSpecCard}>
-                    <span className={styles.modalSpecLabel}>Tingkat</span>
-                    <span className={styles.modalSpecVal}>{selectedProperty.tingkat} Lantai</span>
-                  </div>
-                  <div className={styles.modalSpecCard}>
-                    <span className={styles.modalSpecLabel}>Hadap</span>
-                    <span className={styles.modalSpecVal}>{parseJsonArray(selectedProperty.hadap).join(', ')}</span>
-                  </div>
-                  <div className={styles.modalSpecCard}>
-                    <span className={styles.modalSpecLabel}>Carport</span>
-                    <span className={styles.modalSpecVal}>{selectedProperty.carport ? 'Tersedia' : 'Tidak Ada'}</span>
-                  </div>
-                  <div className={styles.modalSpecCard}>
-                    <span className={styles.modalSpecLabel}>Status Unit</span>
-                    <span className={styles.modalSpecVal}>{getSiapLabel(selectedProperty.siap)}</span>
-                  </div>
-                  <div className={styles.modalSpecCard}>
-                    <span className={styles.modalSpecLabel}>Info Tambahan</span>
-                    <span className={styles.modalSpecVal}>{selectedProperty.unit || '-'}</span>
-                  </div>
-                </div>
 
-                {/* Description */}
-                <div className={styles.modalDescSection}>
-                  <h4 className={styles.modalSectionSub}>Deskripsi Properti</h4>
-                  <p className={styles.modalDescText}>
-                    {selectedProperty.tipe === 'VILLA' 
-                      ? 'Villa mewah dengan desain arsitektur modern kontemporer yang menyajikan kenyamanan eksklusif bagi keluarga Anda. Berlokasi di kawasan premium bebas banjir dengan sistem keamanan terpadu 24 jam dan akses langsung ke fasilitas utama kota. Hunian ideal dengan tata ruang yang lapang, sirkulasi udara sejuk, serta pencahayaan alami optimal untuk kualitas hidup premium.' 
-                      : 'Ruko komersial strategis yang sangat cocok untuk kantor bisnis, outlet retail premium, maupun investasi jangka panjang. Memiliki tingkat traffic harian yang sangat tinggi, area parkir luas untuk kenyamanan pelanggan, serta berada di pusat pertumbuhan ekonomi utama kota dengan potensi capital gain yang luar biasa berkembang.'}
-                  </p>
+                  {/* WhatsApp Action Button */}
+                  <a 
+                    href={`https://wa.me/6281234567890?text=${encodeURIComponent(`Halo Prime Property, saya sangat tertarik dengan unit *${selectedProperty.namaProperty}* di kawasan *${parseJsonArray(selectedProperty.kawasan).join(', ')}* yang ditawarkan dengan harga *${formatRupiah(selectedProperty.price)}*. Apakah unit ini masih tersedia untuk jadwal survey lokasi?`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.modalWaBtn} gold-shimmer`}
+                  >
+                    Hubungi Agen via WhatsApp <span style={{ marginLeft: '4px' }}>💬</span>
+                  </a>
                 </div>
-
-                {/* WhatsApp Action Button */}
-                <a 
-                  href={`https://wa.me/6281234567890?text=${encodeURIComponent(`Halo Prime Property, saya sangat tertarik dengan unit *${selectedProperty.namaProperty}* di kawasan *${parseJsonArray(selectedProperty.kawasan).join(', ')}* yang ditawarkan dengan harga *${formatRupiah(selectedProperty.price)}*. Apakah unit ini masih tersedia untuk jadwal survey lokasi?`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${styles.modalWaBtn} gold-shimmer`}
-                >
-                  Hubungi Agen via WhatsApp <span style={{ marginLeft: '4px' }}>💬</span>
-                </a>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </div>
   );
 }
