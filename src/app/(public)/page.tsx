@@ -674,14 +674,16 @@ export default function Homepage() {
                 <div className={styles.modalDetailsCol}>
                   <div className={styles.modalHeaderSec}>
                     <div className={styles.modalHeaderTop}>
-                      <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
-                      <div className={styles.modalBadges}>
-                        <span className={selectedProperty.status === 'IN_STOCK' ? styles.modalBadgeInStock : styles.modalBadgeSoldOut}>
-                          {selectedProperty.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
-                        </span>
-                        <span className={styles.modalBadgeType}>
-                          {getTipeLabel(selectedProperty.tipe)}
-                        </span>
+                      <div className={styles.modalHeaderLeftGroup}>
+                        <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
+                        <div className={styles.modalBadges}>
+                          <span className={selectedProperty.status === 'IN_STOCK' ? styles.modalBadgeInStock : styles.modalBadgeSoldOut}>
+                            {selectedProperty.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
+                          </span>
+                          <span className={styles.modalBadgeType}>
+                            {getTipeLabel(selectedProperty.tipe)}
+                          </span>
+                        </div>
                       </div>
                     </div>
                     <h2 className={styles.modalTitle}>{selectedProperty.namaProperty}</h2>

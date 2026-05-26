@@ -1045,6 +1045,14 @@
   align-items: center;
   width: 100%;
   margin-bottom: 6px;
+  padding-right: 48px; /* Safe space to prevent overlapping with the absolute close button */
+}
+
+.modalHeaderLeftGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .modalBadges {
