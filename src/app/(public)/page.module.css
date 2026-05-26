@@ -193,6 +193,9 @@
   margin: 0 auto;
   overflow: hidden;
   border-radius: 12px;
+  /* Beautiful progressive fading mask to dissolve box borders entirely on mobile */
+  mask-image: radial-gradient(circle at center, #000 30%, rgba(0, 0, 0, 0.85) 55%, rgba(0, 0, 0, 0.3) 80%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle at center, #000 30%, rgba(0, 0, 0, 0.85) 55%, rgba(0, 0, 0, 0.3) 80%, transparent 100%);
 }
 
 .visualContainer::before {
@@ -203,8 +206,8 @@
   width: 100%;
   height: 100%;
   background: 
-    linear-gradient(to right, #0D0D0D 0%, transparent 15%, transparent 85%, #0D0D0D 100%),
-    linear-gradient(to bottom, #0D0D0D 0%, transparent 15%, transparent 85%, #0D0D0D 100%);
+    linear-gradient(to right, #0D0D0D 0%, transparent 20%, transparent 80%, #0D0D0D 100%),
+    linear-gradient(to bottom, #0D0D0D 0%, transparent 20%, transparent 80%, #0D0D0D 100%);
   z-index: 4;
   pointer-events: none;
 }
@@ -241,6 +244,9 @@
     margin: 0;
     position: relative;
     border-radius: 0; /* Bleeds seamlessly */
+    /* Majestic progressive fading ellipse mask to dissolve left/top/bottom edges entirely on desktop */
+    mask-image: radial-gradient(ellipse 95% 85% at 75% 50%, #000 35%, rgba(0, 0, 0, 0.8) 55%, rgba(0, 0, 0, 0.3) 75%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 95% 85% at 75% 50%, #000 35%, rgba(0, 0, 0, 0.8) 55%, rgba(0, 0, 0, 0.3) 75%, transparent 100%);
   }
 
   .visualContainer::before {
@@ -248,9 +254,9 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 55%; /* Deep left-to-right fade-out over half container width */
+    width: 60%; /* Deeper left-to-right fade-out over more container width */
     height: 100%;
-    background: linear-gradient(to right, #0D0D0D 0%, rgba(13, 13, 13, 0.8) 15%, transparent 100%);
+    background: linear-gradient(to right, #0D0D0D 0%, rgba(13, 13, 13, 0.85) 20%, transparent 100%);
     z-index: 4;
     pointer-events: none;
   }
@@ -261,7 +267,7 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 35%; /* Smooth bottom-to-top fade-out */
+    height: 40%; /* Smooth bottom-to-top fade-out */
     background: linear-gradient(to top, #0D0D0D 0%, transparent 100%);
     z-index: 4;
     pointer-events: none;

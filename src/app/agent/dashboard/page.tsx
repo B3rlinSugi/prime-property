@@ -378,7 +378,7 @@ function DashboardPageContent() {
               <span className={`${styles.selectArrow} ${kawasanOpen ? styles.arrowRotate : ''}`}>▾</span>
             </div>
             {kawasanOpen && (
-              <ul className={styles.customOptionsList}>
+              <ul className={styles.customOptionsList} data-lenis-prevent>
                 {KAWASAN_OPTIONS.map((k) => (
                   <li 
                     key={k}
@@ -429,7 +429,7 @@ function DashboardPageContent() {
               <span className={`${styles.selectArrow} ${hadapOpen ? styles.arrowRotate : ''}`}>▾</span>
             </div>
             {hadapOpen && (
-              <ul className={styles.customOptionsList}>
+              <ul className={styles.customOptionsList} data-lenis-prevent>
                 {HADAP_OPTIONS.map((h) => (
                   <li 
                     key={h}
@@ -480,7 +480,7 @@ function DashboardPageContent() {
               <span className={`${styles.selectArrow} ${tipeOpen ? styles.arrowRotate : ''}`}>▾</span>
             </div>
             {tipeOpen && (
-              <ul className={styles.customOptionsList}>
+              <ul className={styles.customOptionsList} data-lenis-prevent>
                 <li 
                   className={tipe === 'Semua' ? styles.optionActive : ''}
                   onClick={() => { setTipe('Semua'); setPage(1); setTipeOpen(false); }}
@@ -520,7 +520,7 @@ function DashboardPageContent() {
               <span className={`${styles.selectArrow} ${statusOpen ? styles.arrowRotate : ''}`}>▾</span>
             </div>
             {statusOpen && (
-              <ul className={styles.customOptionsList}>
+              <ul className={styles.customOptionsList} data-lenis-prevent>
                 <li 
                   className={status === 'Semua' ? styles.optionActive : ''}
                   onClick={() => { setStatus('Semua'); setPage(1); setStatusOpen(false); }}
@@ -584,7 +584,7 @@ function DashboardPageContent() {
                 <span className={`${styles.selectArrow} ${carportOpen ? styles.arrowRotate : ''}`}>▾</span>
               </div>
               {carportOpen && (
-                <ul className={styles.customOptionsList}>
+                <ul className={styles.customOptionsList} data-lenis-prevent>
                   <li 
                     className={carport === 'Semua' ? styles.optionActive : ''}
                     onClick={() => { setCarport('Semua'); setPage(1); setCarportOpen(false); }}

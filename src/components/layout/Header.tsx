@@ -65,7 +65,7 @@ export default function Header() {
       ></div>
 
       {/* Mobile Navigation Drawer */}
-      <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
+      <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.mobileMenuOpen : ''}`} data-lenis-prevent>
         <nav className={styles.mobileNav}>
           <Link 
             href="/" 

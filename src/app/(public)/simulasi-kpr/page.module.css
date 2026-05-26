@@ -1364,3 +1364,274 @@
   box-shadow: 0 8px 20px rgba(201, 169, 97, 0.4);
   color: #0D0D0D;
 }
+
+/* ─── KPR AMORTIZATION TABLE STYLES ─── */
+.amortizationSection {
+  padding: 0 clamp(16px, 4vw, 64px) 64px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.amortizationCard {
+  background: rgba(22, 22, 22, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 32px;
+  backdrop-filter: blur(10px);
+}
+
+.amortizationHeader {
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.amortizationTitle {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0 0 6px;
+}
+
+.amortizationSub {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(13, 13, 13, 0.3);
+}
+
+/* Force horizontal scroll with thin premium scrollbar styling */
+.tableWrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.01);
+  border-radius: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: rgba(201, 169, 97, 0.25);
+  border-radius: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 169, 97, 0.4);
+}
+
+.amortizationTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.88rem;
+  min-width: 800px; /* Ensures readable columns on tiny tablet screens */
+}
+
+.amortizationTable th {
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 600;
+  padding: 16px 20px;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.8px;
+}
+
+.amortizationTable td {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.amortizationTable tr:last-child td {
+  border-bottom: none;
+}
+
+.amortizationTable tr:hover {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.yearCol {
+  font-weight: 600;
+  color: #FFFFFF !important;
+}
+
+.valCol {
+  font-variant-numeric: tabular-nums; /* Monospaced tabular numerals */
+}
+
+.principalCol {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.interestCol {
+  color: #C9A961 !important;
+}
+
+.balanceCol {
+  font-weight: 600;
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+@media (max-width: 600px) {
+  .amortizationCard {
+    padding: 20px;
+  }
+  .amortizationTitle {
+    font-size: 1.25rem;
+  }
+}
+
+.printBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1.5px solid rgba(201, 169, 97, 0.45);
+  color: #C9A961;
+  padding: 10px 20px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.printBtn:hover {
+  background: rgba(201, 169, 97, 0.08);
+  border-color: var(--color-accent-gold-hover);
+  transform: translateY(-1px);
+}
+
+.printBtn:active {
+  transform: translateY(0);
+}
+
+@media print {
+  /* Hide all interactive and public site elements */
+  :global(header), :global(footer), .heroSection, .calculatorSection, .calcAdvisorySection, .matchingPropertiesSection, .modalBackdrop {
+    display: none !important;
+  }
+  
+  /* Reset body background for printing */
+  :global(body), :global(html), :global(#__next), :global(#root) {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-family: 'Inter', -apple-system, sans-serif !important;
+  }
+  
+  .amortizationSection {
+    padding: 20px !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  
+  .amortizationCard {
+    background: #FFFFFF !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    color: #000000 !important;
+  }
+  
+  .amortizationHeader {
+    border-bottom: 2px solid #C9A961 !important;
+    padding-bottom: 12px !important;
+    margin-bottom: 24px !important;
+  }
+  
+  .amortizationTitle {
+    color: #000000 !important;
+    font-size: 1.8rem !important;
+    font-family: 'Playfair Display', Georgia, serif !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .amortizationSub {
+    color: #555555 !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 0 !important;
+  }
+  
+  .printBtn {
+    display: none !important; /* Hide print button on the printed output */
+  }
+  
+  .tableWrapper {
+    border: 1px solid #DDDDDD !important;
+    background: #FFFFFF !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+  }
+  
+  .amortizationTable {
+    min-width: 100% !important;
+    width: 100% !important;
+    color: #000000 !important;
+  }
+  
+  .amortizationTable th {
+    background: #F5F5F5 !important;
+    border-bottom: 2px solid #CCCCCC !important;
+    color: #333333 !important;
+    font-size: 0.8rem !important;
+    padding: 12px 14px !important;
+  }
+  
+  .amortizationTable td {
+    border-bottom: 1px solid #EAEAEA !important;
+    color: #000000 !important;
+    padding: 12px 14px !important;
+  }
+  
+  .yearCol {
+    color: #000000 !important;
+    font-weight: 700 !important;
+  }
+  
+  .valCol {
+    font-family: monospace !important;
+    font-size: 0.9rem !important;
+  }
+  
+  .principalCol {
+    color: #000000 !important;
+  }
+  
+  .interestCol {
+    color: #333333 !important;
+    font-weight: 600 !important;
+  }
+  
+  .balanceCol {
+    font-weight: 700 !important;
+    color: #000000 !important;
+    background: #FAFAFA !important;
+  }
+  
+  /* Add elegant header brand mark in print */
+  .amortizationHeader::before {
+    content: "PRIME PROPERTY — LAPORAN SIMULASI KPR";
+    display: block;
+    font-size: 0.75rem;
+    color: #C9A961;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+}

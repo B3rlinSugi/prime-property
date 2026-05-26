@@ -614,3 +614,9 @@
   color: #C9A961 !important;
   font-weight: 600;
 }
+
+@media (max-width: 480px) {
+  .drawerGrid {
+    grid-template-columns: 1fr;
+  }
+}

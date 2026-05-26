@@ -265,7 +265,7 @@ export default function PublicPropertiCatalogPage() {
               <span className={`${styles.selectArrow} ${typeOpen ? styles.arrowRotate : ''}`}>▾</span>
             </div>
             {typeOpen && (
-              <ul className={styles.customOptionsList}>
+              <ul className={styles.customOptionsList} data-lenis-prevent>
                 <li 
                   className={selectedType === 'ALL' ? styles.optionActive : ''}
                   onClick={() => { setSelectedType('ALL'); setTypeOpen(false); }}
@@ -303,7 +303,7 @@ export default function PublicPropertiCatalogPage() {
               <span className={`${styles.selectArrow} ${kawasanOpen ? styles.arrowRotate : ''}`}>▾</span>
             </div>
             {kawasanOpen && (
-              <ul className={styles.customOptionsList}>
+              <ul className={styles.customOptionsList} data-lenis-prevent>
                 {['ALL', 'Krakatau', 'Pancing', 'Helvetia', 'Cemara Asri', 'Sunggal', 'Tembung'].map((kaw) => (
                   <li 
                     key={kaw}
@@ -332,7 +332,7 @@ export default function PublicPropertiCatalogPage() {
               <span className={`${styles.selectArrow} ${statusOpen ? styles.arrowRotate : ''}`}>▾</span>
             </div>
             {statusOpen && (
-              <ul className={styles.customOptionsList}>
+              <ul className={styles.customOptionsList} data-lenis-prevent>
                 <li 
                   className={selectedStatus === 'ALL' ? styles.optionActive : ''}
                   onClick={() => { setSelectedStatus('ALL'); setStatusOpen(false); }}

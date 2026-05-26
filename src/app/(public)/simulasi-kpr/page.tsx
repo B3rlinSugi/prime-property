@@ -23,6 +23,67 @@ interface Property {
   unit: string | null;
 }
 
+interface AmortizationYear {
+  year: number;
+  annualInstallment: number;
+  principalPaid: number;
+  interestPaid: number;
+  remainingBalance: number;
+}
+
+function generateAmortizationSchedule(
+  principal: number,
+  annualRate: number,
+  years: number,
+  monthlyInstallment: number
+): AmortizationYear[] {
+  if (!years || years <= 0 || !monthlyInstallment || monthlyInstallment <= 0 || !principal || principal <= 0) {
+    return [];
+  }
+  const schedule: AmortizationYear[] = [];
+  let remainingBalance = principal;
+  const r = (annualRate / 100) / 12;
+  const maxYears = Math.min(years, 50); // Cap at 50 years for safety
+
+  for (let year = 1; year <= maxYears; year++) {
+    let annualInstallmentTotal = 0;
+    let annualPrincipalPaid = 0;
+    let annualInterestPaid = 0;
+
+    for (let month = 1; month <= 12; month++) {
+      if (remainingBalance <= 0) break;
+      
+      const interestPaidMonth = remainingBalance * r;
+      let principalPaidMonth = monthlyInstallment - interestPaidMonth;
+      
+      if (principalPaidMonth > remainingBalance) {
+        principalPaidMonth = remainingBalance;
+      }
+      if (principalPaidMonth < 0) {
+        principalPaidMonth = 0;
+      }
+      
+      remainingBalance -= principalPaidMonth;
+      
+      annualInstallmentTotal += (principalPaidMonth + interestPaidMonth);
+      annualPrincipalPaid += principalPaidMonth;
+      annualInterestPaid += interestPaidMonth;
+    }
+
+    schedule.push({
+      year,
+      annualInstallment: annualInstallmentTotal,
+      principalPaid: annualPrincipalPaid,
+      interestPaid: annualInterestPaid,
+      remainingBalance: Math.max(0, remainingBalance),
+    });
+
+    if (remainingBalance <= 0) break;
+  }
+
+  return schedule;
+}
+
 export default function PublicKprCalculatorPage() {
   // Input states
   const [propertyPrice, setPropertyPrice] = useState<number>(2000000000); // Rp 2 Miliar default
@@ -126,6 +187,14 @@ export default function PublicKprCalculatorPage() {
   const circumference = 2 * Math.PI * radius; // 314.16
   const principalStrokeDash = (principalPercent / 100) * circumference;
   const interestStrokeDash = (interestPercent / 100) * circumference;
+
+  // Generate annual amortization schedule dynamically
+  const amortizationSchedule = generateAmortizationSchedule(
+    loanPrincipal,
+    interestRate,
+    tenureYears,
+    monthlyInstallment
+  );
 
   // JSON parsing helper
   function parseJsonArray(jsonStr: string): string[] {
@@ -386,6 +455,59 @@ export default function PublicKprCalculatorPage() {
           </div>
         </div>
       </section>
+
+      {/* Jadwal Amortisasi KPR Section */}
+      {amortizationSchedule.length > 0 && (
+        <section className={styles.amortizationSection}>
+          <div className={styles.amortizationCard}>
+            <div className={styles.amortizationHeader} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+              <div>
+                <h3 className={styles.amortizationTitle}>📈 Jadwal Amortisasi KPR Tahunan</h3>
+                <p className={styles.amortizationSub}>
+                  Rincian alokasi angsuran tahunan Anda antara pembayaran saldo pokok hutang dan porsi bunga.
+                </p>
+              </div>
+              <button 
+                onClick={() => window.print()} 
+                className={styles.printBtn}
+                title="Cetak atau Simpan PDF Jadwal Cicilan KPR"
+              >
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'middle' }}>
+                  <polyline points="6 9 6 2 18 2 18 9" />
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                  <rect x="6" y="14" width="12" height="8" />
+                </svg>
+                Cetak / Simpan PDF
+              </button>
+            </div>
+            
+            <div className={styles.tableWrapper} data-lenis-prevent="true">
+              <table className={styles.amortizationTable}>
+                <thead>
+                  <tr>
+                    <th>Tahun</th>
+                    <th>Angsuran Tahunan</th>
+                    <th>Cicilan Pokok</th>
+                    <th>Bunga Dibayar</th>
+                    <th>Sisa Pokok Hutang</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {amortizationSchedule.map((row) => (
+                    <tr key={row.year}>
+                      <td className={styles.yearCol}>Tahun {row.year}</td>
+                      <td className={styles.valCol}>{formatRupiah(row.annualInstallment)}</td>
+                      <td className={`${styles.valCol} ${styles.principalCol}`}>{formatRupiah(row.principalPaid)}</td>
+                      <td className={`${styles.valCol} ${styles.interestCol}`}>{formatRupiah(row.interestPaid)}</td>
+                      <td className={`${styles.valCol} ${styles.balanceCol}`}>{formatRupiah(row.remainingBalance)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Advisory section */}
       <section className={styles.calcAdvisorySection}>

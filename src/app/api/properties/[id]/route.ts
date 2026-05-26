@@ -107,6 +107,14 @@ export async function PUT(
       return NextResponse.json({ message: 'Kawasan wajib dipilih.' }, { status: 400 });
     }
 
+    if (mapsLink && mapsLink.trim()) {
+      const trimmedLink = mapsLink.trim();
+      const isValidMaps = trimmedLink.includes('google.com/maps') || trimmedLink.includes('maps.google.com') || trimmedLink.includes('goo.gl/maps');
+      if (!isValidMaps) {
+        return NextResponse.json({ message: 'Tautan Google Maps tidak valid. Wajib berisi domain google.com/maps atau goo.gl/maps.' }, { status: 400 });
+      }
+    }
+
     // Compare and track changes for audit logging
     const changes: Record<string, { old: any; new: any }> = {};
 

@@ -11,8 +11,10 @@ interface LogoProps {
 export default function Logo({ height = 48, light = false, showText = true }: LogoProps) {
   // Scale calculations based on height
   const width = showText ? (height * 3.2) : height;
-  const textColor = '#FFFFFF'; // Force premium white text for dark luxury theme
+  const textColor = light ? '#1A1A1A' : '#FFFFFF'; // Dynamic text color matching light/dark modes
   const accentColor = '#C9A961'; // Gold Accent
+  const redColor = '#B33A3A'; // Red Accent
+  const thirdPillarColor = light ? '#1A1A1A' : '#FFFFFF'; // Symmetrical to textColor
 
   return (
     <svg
@@ -24,46 +26,30 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
       style={{ display: 'inline-block', verticalAlign: 'middle' }}
       aria-label="Prime Property Logo"
     >
-      {/* ─── LOGO MARK (SYMBOL) ─── */}
-      <g transform="translate(10, 10)">
-        {/* Gold Pentagon House Outline */}
-        <polygon
-          points="40,5 75,28 75,78 5,78 5,28"
-          stroke={accentColor}
-          strokeWidth="3.5"
-          strokeLinejoin="round"
-          fill="rgba(201, 169, 97, 0.03)"
-        />
-        {/* Inner Central Pillar */}
+      {/* ─── LOGO MARK (THREE PILLARS EMBLEM) ─── */}
+      <g transform="translate(10, 5)">
+        {/* Pillar 1: Left Skewed (Gold) */}
         <path
-          d="M 40,78 L 40,30"
-          stroke={accentColor}
-          strokeWidth="3"
-          strokeLinecap="round"
+          d="M 12,74 L 32,22 L 44,22 L 24,74 Z"
+          fill={accentColor}
         />
-        {/* Inner Chevron 1 (Upper) */}
+        
+        {/* Pillar 2: Center Vertical (Red) */}
         <path
-          d="M 22,50 L 40,32 L 58,50"
-          stroke={accentColor}
-          strokeWidth="3.5"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-          fill="none"
+          d="M 49,80 L 49,14 L 60,14 L 60,80 Z"
+          fill={redColor}
         />
-        {/* Inner Chevron 2 (Lower) */}
+
+        {/* Pillar 3: Right Skewed (Contrast Light/Dark) */}
         <path
-          d="M 22,65 L 40,47 L 58,65"
-          stroke={accentColor}
-          strokeWidth="3.5"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-          fill="none"
+          d="M 85,74 L 65,22 L 53,22 L 73,74 Z"
+          fill={thirdPillarColor}
         />
       </g>
 
       {/* ─── LOGO TEXT (PRIME PROPERTY) ─── */}
       {showText && (
-        <g transform="translate(105, 0)">
+        <g transform="translate(115, 0)">
           {/* "PRIME" */}
           <text
             x="0"
@@ -73,26 +59,48 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
               fontFamily: "'Inter', -apple-system, sans-serif",
               fontSize: '32px',
               fontWeight: 800,
-              letterSpacing: '5px',
+              letterSpacing: '6px',
             }}
           >
             {BRAND_NAME}
           </text>
           
+          {/* Gold Bounding Line Left */}
+          <line
+            x1="0"
+            y1="71"
+            x2="24"
+            y2="71"
+            stroke={accentColor}
+            strokeWidth="2.2"
+            strokeLinecap="round"
+          />
+
           {/* "PROPERTY" */}
           <text
-            x="3"
+            x="32"
             y="76"
             fill={accentColor}
             style={{
               fontFamily: "'Inter', -apple-system, sans-serif",
-              fontSize: '14px',
-              fontWeight: 500,
-              letterSpacing: '8.5px',
+              fontSize: '11px',
+              fontWeight: 600,
+              letterSpacing: '5px',
             }}
           >
             {BRAND_SUB_NAME}
           </text>
+
+          {/* Gold Bounding Line Right */}
+          <line
+            x1="130"
+            y1="71"
+            x2="154"
+            y2="71"
+            stroke={accentColor}
+            strokeWidth="2.2"
+            strokeLinecap="round"
+          />
         </g>
       )}
     </svg>
