@@ -47,6 +47,7 @@ export default function PublicKprCalculatorPage() {
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [activeModalTab, setActiveModalTab] = useState<'gallery' | 'video'>('gallery');
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const [showBudgetModal, setShowBudgetModal] = useState(false);
 
   // Fetch all properties from DB on mount
   useEffect(() => {
@@ -103,7 +104,7 @@ export default function PublicKprCalculatorPage() {
 
   // Body scroll lock
   useEffect(() => {
-    if (selectedProperty) {
+    if (selectedProperty || showBudgetModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -111,7 +112,7 @@ export default function PublicKprCalculatorPage() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [selectedProperty]);
+  }, [selectedProperty, showBudgetModal]);
 
   // Donut chart calculations
   const principalShare = loanPrincipal || 1;
@@ -377,12 +378,7 @@ export default function PublicKprCalculatorPage() {
             </div>
 
             <button
-              onClick={() => {
-                const element = document.getElementById('matching-kpr-portfolio');
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
+              onClick={() => setShowBudgetModal(true)}
               className={styles.actionSearchPropertiesBtn}
             >
               Cari Unit Sesuai Budget KPR
@@ -404,113 +400,121 @@ export default function PublicKprCalculatorPage() {
         </div>
       </section>
 
-      {/* ─── REAL-TIME PROPERTIES MATCHING USER BUDGET ─── */}
-      <section id="matching-kpr-portfolio" className={styles.matchingPropertiesSection}>
-        <div className={styles.matchingSectionHeader}>
-          <h3 className={styles.matchingSectionTitle}>⚡ Portofolio Unit dalam Budget KPR Anda</h3>
-          <p className={styles.matchingSectionSubtitle}>
-            Menampilkan properti premium dengan harga maksimal <strong>{formatRupiah(propertyPrice)}</strong> terhitung secara real-time.
-          </p>
-        </div>
+      {/* ─── REAL-TIME BUDGET PORTFOLIO GLASS OVERLAY MODAL ─── */}
+      {showBudgetModal && (
+        <div className={styles.modalBackdrop} onClick={() => setShowBudgetModal(false)}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.modalCloseBtn} onClick={() => setShowBudgetModal(false)}>
+              ✕
+            </button>
 
-        {isLoadingProperties ? (
-          /* High-Fidelity loading skeletons */
-          <div className={styles.catalogGrid}>
-            {[1, 2, 3].map((i) => (
-              <div key={i} className={styles.skeletonCard}>
-                <div className={styles.skeletonImage} />
-                <div className={styles.skeletonTextTitle} />
-                <div className={styles.skeletonTextSub} />
-                <div className={styles.skeletonTextPrice} />
-                <div className={styles.skeletonSpecs} />
+            <div className={styles.matchingSectionHeader} style={{ paddingRight: '48px' }}>
+              <h3 className={styles.matchingSectionTitle}>⚡ Portofolio Unit dalam Budget KPR Anda</h3>
+              <p className={styles.matchingSectionSubtitle}>
+                Menampilkan properti premium dengan harga maksimal <strong>{formatRupiah(propertyPrice)}</strong> terhitung secara real-time.
+              </p>
+            </div>
+
+            {isLoadingProperties ? (
+              /* High-Fidelity loading skeletons */
+              <div className={styles.catalogGrid}>
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className={styles.skeletonCard}>
+                    <div className={styles.skeletonImage} />
+                    <div className={styles.skeletonTextTitle} />
+                    <div className={styles.skeletonTextSub} />
+                    <div className={styles.skeletonTextPrice} />
+                    <div className={styles.skeletonSpecs} />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        ) : matchingProperties.length === 0 ? (
-          /* Elegant warning empty state if budget is too low */
-          <div className={styles.emptyBudgetState}>
-            <span className={styles.emptyBudgetIcon}>❌</span>
-            <h4 className={styles.emptyBudgetTitle}>Properti Tidak Tersedia</h4>
-            <p className={styles.emptyBudgetText}>
-              Maaf, saat ini tidak ada unit ruko komersial atau villa mewah kami yang memiliki harga di kisaran atau di bawah <strong>{formatRupiah(propertyPrice)}</strong>.
-            </p>
-            <p className={styles.emptyBudgetAdvice}>
-              💡 <em>Tips: Geser slider "HARGA PROPERTI" ke kanan untuk menaikkan budget KPR Anda guna menjelajahi properti premium kami.</em>
-            </p>
-          </div>
-        ) : (
-          /* Symmetrical premium cards grid showing only matching properties */
-          <div className={styles.catalogGrid}>
-            {matchingProperties.map((property) => {
-              const imageIndex = getPropertyImageIndex(property.id);
-              const kawasanArray = parseJsonArray(property.kawasan);
-              const isLoaded = loadedImages[property.id];
+            ) : matchingProperties.length === 0 ? (
+              /* Elegant warning empty state if budget is too low */
+              <div className={styles.emptyBudgetState}>
+                <span className={styles.emptyBudgetIcon}>❌</span>
+                <h4 className={styles.emptyBudgetTitle}>Properti Tidak Tersedia</h4>
+                <p className={styles.emptyBudgetText}>
+                  Maaf, saat ini tidak ada unit ruko komersial atau villa mewah kami yang memiliki harga di kisaran atau di bawah <strong>{formatRupiah(propertyPrice)}</strong>.
+                </p>
+                <p className={styles.emptyBudgetAdvice}>
+                  💡 <em>Tips: Geser slider "HARGA PROPERTI" ke kanan untuk menaikkan budget KPR Anda guna menjelajahi properti premium kami.</em>
+                </p>
+              </div>
+            ) : (
+              /* Symmetrical premium cards grid showing only matching properties */
+              <div className={styles.catalogGrid}>
+                {matchingProperties.map((property) => {
+                  const imageIndex = getPropertyImageIndex(property.id);
+                  const kawasanArray = parseJsonArray(property.kawasan);
+                  const isLoaded = loadedImages[property.id];
 
-              return (
-                <article
-                  key={property.id}
-                  className={styles.propertyCard}
-                  onClick={() => {
-                    setSelectedProperty(property);
-                    setActiveSlideIndex(0);
-                    setActiveModalTab('gallery');
-                  }}
-                >
-                  <div className={styles.cardImageContainer}>
-                    <img 
-                      src={`/property-villa-${imageIndex}.png`} 
-                      alt={property.namaProperty} 
-                      className={`${styles.cardImageTag} ${isLoaded ? styles.imageLoaded : ''}`}
-                      onLoad={() => setLoadedImages((prev) => ({ ...prev, [property.id]: true }))}
-                      loading="lazy"
-                    />
-                    
-                    <div className={styles.cardBadgeContainer}>
-                      <span className={property.status === 'IN_STOCK' ? styles.badgeInStock : styles.badgeSoldOut}>
-                        {property.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
-                      </span>
-                      <span className={styles.badgeType}>
-                        {getTipeLabel(property.tipe)}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className={styles.cardContent}>
-                    <div className={styles.cardHeader}>
-                      <h3 className={styles.cardTitle}>{property.namaProperty}</h3>
-                      <button
-                        className={styles.wishlistBtn}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          alert(`${property.namaProperty} ditambahkan ke favorit!`);
-                        }}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.heartIcon}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                      </button>
-                    </div>
-
-                    <div className={styles.cardKawasan}>{kawasanArray.join(', ')}</div>
-                    <div className={styles.cardPrice}>
-                      {formatRupiah(typeof property.price === 'string' ? BigInt(property.price) : property.price)}
-                    </div>
-
-                    <div className={styles.cardSpecs}>
-                      <div className={styles.cardSpecItem}>
-                        <span className={styles.cardSpecIcon}>📐</span>
-                        <span>{property.lebar} &times; {property.panjang}</span>
+                  return (
+                    <article
+                      key={property.id}
+                      className={styles.propertyCard}
+                      onClick={() => {
+                        setSelectedProperty(property);
+                        setActiveSlideIndex(0);
+                        setActiveModalTab('gallery');
+                      }}
+                    >
+                      <div className={styles.cardImageContainer}>
+                        <img 
+                          src={`/property-villa-${imageIndex}.png`} 
+                          alt={property.namaProperty} 
+                          className={`${styles.cardImageTag} ${isLoaded ? styles.imageLoaded : ''}`}
+                          onLoad={() => setLoadedImages((prev) => ({ ...prev, [property.id]: true }))}
+                          loading="lazy"
+                        />
+                        
+                        <div className={styles.cardBadgeContainer}>
+                          <span className={property.status === 'IN_STOCK' ? styles.badgeInStock : styles.badgeSoldOut}>
+                            {property.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
+                          </span>
+                          <span className={styles.badgeType}>
+                            {getTipeLabel(property.tipe)}
+                          </span>
+                        </div>
                       </div>
-                      <div className={styles.cardSpecItem}>
-                        <span className={styles.cardSpecIcon}>🏢</span>
-                        <span>{property.tingkat} Lt</span>
+
+                      <div className={styles.cardContent}>
+                        <div className={styles.cardHeader}>
+                          <h3 className={styles.cardTitle}>{property.namaProperty}</h3>
+                          <button
+                            className={styles.wishlistBtn}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              alert(`${property.namaProperty} ditambahkan ke favorit!`);
+                            }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.heartIcon}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                          </button>
+                        </div>
+
+                        <div className={styles.cardKawasan}>{kawasanArray.join(', ')}</div>
+                        <div className={styles.cardPrice}>
+                          {formatRupiah(typeof property.price === 'string' ? BigInt(property.price) : property.price)}
+                        </div>
+
+                        <div className={styles.cardSpecs}>
+                          <div className={styles.cardSpecItem}>
+                            <span className={styles.cardSpecIcon}>📐</span>
+                            <span>{property.lebar} &times; {property.panjang}</span>
+                          </div>
+                          <div className={styles.cardSpecItem}>
+                            <span className={styles.cardSpecIcon}>🏢</span>
+                            <span>{property.tingkat} Lt</span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+                    </article>
+                  );
+                })}
+              </div>
+            )}
           </div>
-        )}
-      </section>
+        </div>
+      )}
 
       {/* Glassmorphic Property Detail Modal overlay (Directly on KPR page) */}
       {selectedProperty && (() => {
