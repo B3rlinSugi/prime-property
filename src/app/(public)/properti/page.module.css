@@ -1561,3 +1561,123 @@
     padding-bottom: 8px;
   }
 }
+
+/* ─── ULTRA-MOBILE RESPONSIVENESS OVERRIDES (iPHONE 13, ANDROID, TABLET) ─── */
+@media (max-width: 768px) {
+  .modalContent {
+    padding: 24px 20px;
+  }
+  .modalTitle {
+    font-size: 1.5rem;
+  }
+  .modalPrice {
+    font-size: 1.25rem;
+  }
+  .segmentedControl {
+    display: flex;
+    width: 100%;
+  }
+  .controlTabBtn {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 12px;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modalBackdrop {
+    padding: 10px;
+  }
+  .modalContent {
+    padding: 20px 14px;
+    border-radius: 12px;
+    max-height: 95vh;
+  }
+  .modalCloseBtn {
+    top: 12px;
+    right: 12px;
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+  .modalHeaderTop {
+    padding-right: 32px;
+  }
+  .modalKawasan {
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+  }
+  .modalTitle {
+    font-size: 1.35rem;
+    line-height: 1.3;
+  }
+  .modalPrice {
+    font-size: 1.15rem;
+    margin-top: 2px;
+  }
+  .modalSpecsGrid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .modalSpecCard {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .specIcon {
+    font-size: 0.9rem;
+  }
+  .modalSpecLabel {
+    font-size: 0.6rem;
+  }
+  .modalSpecVal {
+    font-size: 0.8rem;
+  }
+  .modalDescText {
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+  .modalSlider {
+    height: 190px;
+  }
+  .modalSlideLabel {
+    top: 10px;
+    left: 10px;
+    padding: 4px 10px;
+    font-size: 0.6rem;
+  }
+  .modalSlideCount {
+    bottom: 10px;
+    right: 10px;
+    padding: 3px 8px;
+    font-size: 0.6rem;
+  }
+  .modalNavBtn {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+  }
+  .modalThumbWrapper {
+    width: 58px;
+    height: 40px;
+  }
+  .modalVideoContainer, .modalMapIframeContainer {
+    height: 170px;
+  }
+  .modalWaBtn {
+    padding: 12px 20px;
+    font-size: 0.85rem;
+  }
+  .floorPlanSection {
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+  .floorPlanSub {
+    font-size: 0.72rem;
+    margin-bottom: 8px;
+  }
+  .floorPlanVisualWrapper {
+    padding: 10px;
+  }
+}
+
