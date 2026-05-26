@@ -599,21 +599,11 @@ export default function Homepage() {
                   {/* Media Display Block */}
                   {activeModalTab === 'gallery' ? (
                     <div className={styles.modalGalleryContainer}>
-                      {/* Active Slide Box */}
+                      {/* Active Slide Box (Clean without overlaid type badges) */}
                       <div 
                         className={styles.modalSlider}
                         style={{ backgroundImage: `url(${slideImages[activeSlideIndex].url})` }}
                       >
-                        {/* Badge and labels overlays */}
-                        <div className={styles.modalImageBadges}>
-                          <span className={selectedProperty.status === 'IN_STOCK' ? styles.modalBadgeInStock : styles.modalBadgeSoldOut}>
-                            {selectedProperty.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
-                          </span>
-                          <span className={styles.modalBadgeType}>
-                            {getTipeLabel(selectedProperty.tipe)}
-                          </span>
-                        </div>
-
                         <div className={styles.modalSlideLabel}>
                           <span className={styles.slideDot}>●</span> {slideImages[activeSlideIndex].label}
                         </div>
@@ -626,8 +616,9 @@ export default function Homepage() {
                           ›
                         </button>
 
+                        {/* Slide counter formatted with leading zero */}
                         <div className={styles.modalSlideCount}>
-                          FOTO {activeSlideIndex + 1} / 5
+                          0{activeSlideIndex + 1} / 05
                         </div>
                       </div>
 
@@ -682,36 +673,87 @@ export default function Homepage() {
                 {/* Right Column: Key Details & Actions */}
                 <div className={styles.modalDetailsCol}>
                   <div className={styles.modalHeaderSec}>
-                    <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
+                    <div className={styles.modalHeaderTop}>
+                      <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
+                      <div className={styles.modalBadges}>
+                        <span className={selectedProperty.status === 'IN_STOCK' ? styles.modalBadgeInStock : styles.modalBadgeSoldOut}>
+                          {selectedProperty.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
+                        </span>
+                        <span className={styles.modalBadgeType}>
+                          {getTipeLabel(selectedProperty.tipe)}
+                        </span>
+                      </div>
+                    </div>
                     <h2 className={styles.modalTitle}>{selectedProperty.namaProperty}</h2>
                     <div className={styles.modalPrice}>{formatRupiah(selectedProperty.price)}</div>
                   </div>
 
-                  {/* Specs Grid */}
+                  {/* High-fidelity horizontal specifications cards with custom gold SVGs */}
                   <div className={styles.modalSpecsGrid}>
+                    {/* Dimension Spec */}
                     <div className={styles.modalSpecCard}>
-                      <span className={styles.modalSpecLabel}>Dimensi</span>
-                      <span className={styles.modalSpecVal}>{selectedProperty.lebar} &times; {selectedProperty.panjang} m</span>
+                      <div className={styles.modalSpecIconWrapper}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.modalSpecIconSvg}><rect x="2" y="2" width="20" height="20" rx="2" ry="2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+                      </div>
+                      <div className={styles.modalSpecMeta}>
+                        <span className={styles.modalSpecLabel}>DIMENSI</span>
+                        <span className={styles.modalSpecVal}>{selectedProperty.lebar} &times; {selectedProperty.panjang} m</span>
+                      </div>
                     </div>
+
+                    {/* Level/Floor Spec */}
                     <div className={styles.modalSpecCard}>
-                      <span className={styles.modalSpecLabel}>Tingkat</span>
-                      <span className={styles.modalSpecVal}>{selectedProperty.tingkat} Lantai</span>
+                      <div className={styles.modalSpecIconWrapper}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.modalSpecIconSvg}><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                      </div>
+                      <div className={styles.modalSpecMeta}>
+                        <span className={styles.modalSpecLabel}>TINGKAT</span>
+                        <span className={styles.modalSpecVal}>{selectedProperty.tingkat} Lantai</span>
+                      </div>
                     </div>
+
+                    {/* Facing Direction Spec */}
                     <div className={styles.modalSpecCard}>
-                      <span className={styles.modalSpecLabel}>Hadap</span>
-                      <span className={styles.modalSpecVal}>{parseJsonArray(selectedProperty.hadap).join(', ')}</span>
+                      <div className={styles.modalSpecIconWrapper}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.modalSpecIconSvg}><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                      </div>
+                      <div className={styles.modalSpecMeta}>
+                        <span className={styles.modalSpecLabel}>HADAP</span>
+                        <span className={styles.modalSpecVal}>{parseJsonArray(selectedProperty.hadap).join(', ')}</span>
+                      </div>
                     </div>
+
+                    {/* Carport Spec */}
                     <div className={styles.modalSpecCard}>
-                      <span className={styles.modalSpecLabel}>Carport</span>
-                      <span className={styles.modalSpecVal}>{selectedProperty.carport ? 'Tersedia' : 'Tidak Ada'}</span>
+                      <div className={styles.modalSpecIconWrapper}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.modalSpecIconSvg}><rect x="1" y="3" width="22" height="13" rx="2" ry="2"/><polyline points="2 21 4 21 4 16 20 16 20 21 22 21"/><path d="M5 9h14M8 6h8"/></svg>
+                      </div>
+                      <div className={styles.modalSpecMeta}>
+                        <span className={styles.modalSpecLabel}>CARPORT</span>
+                        <span className={styles.modalSpecVal}>{selectedProperty.carport ? 'Tersedia' : 'Tidak Ada'}</span>
+                      </div>
                     </div>
+
+                    {/* Readiness Spec */}
                     <div className={styles.modalSpecCard}>
-                      <span className={styles.modalSpecLabel}>Status Unit</span>
-                      <span className={styles.modalSpecVal}>{getSiapLabel(selectedProperty.siap)}</span>
+                      <div className={styles.modalSpecIconWrapper}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.modalSpecIconSvg}><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.778-7.778zm0 0L20 4l2 2-1.61 1.61"/></svg>
+                      </div>
+                      <div className={styles.modalSpecMeta}>
+                        <span className={styles.modalSpecLabel}>STATUS UNIT</span>
+                        <span className={styles.modalSpecVal}>{getSiapLabel(selectedProperty.siap)}</span>
+                      </div>
                     </div>
+
+                    {/* Additional Info Spec */}
                     <div className={styles.modalSpecCard}>
-                      <span className={styles.modalSpecLabel}>Info Tambahan</span>
-                      <span className={styles.modalSpecVal}>{selectedProperty.unit || '-'}</span>
+                      <div className={styles.modalSpecIconWrapper}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.modalSpecIconSvg}><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                      </div>
+                      <div className={styles.modalSpecMeta}>
+                        <span className={styles.modalSpecLabel}>INFO TAMBAHAN</span>
+                        <span className={styles.modalSpecVal}>{selectedProperty.unit || '-'}</span>
+                      </div>
                     </div>
                   </div>
 
@@ -732,7 +774,8 @@ export default function Homepage() {
                     rel="noopener noreferrer"
                     className={`${styles.modalWaBtn} gold-shimmer`}
                   >
-                    Hubungi Agen via WhatsApp <span style={{ marginLeft: '4px' }}>💬</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={styles.modalWaIconSvg}><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    Hubungi Agen via WhatsApp
                   </a>
                 </div>
               </div>
@@ -743,3 +786,4 @@ export default function Homepage() {
     </div>
   );
 }
+
