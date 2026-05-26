@@ -402,14 +402,14 @@ export default function PublicKprCalculatorPage() {
 
       {/* ─── REAL-TIME BUDGET PORTFOLIO GLASS OVERLAY MODAL ─── */}
       {showBudgetModal && (
-        <div className={styles.modalBackdrop} onClick={() => setShowBudgetModal(false)}>
+        <div className={styles.modalBackdrop} onClick={() => setShowBudgetModal(false)} data-lenis-prevent>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <button className={styles.modalCloseBtn} onClick={() => setShowBudgetModal(false)}>
               ✕
             </button>
 
             <div className={styles.matchingSectionHeader} style={{ paddingRight: '48px' }}>
-              <h3 className={styles.matchingSectionTitle}>⚡ Portofolio Unit dalam Budget KPR Anda</h3>
+              <h3 className={styles.matchingSectionTitle}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#C9A961" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: '20px', height: '20px', display: 'inline-block', verticalAlign: 'middle', marginRight: '8px', marginTop: '-2px' }}><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Portofolio Unit dalam Budget KPR Anda</h3>
               <p className={styles.matchingSectionSubtitle}>
                 Menampilkan properti premium dengan harga maksimal <strong>{formatRupiah(propertyPrice)}</strong> terhitung secara real-time.
               </p>
@@ -528,7 +528,7 @@ export default function PublicKprCalculatorPage() {
         ];
 
         return (
-          <div className={styles.modalBackdrop} onClick={() => setSelectedProperty(null)}>
+          <div className={styles.modalBackdrop} onClick={() => setSelectedProperty(null)} data-lenis-prevent>
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
               <button className={styles.modalCloseBtn} onClick={() => setSelectedProperty(null)}>
                 ✕
