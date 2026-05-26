@@ -1,7 +1,7 @@
 // Format price to Indonesian Rupiah: Rp 1.350.000.000
 export function formatRupiah(amount: number | bigint): string {
   const num = typeof amount === 'bigint' ? Number(amount) : amount;
-  return 'Rp ' + num.toLocaleString('id-ID');
+  return 'Rp ' + Math.round(num).toLocaleString('id-ID', { maximumFractionDigits: 0 });
 }
 
 // Format date to Indonesian format: 24 Mei 2026
