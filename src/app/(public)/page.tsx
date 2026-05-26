@@ -187,6 +187,18 @@ export default function Homepage() {
     fetchFeaturedProperties();
   }, []);
 
+  // Lock background scroll when modal is open to prevent double scrollbar behavior
+  useEffect(() => {
+    if (selectedProperty) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedProperty]);
+
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
