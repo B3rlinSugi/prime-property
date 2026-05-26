@@ -548,21 +548,26 @@ export default function Homepage() {
                 <div className={styles.modalVisualCol}>
                   {/* Media Tab Selector */}
                   <div className={styles.modalTabWrapper}>
-                    <button 
-                      className={`${styles.modalTabBtn} ${activeModalTab === 'gallery' ? styles.modalTabBtnActive : ''}`}
-                      onClick={() => setActiveModalTab('gallery')}
-                    >
-                      <span style={{ marginRight: '6px' }}>🖼️</span> FOTO GALERI
-                    </button>
-                    <button 
-                      className={`${styles.modalTabBtn} ${activeModalTab === 'video' ? styles.modalTabBtnActive : ''}`}
-                      onClick={() => {
-                        setActiveModalTab('video');
-                        setActiveSlideIndex(0);
-                      }}
-                    >
-                      <span style={{ marginRight: '6px' }}>📹</span> VIDEO WALKTHROUGH <span className={styles.videoDot}></span>
-                    </button>
+                    <div className={styles.segmentedControl}>
+                      <button 
+                        className={`${styles.controlTabBtn} ${activeModalTab === 'gallery' ? styles.controlTabActive : ''}`}
+                        onClick={() => setActiveModalTab('gallery')}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.tabIconSvg}><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        JELAJAH RUANG
+                      </button>
+                      <button 
+                        className={`${styles.controlTabBtn} ${activeModalTab === 'video' ? styles.controlTabActive : ''}`}
+                        onClick={() => {
+                          setActiveModalTab('video');
+                          setActiveSlideIndex(0);
+                        }}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.tabIconSvg}><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                        TUR SINEMATIK
+                        <span className={styles.recordingDot}></span>
+                      </button>
+                    </div>
                   </div>
 
                   {/* Media Display Block */}
