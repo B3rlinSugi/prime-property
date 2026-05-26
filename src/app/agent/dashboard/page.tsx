@@ -89,6 +89,46 @@ function DashboardPageContent() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+
+  // Premium Dropdown States
+  const [kawasanOpen, setKawasanOpen] = useState(false);
+  const [hadapOpen, setHadapOpen] = useState(false);
+  const [tipeOpen, setTipeOpen] = useState(false);
+  const [statusOpen, setStatusOpen] = useState(false);
+  const [carportOpen, setCarportOpen] = useState(false);
+
+  // Premium Dropdown Refs
+  const kawasanRef = useRef<HTMLDivElement>(null);
+  const hadapRef = useRef<HTMLDivElement>(null);
+  const tipeRef = useRef<HTMLDivElement>(null);
+  const statusRef = useRef<HTMLDivElement>(null);
+  const carportRef = useRef<HTMLDivElement>(null);
+
+  // Click outside listener for all custom select dropdowns
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (kawasanRef.current && !kawasanRef.current.contains(event.target as Node)) {
+        setKawasanOpen(false);
+      }
+      if (hadapRef.current && !hadapRef.current.contains(event.target as Node)) {
+        setHadapOpen(false);
+      }
+      if (tipeRef.current && !tipeRef.current.contains(event.target as Node)) {
+        setTipeOpen(false);
+      }
+      if (statusRef.current && !statusRef.current.contains(event.target as Node)) {
+        setStatusOpen(false);
+      }
+      if (carportRef.current && !carportRef.current.contains(event.target as Node)) {
+        setCarportOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   // UI States
   const [properties, setProperties] = useState<Property[]>([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -303,7 +343,10 @@ function DashboardPageContent() {
                 className="btn btn-secondary"
                 onClick={() => { setShowArchived(!showArchived); setPage(1); }}
               >
-                📁 {showArchived ? 'Lihat Listing Aktif' : 'Lihat Arsip Terhapus'}
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'middle' }}>
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                </svg>
+                {showArchived ? 'Lihat Listing Aktif' : 'Lihat Arsip Terhapus'}
               </button>
               {!showArchived && (
                 <Link href="/agent/dashboard/property/new" className="btn btn-primary">
@@ -318,29 +361,43 @@ function DashboardPageContent() {
       {/* Sleek Horizontal Filter Panel matching the screenshot */}
       <div className={styles.filterPanel}>
         <div className={styles.filterRow}>
-          {/* 1. Kawasan */}
-          <div className="form-group" style={{ marginBottom: 0 }}>
+          {/* 1. Kawasan Custom Dropdown */}
+          <div className={styles.customSelectWrapper} ref={kawasanRef}>
             <label className="form-label">Kawasan</label>
-            <div className="form-select-wrapper">
-              <select 
-                className="form-select"
-                onChange={(e) => {
-                  if (e.target.value && e.target.value !== 'Semua' && !selectedKawasan.includes(e.target.value)) {
-                    setSelectedKawasan([...selectedKawasan, e.target.value]);
-                    setPage(1);
-                  }
-                  e.target.value = 'Semua';
-                }}
-                value="Semua"
-              >
-                <option value="Semua">Semua</option>
-                {KAWASAN_OPTIONS.map((k) => (
-                  <option key={k} value={k} disabled={selectedKawasan.includes(k)}>
-                    {k}
-                  </option>
-                ))}
-              </select>
+            <div 
+              className={styles.customSelectTrigger} 
+              onClick={() => {
+                setKawasanOpen(!kawasanOpen);
+                setHadapOpen(false);
+                setTipeOpen(false);
+                setStatusOpen(false);
+                setCarportOpen(false);
+              }}
+            >
+              <span>Semua Kawasan</span>
+              <span className={`${styles.selectArrow} ${kawasanOpen ? styles.arrowRotate : ''}`}>▾</span>
             </div>
+            {kawasanOpen && (
+              <ul className={styles.customOptionsList}>
+                {KAWASAN_OPTIONS.map((k) => (
+                  <li 
+                    key={k}
+                    className={selectedKawasan.includes(k) ? styles.optionActive : ''}
+                    onClick={() => {
+                      if (!selectedKawasan.includes(k)) {
+                        setSelectedKawasan([...selectedKawasan, k]);
+                        setPage(1);
+                      } else {
+                        setSelectedKawasan(selectedKawasan.filter((item) => item !== k));
+                      }
+                      setKawasanOpen(false);
+                    }}
+                  >
+                    {k}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* 2. Lebar Min */}
@@ -355,29 +412,43 @@ function DashboardPageContent() {
             />
           </div>
 
-          {/* 3. Hadap */}
-          <div className="form-group" style={{ marginBottom: 0 }}>
+          {/* 3. Hadap Custom Dropdown */}
+          <div className={styles.customSelectWrapper} ref={hadapRef}>
             <label className="form-label">Hadap</label>
-            <div className="form-select-wrapper">
-              <select 
-                className="form-select"
-                onChange={(e) => {
-                  if (e.target.value && e.target.value !== 'Semua' && !selectedHadap.includes(e.target.value)) {
-                    setSelectedHadap([...selectedHadap, e.target.value]);
-                    setPage(1);
-                  }
-                  e.target.value = 'Semua';
-                }}
-                value="Semua"
-              >
-                <option value="Semua">Semua</option>
-                {HADAP_OPTIONS.map((h) => (
-                  <option key={h} value={h} disabled={selectedHadap.includes(h)}>
-                    {h}
-                  </option>
-                ))}
-              </select>
+            <div 
+              className={styles.customSelectTrigger} 
+              onClick={() => {
+                setHadapOpen(!hadapOpen);
+                setKawasanOpen(false);
+                setTipeOpen(false);
+                setStatusOpen(false);
+                setCarportOpen(false);
+              }}
+            >
+              <span>Semua Hadap</span>
+              <span className={`${styles.selectArrow} ${hadapOpen ? styles.arrowRotate : ''}`}>▾</span>
             </div>
+            {hadapOpen && (
+              <ul className={styles.customOptionsList}>
+                {HADAP_OPTIONS.map((h) => (
+                  <li 
+                    key={h}
+                    className={selectedHadap.includes(h) ? styles.optionActive : ''}
+                    onClick={() => {
+                      if (!selectedHadap.includes(h)) {
+                        setSelectedHadap([...selectedHadap, h]);
+                        setPage(1);
+                      } else {
+                        setSelectedHadap(selectedHadap.filter((item) => item !== h));
+                      }
+                      setHadapOpen(false);
+                    }}
+                  >
+                    {h}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* 4. Harga Max */}
@@ -392,36 +463,84 @@ function DashboardPageContent() {
             />
           </div>
 
-          {/* 5. Tipe */}
-          <div className="form-group" style={{ marginBottom: 0 }}>
+          {/* 5. Tipe Custom Dropdown */}
+          <div className={styles.customSelectWrapper} ref={tipeRef}>
             <label className="form-label">Tipe</label>
-            <div className="form-select-wrapper">
-              <select 
-                className="form-select"
-                value={tipe}
-                onChange={(e) => { setTipe(e.target.value); setPage(1); }}
-              >
-                <option value="Semua">Semua</option>
-                <option value="RUKO">Ruko</option>
-                <option value="VILLA">Villa</option>
-              </select>
+            <div 
+              className={styles.customSelectTrigger} 
+              onClick={() => {
+                setTipeOpen(!tipeOpen);
+                setKawasanOpen(false);
+                setHadapOpen(false);
+                setStatusOpen(false);
+                setCarportOpen(false);
+              }}
+            >
+              <span>{tipe === 'Semua' ? 'Semua' : tipe === 'RUKO' ? 'Ruko' : 'Villa'}</span>
+              <span className={`${styles.selectArrow} ${tipeOpen ? styles.arrowRotate : ''}`}>▾</span>
             </div>
+            {tipeOpen && (
+              <ul className={styles.customOptionsList}>
+                <li 
+                  className={tipe === 'Semua' ? styles.optionActive : ''}
+                  onClick={() => { setTipe('Semua'); setPage(1); setTipeOpen(false); }}
+                >
+                  Semua
+                </li>
+                <li 
+                  className={tipe === 'RUKO' ? styles.optionActive : ''}
+                  onClick={() => { setTipe('RUKO'); setPage(1); setTipeOpen(false); }}
+                >
+                  Ruko
+                </li>
+                <li 
+                  className={tipe === 'VILLA' ? styles.optionActive : ''}
+                  onClick={() => { setTipe('VILLA'); setPage(1); setTipeOpen(false); }}
+                >
+                  Villa
+                </li>
+              </ul>
+            )}
           </div>
 
-          {/* 6. Status */}
-          <div className="form-group" style={{ marginBottom: 0 }}>
+          {/* 6. Status Custom Dropdown */}
+          <div className={styles.customSelectWrapper} ref={statusRef}>
             <label className="form-label">Status</label>
-            <div className="form-select-wrapper">
-              <select 
-                className="form-select"
-                value={status}
-                onChange={(e) => { setStatus(e.target.value); setPage(1); }}
-              >
-                <option value="Semua">Semua</option>
-                <option value="IN_STOCK">In Stock</option>
-                <option value="SOLD_OUT">Sold Out</option>
-              </select>
+            <div 
+              className={styles.customSelectTrigger} 
+              onClick={() => {
+                setStatusOpen(!statusOpen);
+                setKawasanOpen(false);
+                setHadapOpen(false);
+                setTipeOpen(false);
+                setCarportOpen(false);
+              }}
+            >
+              <span>{status === 'Semua' ? 'Semua' : status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}</span>
+              <span className={`${styles.selectArrow} ${statusOpen ? styles.arrowRotate : ''}`}>▾</span>
             </div>
+            {statusOpen && (
+              <ul className={styles.customOptionsList}>
+                <li 
+                  className={status === 'Semua' ? styles.optionActive : ''}
+                  onClick={() => { setStatus('Semua'); setPage(1); setStatusOpen(false); }}
+                >
+                  Semua
+                </li>
+                <li 
+                  className={status === 'IN_STOCK' ? styles.optionActive : ''}
+                  onClick={() => { setStatus('IN_STOCK'); setPage(1); setStatusOpen(false); }}
+                >
+                  In Stock
+                </li>
+                <li 
+                  className={status === 'SOLD_OUT' ? styles.optionActive : ''}
+                  onClick={() => { setStatus('SOLD_OUT'); setPage(1); setStatusOpen(false); }}
+                >
+                  Sold Out
+                </li>
+              </ul>
+            )}
           </div>
 
           {/* 7. Filter Lainnya */}
@@ -449,19 +568,43 @@ function DashboardPageContent() {
         {/* Collapsible extra filters like Carport */}
         {mobileFilterOpen && (
           <div className={styles.collapsibleRow}>
-            <div className="form-group" style={{ margin: '16px 0 0', maxWidth: '200px' }}>
+            <div className={styles.customSelectWrapper} ref={carportRef} style={{ width: '200px', flex: 'none' }}>
               <label className="form-label">Carport</label>
-              <div className="form-select-wrapper">
-                <select 
-                  className="form-select"
-                  value={carport}
-                  onChange={(e) => { setCarport(e.target.value); setPage(1); }}
-                >
-                  <option value="Semua">Semua</option>
-                  <option value="Ya">Ya</option>
-                  <option value="Tidak">Tidak</option>
-                </select>
+              <div 
+                className={styles.customSelectTrigger} 
+                onClick={() => {
+                  setCarportOpen(!carportOpen);
+                  setKawasanOpen(false);
+                  setHadapOpen(false);
+                  setTipeOpen(false);
+                  setStatusOpen(false);
+                }}
+              >
+                <span>{carport === 'Semua' ? 'Semua' : carport}</span>
+                <span className={`${styles.selectArrow} ${carportOpen ? styles.arrowRotate : ''}`}>▾</span>
               </div>
+              {carportOpen && (
+                <ul className={styles.customOptionsList}>
+                  <li 
+                    className={carport === 'Semua' ? styles.optionActive : ''}
+                    onClick={() => { setCarport('Semua'); setPage(1); setCarportOpen(false); }}
+                  >
+                    Semua
+                  </li>
+                  <li 
+                    className={carport === 'Ya' ? styles.optionActive : ''}
+                    onClick={() => { setCarport('Ya'); setPage(1); setCarportOpen(false); }}
+                  >
+                    Ya
+                  </li>
+                  <li 
+                    className={carport === 'Tidak' ? styles.optionActive : ''}
+                    onClick={() => { setCarport('Tidak'); setPage(1); setCarportOpen(false); }}
+                  >
+                    Tidak
+                  </li>
+                </ul>
+              )}
             </div>
           </div>
         )}
@@ -714,11 +857,19 @@ function DashboardPageContent() {
       {/* Detail Drawer Backdrop */}
       <div 
         className={`${styles.drawerBackdrop} ${selectedProperty ? styles.drawerBackdropActive : ''}`}
-        onClick={() => setSelectedProperty(null)}
+        onClick={() => {
+          setSelectedProperty(null);
+          setKawasanOpen(false);
+          setHadapOpen(false);
+          setTipeOpen(false);
+          setStatusOpen(false);
+          setCarportOpen(false);
+        }}
+        data-lenis-prevent
       ></div>
 
       {/* Detail Drawer */}
-      <div className={`${styles.drawer} ${selectedProperty ? styles.drawerActive : ''}`}>
+      <div className={`${styles.drawer} ${selectedProperty ? styles.drawerActive : ''}`} data-lenis-prevent>
         {selectedProperty && (
           <>
             <div className={styles.drawerHeader}>
@@ -891,7 +1042,7 @@ function DashboardPageContent() {
 
       {/* Delete Confirmation Modal */}
       {deleteTarget && (
-        <div className="modal-backdrop">
+        <div className="modal-backdrop" data-lenis-prevent>
           <div className="modal">
             <div className="modal-header">
               <h3 className="modal-title">Hapus Properti</h3>

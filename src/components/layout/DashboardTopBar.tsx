@@ -35,6 +35,49 @@ export default function DashboardTopBar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
+  const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
+  const notifDropdownRef = useRef<HTMLDivElement>(null);
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      icon: '📩',
+      text: 'Pesan Kontak Baru masuk dari Berlin Sugiyanto',
+      time: 'Baru saja',
+      unread: true,
+    },
+    {
+      id: 2,
+      icon: '🏢',
+      text: 'Properti "Amplas Trade Center" berhasil ditambahkan',
+      time: '1 jam yang lalu',
+      unread: true,
+    },
+    {
+      id: 3,
+      icon: '🔑',
+      text: 'Password Akun direset oleh Superadmin',
+      time: '4 jam yang lalu',
+      unread: false,
+    },
+    {
+      id: 4,
+      icon: '✨',
+      text: 'Sistem Prime Property v1.1 aktif dan berjalan lancar',
+      time: 'Kemarin',
+      unread: false,
+    }
+  ]);
+
+  const unreadCount = notifications.filter(n => n.unread).length;
+
+  const handleMarkAllRead = () => {
+    setNotifications(prev => prev.map(n => ({ ...n, unread: false })));
+  };
+
+  const handleNotifClick = (id: number) => {
+    setNotifications(prev => prev.map(n => n.id === id ? { ...n, unread: false } : n));
+  };
+
   // Sync state with URL parameter (for external resets/back button)
   useEffect(() => {
     setSearch(searchParams.get('search') || '');
@@ -78,11 +121,14 @@ export default function DashboardTopBar() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Close dropdown on outside click
+  // Close dropdowns on outside click
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setDropdownOpen(false);
+      }
+      if (notifDropdownRef.current && !notifDropdownRef.current.contains(e.target as Node)) {
+        setNotifDropdownOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -118,20 +164,70 @@ export default function DashboardTopBar() {
 
       {/* Right Controls: Notifications & User profile */}
       <div className={styles.controlsWrapper}>
-        {/* Notification Bell */}
-        <button className={styles.notificationBtn} aria-label="Notifikasi">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C9A961" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-          </svg>
-          <span className={styles.notificationDot}></span>
-        </button>
+        {/* Notification Bell with Dropdown Container */}
+        <div className={styles.notifWrapper} ref={notifDropdownRef}>
+          <button 
+            className={styles.notificationBtn} 
+            onClick={() => {
+              setNotifDropdownOpen(!notifDropdownOpen);
+              setDropdownOpen(false);
+            }}
+            aria-label="Notifikasi"
+            aria-expanded={notifDropdownOpen}
+          >
+            {/* Professional thin Gold Line SVG Icon */}
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C9A961" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+            {unreadCount > 0 && <span className={styles.notificationDot}></span>}
+          </button>
+
+          {/* Interactive Notifications List Dropdown */}
+          {notifDropdownOpen && (
+            <div className={styles.notifDropdown}>
+              <div className={styles.notifHeader}>
+                <span className={styles.notifTitle}>Notifikasi Terbaru</span>
+                {unreadCount > 0 && (
+                  <button className={styles.notifClearBtn} onClick={handleMarkAllRead}>
+                    Tandai dibaca
+                  </button>
+                )}
+              </div>
+              <div className={styles.notifList}>
+                {notifications.length === 0 ? (
+                  <div className={styles.notifEmpty}>
+                    <span>📭</span>
+                    <span>Tidak ada notifikasi baru</span>
+                  </div>
+                ) : (
+                  notifications.map((notif) => (
+                    <div 
+                      key={notif.id}
+                      className={`${styles.notifItem} ${notif.unread ? styles.notifItemUnread : ''}`}
+                      onClick={() => handleNotifClick(notif.id)}
+                    >
+                      <span className={styles.notifIcon}>{notif.icon}</span>
+                      <div className={styles.notifContent}>
+                        <span className={styles.notifText}>{notif.text}</span>
+                        <span className={styles.notifTime}>{notif.time}</span>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* User Account Menu */}
         <div className={styles.userMenu} ref={dropdownRef}>
           <button
             className={styles.userButton}
-            onClick={() => setDropdownOpen(!dropdownOpen)}
+            onClick={() => {
+              setDropdownOpen(!dropdownOpen);
+              setNotifDropdownOpen(false);
+            }}
             aria-expanded={dropdownOpen}
           >
             {/* Avatar Photo Mockup */}

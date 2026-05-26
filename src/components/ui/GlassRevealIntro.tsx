@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import styles from './GlassRevealIntro.module.css';
+import { BRAND_NAME, BRAND_SUB_NAME } from '@/components/layout/Logo';
 
 export default function GlassRevealIntro() {
   const [step, setStep] = useState(1);
@@ -20,18 +21,18 @@ export default function GlassRevealIntro() {
     setVisible(true);
 
     // Sequence timing mapping
-    // Step 1 (0ms - 1200ms): Layar Glass Blur (Emblem pulsing under deep blur)
-    // Step 2 (1200ms - 2200ms): Efek Glass Terbuka (Blur dissipates, rings expand, gold light sweep)
-    // Step 3 (2200ms - 3200ms): Logo Terlihat Jelas (Overlay fades out completely showing crisp logo)
-    // Step 4 (3200ms - 4000ms): Masuk ke Website (Logo expands and overlay melts away to reveal site)
+    // Step 1 (0ms - 2200ms): Layar Glass Blur (Emblem pulsing under deep blur)
+    // Step 2 (2200ms - 5200ms): Efek Glass Terbuka (Blur dissipates, rings expand, gold light sweep)
+    // Step 3 (5200ms - 6700ms): Logo Terlihat Jelas (Overlay fades out completely showing crisp logo)
+    // Step 4 (6700ms - 7700ms): Masuk ke Website (Logo expands and overlay melts away to reveal site)
 
-    const timer2 = setTimeout(() => setStep(2), 1200);
-    const timer3 = setTimeout(() => setStep(3), 2200);
-    const timer4 = setTimeout(() => setStep(4), 3200);
+    const timer2 = setTimeout(() => setStep(2), 2200);
+    const timer3 = setTimeout(() => setStep(3), 5200);
+    const timer4 = setTimeout(() => setStep(4), 6700);
     const timerEnd = setTimeout(() => {
       setVisible(false);
       sessionStorage.setItem('prime_property_intro_seen', 'true');
-    }, 4000);
+    }, 7700);
 
     return () => {
       clearTimeout(timer2);
@@ -127,8 +128,8 @@ export default function GlassRevealIntro() {
 
           {/* Staged brand text */}
           <div className={`${styles.brandTextGroup} ${step >= 2 ? styles.brandTextReveal : ''}`}>
-            <h1 className={styles.introTitle}>PRIME</h1>
-            <p className={styles.introSubtitle}>PROPERTY</p>
+            <h1 className={styles.introTitle}>{BRAND_NAME}</h1>
+            <p className={styles.introSubtitle}>{BRAND_SUB_NAME}</p>
           </div>
         </div>
       </div>

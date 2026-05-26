@@ -1,4 +1,6 @@
-import React from 'react';
+// Branding constants - change these to globally update the brand name in the logo!
+export const BRAND_NAME = 'PRIME';
+export const BRAND_SUB_NAME = 'PROPERTY';
 
 interface LogoProps {
   height?: number;
@@ -74,7 +76,7 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
               letterSpacing: '5px',
             }}
           >
-            PRIME
+            {BRAND_NAME}
           </text>
           
           {/* "PROPERTY" */}
@@ -89,7 +91,7 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
               letterSpacing: '8.5px',
             }}
           >
-            PROPERTY
+            {BRAND_SUB_NAME}
           </text>
         </g>
       )}
