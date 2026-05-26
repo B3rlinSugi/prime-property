@@ -109,6 +109,11 @@ export default function PublicKprCalculatorPage() {
   const [activeModalTab, setActiveModalTab] = useState<'gallery' | 'video'>('gallery');
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [showBudgetModal, setShowBudgetModal] = useState(false);
+  const [showApplyKprModal, setShowApplyKprModal] = useState(false);
+  const [applyKprName, setApplyKprName] = useState('');
+  const [applyKprPhone, setApplyKprPhone] = useState('');
+  const [applyKprBank, setApplyKprBank] = useState('BCA');
+  const [applyKprSubmitted, setApplyKprSubmitted] = useState(false);
 
   // Fetch all properties from DB on mount
   useEffect(() => {
@@ -165,7 +170,7 @@ export default function PublicKprCalculatorPage() {
 
   // Body scroll lock
   useEffect(() => {
-    if (selectedProperty || showBudgetModal) {
+    if (selectedProperty || showBudgetModal || showApplyKprModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -173,7 +178,7 @@ export default function PublicKprCalculatorPage() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [selectedProperty, showBudgetModal]);
+  }, [selectedProperty, showBudgetModal, showApplyKprModal]);
 
   // Donut chart calculations
   const principalShare = loanPrincipal || 1;
@@ -446,12 +451,22 @@ export default function PublicKprCalculatorPage() {
               </div>
             </div>
 
-            <button
-              onClick={() => setShowBudgetModal(true)}
-              className={styles.actionSearchPropertiesBtn}
-            >
-              Cari Unit Sesuai Budget KPR
-            </button>
+            <div style={{ display: 'flex', gap: '12px', marginTop: '16px', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => setShowBudgetModal(true)}
+                className={styles.actionSearchPropertiesBtn}
+                style={{ flex: 1, marginTop: 0, minWidth: '180px' }}
+              >
+                Cari Unit Sesuai Budget KPR
+              </button>
+              <button
+                onClick={() => setShowApplyKprModal(true)}
+                className={styles.actionApplyKprBtn}
+                style={{ flex: 1, minWidth: '180px' }}
+              >
+                🏦 Ajukan KPR Sekarang
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -643,6 +658,127 @@ export default function PublicKprCalculatorPage() {
         </div>
       )}
 
+      {/* ─── REFERRAL APPLICATION KPR GLASS OVERLAY MODAL ─── */}
+      {showApplyKprModal && (
+        <div className={styles.modalBackdrop} onClick={() => setShowApplyKprModal(false)} data-lenis-prevent>
+          <div className={styles.kprFormCard} onClick={(e) => e.stopPropagation()} style={{ background: '#161616', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '32px', maxWidth: '520px', width: '100%', position: 'relative', boxShadow: '0 20px 50px rgba(0,0,0,0.6)', backdropFilter: 'blur(20px)' }}>
+            <button className={styles.modalCloseBtn} onClick={() => setShowApplyKprModal(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '50%', color: '#fff', width: '32px', height: '32px', fontSize: '1.2rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s ease' }}>&times;</button>
+            
+            <h3 className={styles.matchingSectionTitle} style={{ color: '#C9A961', fontSize: '1.4rem', fontWeight: 600, marginBottom: '6px', textAlign: 'left' }}>🏦 Formulir Pengajuan KPR</h3>
+            <p className={styles.matchingSectionSubtitle} style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.45)', marginBottom: '24px', textAlign: 'left', lineHeight: '1.5' }}>Rencanakan KPR Anda bersama bank mitra Prime Property pilihan Anda secara instan.</p>
+            
+            {applyKprSubmitted ? (
+              <div style={{ textAlign: 'center', padding: '24px 0' }}>
+                <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(76,175,80,0.1)', border: '2px solid #4CAF50', color: '#4CAF50', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', margin: '0 auto 20px' }}>✓</div>
+                <h4 style={{ color: '#fff', fontSize: '1.2rem', fontWeight: 600, marginBottom: '10px' }}>Pengajuan KPR Berhasil!</h4>
+                <p style={{ fontSize: '0.88rem', color: 'rgba(255,255,255,0.6)', lineHeight: '1.6', marginBottom: '24px' }}>
+                  Terima kasih <strong>{applyKprName}</strong>, data simulasi KPR Anda untuk properti senilai <strong>{formatRupiah(propertyPrice)}</strong> telah dikirimkan ke tim analis KPR mitra <strong>Bank {applyKprBank}</strong>. Tim KPR kami akan menghubungi Anda melalui WhatsApp di nomor <strong>{applyKprPhone}</strong> dalam 1&times;24 jam.
+                </p>
+                <button 
+                  className={styles.actionSearchPropertiesBtn}
+                  style={{ width: '100%', marginTop: 0 }}
+                  onClick={() => {
+                    setApplyKprSubmitted(false);
+                    setShowApplyKprModal(false);
+                    setApplyKprName('');
+                    setApplyKprPhone('');
+                  }}
+                >
+                  Tutup
+                </button>
+              </div>
+            ) : (
+              <form 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!applyKprName.trim() || !applyKprPhone.trim()) return;
+                  setApplyKprSubmitted(true);
+                }}
+                style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+              >
+                <div className={styles.formGroup} style={{ display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left' }}>
+                  <label className={styles.fieldLabel} style={{ fontSize: '0.68rem', fontWeight: 700, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.5px' }}>NAMA LENGKAP</label>
+                  <input 
+                    type="text" 
+                    required 
+                    value={applyKprName} 
+                    onChange={(e) => setApplyKprName(e.target.value)} 
+                    placeholder="Contoh: Berlin Sugiyanto" 
+                    className="form-input" 
+                    style={{ background: 'rgba(0,0,0,0.2)', borderColor: 'rgba(255,255,255,0.08)', color: '#fff', width: '100%', padding: '12px', borderRadius: '8px', fontSize: '0.9rem' }} 
+                  />
+                </div>
+                
+                <div className={styles.formGroup} style={{ display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left' }}>
+                  <label className={styles.fieldLabel} style={{ fontSize: '0.68rem', fontWeight: 700, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.5px' }}>NOMOR WHATSAPP</label>
+                  <input 
+                    type="tel" 
+                    required 
+                    value={applyKprPhone} 
+                    onChange={(e) => setApplyKprPhone(e.target.value)} 
+                    placeholder="Contoh: 081234567890" 
+                    className="form-input" 
+                    style={{ background: 'rgba(0,0,0,0.2)', borderColor: 'rgba(255,255,255,0.08)', color: '#fff', width: '100%', padding: '12px', borderRadius: '8px', fontSize: '0.9rem' }} 
+                  />
+                </div>
+
+                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                  <div className={styles.formGroup} style={{ flex: 1, minWidth: '150px', display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left' }}>
+                    <label className={styles.fieldLabel} style={{ fontSize: '0.68rem', fontWeight: 700, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.5px' }}>PILIH BANK MITRA</label>
+                    <select 
+                      value={applyKprBank} 
+                      onChange={(e) => setApplyKprBank(e.target.value)}
+                      className="form-select" 
+                      style={{ background: 'rgba(18,18,18,0.95)', border: '1px solid rgba(255,255,255,0.08)', color: '#fff', width: '100%', padding: '12px', borderRadius: '8px', fontSize: '0.9rem', cursor: 'pointer' }}
+                    >
+                      <option value="BCA">Bank BCA</option>
+                      <option value="Mandiri">Bank Mandiri</option>
+                      <option value="CIMB Niaga">Bank CIMB Niaga</option>
+                      <option value="BRI">Bank BRI</option>
+                      <option value="BNI">Bank BNI</option>
+                    </select>
+                  </div>
+                  
+                  <div className={styles.formGroup} style={{ flex: 1, minWidth: '150px', display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left' }}>
+                    <label className={styles.fieldLabel} style={{ fontSize: '0.68rem', fontWeight: 700, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.5px' }}>TENOR SIMULASI</label>
+                    <input 
+                      type="text" 
+                      disabled 
+                      value={`${tenureYears} Tahun`} 
+                      className="form-input" 
+                      style={{ background: 'rgba(255,255,255,0.02)', borderColor: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.5)', width: '100%', padding: '12px', borderRadius: '8px', fontSize: '0.9rem' }} 
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.quickStatsDetails} style={{ background: 'rgba(255,255,255,0.02)', padding: '16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.03)', marginTop: '8px', marginBottom: '8px' }}>
+                  <div className={styles.detailRow}>
+                    <span className={styles.detailLabel}>Harga Properti</span>
+                    <span className={styles.detailValue}>{formatRupiah(propertyPrice)}</span>
+                  </div>
+                  <div className={styles.detailRow}>
+                    <span className={styles.detailLabel}>Uang Muka (DP)</span>
+                    <span className={styles.detailValue}>{formatRupiah(dpAmount)}</span>
+                  </div>
+                  <div className={styles.detailRow}>
+                    <span className={styles.detailLabel}>Estimasi Angsuran</span>
+                    <span className={styles.detailValue} style={{ color: '#C9A961', fontWeight: 700 }}>{formatRupiah(monthlyInstallment)} / Bln</span>
+                  </div>
+                </div>
+
+                <button 
+                  type="submit" 
+                  className={styles.actionSearchPropertiesBtn}
+                  style={{ width: '100%', background: 'linear-gradient(135deg, #C9A961 0%, #B8974D 100%)', color: '#000', fontWeight: 700, marginTop: '8px' }}
+                >
+                  Kirim Pengajuan KPR
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Glassmorphic Property Detail Modal overlay (Directly on KPR page) */}
       {selectedProperty && (() => {
         const imageIndex = getPropertyImageIndex(selectedProperty.id);
@@ -767,9 +903,26 @@ export default function PublicKprCalculatorPage() {
                         </div>
                       </div>
                     </div>
-                    <h2 className={styles.modalTitle}>{selectedProperty.namaProperty}</h2>
-                    <div className={styles.modalPrice}>
-                      {formatRupiah(typeof selectedProperty.price === 'string' ? BigInt(selectedProperty.price) : selectedProperty.price)}
+                    
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px', width: '100%', marginTop: '12px' }}>
+                      <div>
+                        <h2 className={styles.modalTitle} style={{ margin: 0 }}>{selectedProperty.namaProperty}</h2>
+                        <div className={styles.modalPrice} style={{ marginTop: '4px', marginBottom: 0 }}>
+                          {formatRupiah(typeof selectedProperty.price === 'string' ? BigInt(selectedProperty.price) : selectedProperty.price)}
+                        </div>
+                      </div>
+                      <button 
+                        onClick={() => window.print()} 
+                        className={styles.modalPrintBtn}
+                        title="Unduh Brosur Properti PDF"
+                      >
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'middle' }}>
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                          <polyline points="7 10 12 15 17 10" />
+                          <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Cetak Brosur PDF
+                      </button>
                     </div>
                   </div>
 
@@ -825,6 +978,82 @@ export default function PublicKprCalculatorPage() {
                         ? 'Villa mewah dengan desain arsitektur modern kontemporer yang menyajikan kenyamanan eksklusif bagi keluarga Anda. Berlokasi di kawasan premium bebas banjir dengan sistem keamanan terpadu 24 jam dan akses langsung ke fasilitas utama kota.'
                         : 'Ruko komersial strategis yang sangat cocok untuk kantor bisnis, outlet retail premium, maupun investasi jangka panjang. Memiliki tingkat traffic harian yang sangat tinggi dan area parkir luas.'}
                     </p>
+                  </div>
+
+                  {/* Interactive Floor Plan Section */}
+                  <div className={styles.floorPlanSection}>
+                    <h4 className={styles.modalSectionSub}>📐 Denah & Tata Letak Eksklusif</h4>
+                    <p className={styles.floorPlanSub}>Jelajahi denah tata letak 2D interaktif unit kami dengan presisi tata ruang tinggi.</p>
+                    
+                    <div className={styles.floorPlanVisualWrapper}>
+                      {selectedProperty.tipe === 'VILLA' ? (
+                        /* Villa interactive floor plan SVG */
+                        <svg viewBox="0 0 600 320" className={styles.floorPlanSvg}>
+                          {/* Outer walls */}
+                          <rect x="20" y="20" width="560" height="280" rx="10" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.08)" strokeWidth="2.5" />
+                          
+                          {/* Swimming pool section */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="40" y="40" width="220" height="90" rx="6" fill="rgba(0,180,216,0.04)" stroke="rgba(0,180,216,0.2)" strokeWidth="1.5" />
+                            <text x="150" y="80" className={styles.planRoomText}>SWIMMING POOL</text>
+                            <text x="150" y="100" className={styles.planRoomSize}>9.0 &times; 3.0 m</text>
+                          </g>
+
+                          {/* Master Bedroom */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="280" y="40" width="280" height="110" rx="6" fill="rgba(201,169,97,0.02)" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
+                            <text x="420" y="90" className={styles.planRoomText}>MASTER BEDROOM</text>
+                            <text x="420" y="110" className={styles.planRoomSize}>6.5 &times; 4.0 m</text>
+                          </g>
+
+                          {/* Living Room */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="40" y="150" width="300" height="130" rx="6" fill="rgba(201,169,97,0.04)" stroke="rgba(201,169,97,0.15)" strokeWidth="1.5" />
+                            <text x="190" y="210" className={styles.planRoomTextGold}>LIVING & DINING ROOM</text>
+                            <text x="190" y="230" className={styles.planRoomSizeGold}>7.5 &times; 5.0 m</text>
+                          </g>
+
+                          {/* Bedroom 2 */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="360" y="170" width="200" height="110" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
+                            <text x="460" y="220" className={styles.planRoomText}>GUEST BEDROOM</text>
+                            <text x="460" y="240" className={styles.planRoomSize}>4.0 &times; 3.5 m</text>
+                          </g>
+                        </svg>
+                      ) : (
+                        /* Ruko interactive floor plan SVG */
+                        <svg viewBox="0 0 600 320" className={styles.floorPlanSvg}>
+                          {/* Outer walls */}
+                          <rect x="120" y="20" width="360" height="280" rx="10" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.08)" strokeWidth="2.5" />
+                          
+                          {/* Front Parking / Carport */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="140" y="40" width="320" height="70" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
+                            <text x="300" y="70" className={styles.planRoomText}>FRONT CARPORT</text>
+                            <text x="300" y="90" className={styles.planRoomSize}>8.0 &times; 4.5 m</text>
+                          </g>
+
+                          {/* Main Retail Hall */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="140" y="130" width="320" height="100" rx="6" fill="rgba(201,169,97,0.04)" stroke="rgba(201,169,97,0.15)" strokeWidth="1.5" />
+                            <text x="300" y="175" className={styles.planRoomTextGold}>MAIN BUSINESS HALL</text>
+                            <text x="300" y="195" className={styles.planRoomSizeGold}>10.0 &times; 4.5 m</text>
+                          </g>
+
+                          {/* Toilet */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="140" y="245" width="100" height="40" rx="4" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+                            <text x="190" y="270" className={styles.planRoomText} style={{ fontSize: '9px' }}>TOILET</text>
+                          </g>
+
+                          {/* Backyard */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="260" y="245" width="200" height="40" rx="4" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                            <text x="360" y="270" className={styles.planRoomText} style={{ fontSize: '9px' }}>BACKYARD GARDEN</text>
+                          </g>
+                        </svg>
+                      )}
+                    </div>
                   </div>
 
                   <a 

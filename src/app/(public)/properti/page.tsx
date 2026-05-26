@@ -769,22 +769,41 @@ export default function PublicPropertiCatalogPage() {
 
                 {/* Details Meta */}
                 <div className={styles.modalDetailsCol}>
-                  <div className={styles.modalHeaderSec}>
-                    <div className={styles.modalHeaderTop}>
-                      <div className={styles.modalHeaderLeftGroup}>
-                        <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
-                        <div className={styles.modalBadges}>
-                          <span className={selectedProperty.status === 'IN_STOCK' ? styles.modalBadgeInStock : styles.modalBadgeSoldOut}>
-                            {selectedProperty.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
-                          </span>
+                  <div className={styles.modalHeaderTop}>
+                    <div className={styles.modalHeaderLeftGroup}>
+                      <span className={styles.modalKawasan}>
+                        {parseJsonArray(selectedProperty.kawasan).join(', ')}
+                      </span>
+                      <div className={styles.modalBadges}>
+                        <span className={`${styles.modalBadgeStatus} ${selectedProperty.status === 'IN_STOCK' ? styles.badgeInStock : styles.badgeSoldOut}`}>
+                          {selectedProperty.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
+                        </span>
+                        <div style={{ display: 'inline-flex', gap: '4px' }}>
                           <span className={styles.modalBadgeType}>
                             {getTipeLabel(selectedProperty.tipe)}
                           </span>
                         </div>
                       </div>
                     </div>
-                    <h2 className={styles.modalTitle}>{selectedProperty.namaProperty}</h2>
-                    <div className={styles.modalPrice}>{formatRupiah(typeof selectedProperty.price === 'string' ? BigInt(selectedProperty.price) : selectedProperty.price)}</div>
+                    
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px', width: '100%', marginTop: '12px' }}>
+                      <div>
+                        <h2 className={styles.modalTitle} style={{ margin: 0 }}>{selectedProperty.namaProperty}</h2>
+                        <div className={styles.modalPrice} style={{ marginTop: '4px', marginBottom: 0 }}>{formatRupiah(typeof selectedProperty.price === 'string' ? BigInt(selectedProperty.price) : selectedProperty.price)}</div>
+                      </div>
+                      <button 
+                        onClick={() => window.print()} 
+                        className={styles.modalPrintBtn}
+                        title="Unduh Brosur Properti PDF"
+                      >
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'middle' }}>
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                          <polyline points="7 10 12 15 17 10" />
+                          <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Cetak Brosur PDF
+                      </button>
+                    </div>
                   </div>
 
                   <div className={styles.modalSpecsGrid}>
@@ -839,6 +858,82 @@ export default function PublicPropertiCatalogPage() {
                         ? 'Villa mewah dengan desain arsitektur modern kontemporer yang menyajikan kenyamanan eksklusif bagi keluarga Anda. Berlokasi di kawasan premium bebas banjir dengan sistem keamanan terpadu 24 jam dan akses langsung ke fasilitas utama kota.'
                         : 'Ruko komersial strategis yang sangat cocok untuk kantor bisnis, outlet retail premium, maupun investasi jangka panjang. Memiliki tingkat traffic harian yang sangat tinggi dan area parkir luas.'}
                     </p>
+                  </div>
+
+                  {/* Interactive Floor Plan Section */}
+                  <div className={styles.floorPlanSection}>
+                    <h4 className={styles.modalSectionSub}>📐 Denah & Tata Letak Eksklusif</h4>
+                    <p className={styles.floorPlanSub}>Jelajahi denah tata letak 2D interaktif unit kami dengan presisi tata ruang tinggi.</p>
+                    
+                    <div className={styles.floorPlanVisualWrapper}>
+                      {selectedProperty.tipe === 'VILLA' ? (
+                        /* Villa interactive floor plan SVG */
+                        <svg viewBox="0 0 600 320" className={styles.floorPlanSvg}>
+                          {/* Outer walls */}
+                          <rect x="20" y="20" width="560" height="280" rx="10" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.08)" strokeWidth="2.5" />
+                          
+                          {/* Swimming pool section */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="40" y="40" width="220" height="90" rx="6" fill="rgba(0,180,216,0.04)" stroke="rgba(0,180,216,0.2)" strokeWidth="1.5" />
+                            <text x="150" y="80" className={styles.planRoomText}>SWIMMING POOL</text>
+                            <text x="150" y="100" className={styles.planRoomSize}>9.0 &times; 3.0 m</text>
+                          </g>
+
+                          {/* Master Bedroom */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="280" y="40" width="280" height="110" rx="6" fill="rgba(201,169,97,0.02)" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
+                            <text x="420" y="90" className={styles.planRoomText}>MASTER BEDROOM</text>
+                            <text x="420" y="110" className={styles.planRoomSize}>6.5 &times; 4.0 m</text>
+                          </g>
+
+                          {/* Living Room */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="40" y="150" width="300" height="130" rx="6" fill="rgba(201,169,97,0.04)" stroke="rgba(201,169,97,0.15)" strokeWidth="1.5" />
+                            <text x="190" y="210" className={styles.planRoomTextGold}>LIVING & DINING ROOM</text>
+                            <text x="190" y="230" className={styles.planRoomSizeGold}>7.5 &times; 5.0 m</text>
+                          </g>
+
+                          {/* Bedroom 2 */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="360" y="170" width="200" height="110" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
+                            <text x="460" y="220" className={styles.planRoomText}>GUEST BEDROOM</text>
+                            <text x="460" y="240" className={styles.planRoomSize}>4.0 &times; 3.5 m</text>
+                          </g>
+                        </svg>
+                      ) : (
+                        /* Ruko interactive floor plan SVG */
+                        <svg viewBox="0 0 600 320" className={styles.floorPlanSvg}>
+                          {/* Outer walls */}
+                          <rect x="120" y="20" width="360" height="280" rx="10" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.08)" strokeWidth="2.5" />
+                          
+                          {/* Front Parking / Carport */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="140" y="40" width="320" height="70" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
+                            <text x="300" y="70" className={styles.planRoomText}>FRONT CARPORT</text>
+                            <text x="300" y="90" className={styles.planRoomSize}>8.0 &times; 4.5 m</text>
+                          </g>
+
+                          {/* Main Retail Hall */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="140" y="130" width="320" height="100" rx="6" fill="rgba(201,169,97,0.04)" stroke="rgba(201,169,97,0.15)" strokeWidth="1.5" />
+                            <text x="300" y="175" className={styles.planRoomTextGold}>MAIN BUSINESS HALL</text>
+                            <text x="300" y="195" className={styles.planRoomSizeGold}>10.0 &times; 4.5 m</text>
+                          </g>
+
+                          {/* Toilet */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="140" y="245" width="100" height="40" rx="4" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+                            <text x="190" y="270" className={styles.planRoomText} style={{ fontSize: '9px' }}>TOILET</text>
+                          </g>
+
+                          {/* Backyard */}
+                          <g className={styles.planRoom} tabIndex={0}>
+                            <rect x="260" y="245" width="200" height="40" rx="4" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                            <text x="360" y="270" className={styles.planRoomText} style={{ fontSize: '9px' }}>BACKYARD GARDEN</text>
+                          </g>
+                        </svg>
+                      )}
+                    </div>
                   </div>
 
                   <a 

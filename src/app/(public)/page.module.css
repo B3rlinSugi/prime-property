@@ -1333,4 +1333,210 @@
   background-color: #000000;
 }
 
+/* ─── MODAL PRINT BUTTON STYLES ─── */
+.modalPrintBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid rgba(201, 169, 97, 0.4);
+  color: #C9A961;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.modalPrintBtn:hover {
+  background: rgba(201, 169, 97, 0.08);
+  border-color: #C9A961;
+  transform: translateY(-1px);
+}
+
+/* ─── INTERACTIVE FLOOR PLAN STYLES ─── */
+.floorPlanSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 20px;
+}
+
+.floorPlanSub {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0 0 12px;
+  text-align: left;
+}
+
+.floorPlanVisualWrapper {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.floorPlanSvg {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+}
+
+.planRoom {
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.planRoom:hover rect {
+  fill: rgba(201, 169, 97, 0.08) !important;
+  stroke: #C9A961 !important;
+}
+
+.planRoomText {
+  fill: rgba(255, 255, 255, 0.45);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-anchor: middle;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+}
+
+.planRoomSize {
+  fill: rgba(255, 255, 255, 0.25);
+  font-family: monospace;
+  font-size: 10px;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.planRoomTextGold {
+  fill: #C9A961;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-anchor: middle;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+}
+
+.planRoomSizeGold {
+  fill: rgba(201, 169, 97, 0.6);
+  font-family: monospace;
+  font-size: 10px;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+/* ─── A4 PRINTABLE BROCHURE LAYOUT OVERRIDES ─── */
+@media print {
+  :global(header), :global(footer), :global(body) > *:not(.modalBackdrop), .hero, .featured, .cta, .advantages, .compareDrawer {
+    display: none !important;
+  }
+  
+  :global(body), :global(html) {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-family: 'Inter', -apple-system, sans-serif !important;
+  }
+  
+  .modalBackdrop {
+    position: static !important;
+    background: #FFFFFF !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    display: block !important;
+    overflow: visible !important;
+  }
+  
+  .modalContent {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  
+  .modalCloseBtn, .modalPrintBtn, .modalWaBtn, .modalTabWrapper, .modalThumbRow {
+    display: none !important;
+  }
+  
+  .modalGrid {
+    display: block !important;
+  }
+  
+  .modalVisualCol, .modalDetailsCol {
+    width: 100% !important;
+    display: block !important;
+    padding: 0 !important;
+    margin-bottom: 24px !important;
+  }
+  
+  .modalTitle {
+    color: #000000 !important;
+    font-size: 2.2rem !important;
+    font-family: 'Playfair Display', Georgia, serif !important;
+    margin-bottom: 12px !important;
+  }
+  
+  .modalPrice {
+    color: #C9A961 !important;
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 24px !important;
+  }
+  
+  .modalSpecCard {
+    background: #FAFAFA !important;
+    border: 1px solid #EEEEEE !important;
+    color: #000000 !important;
+  }
+  
+  .modalSpecVal {
+    color: #000000 !important;
+  }
+  
+  .modalDescText {
+    color: #333333 !important;
+  }
+  
+  .floorPlanVisualWrapper {
+    background: #FAFAFA !important;
+    border: 1px solid #DDDDDD !important;
+  }
+  
+  .planRoomText {
+    fill: #333333 !important;
+  }
+  
+  .planRoomSize {
+    fill: #666666 !important;
+  }
+  
+  .modalHeaderTop::before {
+    content: "PRIME PROPERTY — BROSUR RESMI UNIT EKSKLUSIF";
+    display: block;
+    font-size: 0.75rem;
+    color: #C9A961;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #C9A961;
+    padding-bottom: 8px;
+  }
+}
+
 
