@@ -462,7 +462,12 @@ export default function PublicKprCalculatorPage() {
           <div className={styles.amortizationCard}>
             <div className={styles.amortizationHeader} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
               <div>
-                <h3 className={styles.amortizationTitle}>📈 Jadwal Amortisasi KPR Tahunan</h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
+                  <h3 className={styles.amortizationTitle} style={{ margin: 0 }}>📈 Jadwal Amortisasi KPR Tahunan</h3>
+                  <span className={matchingProperties.length > 0 ? styles.integratedBadge : styles.genericBadge}>
+                    {matchingProperties.length > 0 ? '✨ Portofolio Terintegrasi' : '📊 Simulasi Kredit Umum'}
+                  </span>
+                </div>
                 <p className={styles.amortizationSub}>
                   Rincian alokasi angsuran tahunan Anda antara pembayaran saldo pokok hutang dan porsi bunga.
                 </p>

@@ -1374,11 +1374,10 @@
 }
 
 .amortizationCard {
-  background: rgba(22, 22, 22, 0.45);
+  background: #161616; /* Clean solid high-performance dark luxury card background matching globals.css */
   border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: 12px;
   padding: 32px;
-  backdrop-filter: blur(10px);
 }
 
 .amortizationHeader {
@@ -1391,7 +1390,35 @@
   font-size: 1.45rem;
   font-weight: 600;
   color: #FFFFFF;
-  margin: 0 0 6px;
+  margin: 0;
+}
+
+.integratedBadge {
+  background: rgba(201, 169, 97, 0.12);
+  color: #C9A961;
+  border: 1px solid rgba(201, 169, 97, 0.25);
+  padding: 3px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.genericBadge {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .amortizationSub {

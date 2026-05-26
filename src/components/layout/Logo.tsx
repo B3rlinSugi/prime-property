@@ -11,10 +11,10 @@ interface LogoProps {
 export default function Logo({ height = 48, light = false, showText = true }: LogoProps) {
   // Scale calculations based on height
   const width = showText ? (height * 3.2) : height;
-  const textColor = light ? '#1A1A1A' : '#FFFFFF'; // Dynamic text color matching light/dark modes
+  const textColor = light ? '#FFFFFF' : '#1A1A1A'; // Dynamic text color matching light/dark modes
   const accentColor = '#C9A961'; // Gold Accent
   const redColor = '#B33A3A'; // Red Accent
-  const thirdPillarColor = light ? '#1A1A1A' : '#FFFFFF'; // Symmetrical to textColor
+  const thirdPillarColor = light ? '#FFFFFF' : '#1A1A1A'; // Symmetrical to textColor
 
   return (
     <svg
