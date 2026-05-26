@@ -331,45 +331,6 @@ export default function KontakPage() {
           </div>
         </div>
       </section>
-
-      {/* ─── Bottom Google Maps Section ─── */}
-      <section className={styles.mapsSection}>
-        <div className={styles.mapsHeader}>
-          <h2 className={`${styles.sectionTitle} reveal`}>Lokasi Kantor Kami</h2>
-        </div>
-        
-        <div className={`${styles.mapsContainer} reveal`}>
-          {/* Real Google Map styled Dark */}
-          <iframe
-            src="https://maps.google.com/maps?q=Jl.%20Krakatau%20No.123,%20Medan&t=&z=15&ie=UTF8&iwloc=&output=embed"
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            allowFullScreen={true}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className={styles.googleMap}
-          ></iframe>
-          <div className={styles.locationMapOverlay}></div>
-
-          {/* Floating Address Box */}
-          <div className={styles.addressFloatingBox}>
-            <h3 className={styles.addressBoxTitle}>Prime Property Office</h3>
-            <p className={styles.addressBoxText}>
-              Jl. Krakatau No.123, Medan, <br />
-              Sumatera Utara 20234
-            </p>
-            <a 
-              href="https://maps.google.com/?q=Jl.+Krakatau+No.123,+Medan" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className={styles.mapsRedirectBtn}
-            >
-              Lihat di Google Maps <span style={{ marginLeft: '4px' }}>🗺️</span>
-            </a>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
