@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Logo from '@/components/layout/Logo';
 import { formatRupiah } from '@/lib/utils';
 import styles from './page.module.css';
 
@@ -32,15 +31,33 @@ export default function PublicPropertiCatalogPage() {
   // Search & Filter State
   const [search, setSearch] = useState('');
   const [selectedType, setSelectedType] = useState('ALL'); // ALL, VILLA, RUKO
-  const [selectedKawasan, setSelectedKawasan] = useState('ALL'); // ALL, Krakatau, Pancing, Helvetia, Cemara Asri, Sunggal, Tembung
+  const [selectedKawasan, setSelectedKawasan] = useState('ALL'); // ALL, Krakatau, Pancing, etc.
   const [selectedStatus, setSelectedStatus] = useState('ALL'); // ALL, IN_STOCK, SOLD_OUT
+  const [budgetFilter, setBudgetFilter] = useState<number | null>(null);
+
+  // Dropdown Toggles
+  const [typeOpen, setTypeOpen] = useState(false);
+  const [kawasanOpen, setKawasanOpen] = useState(false);
+  const [statusOpen, setStatusOpen] = useState(false);
+
+  // Dropdown Refs (for closing on click outside)
+  const typeRef = useRef<HTMLDivElement>(null);
+  const kawasanRef = useRef<HTMLDivElement>(null);
+  const statusRef = useRef<HTMLDivElement>(null);
+
+  // Property Comparison State
+  const [compareList, setCompareList] = useState<Property[]>([]);
+  const [compareDrawerOpen, setCompareDrawerOpen] = useState(false);
 
   // Modal Detail State
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [activeModalTab, setActiveModalTab] = useState<'gallery' | 'video'>('gallery');
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
-  // Fetch properties from API
+  // Image load tracking
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+
+  // Fetch properties
   useEffect(() => {
     async function fetchAllProperties() {
       try {
@@ -58,6 +75,37 @@ export default function PublicPropertiCatalogPage() {
       }
     }
     fetchAllProperties();
+  }, []);
+
+  // Parse budget parameter from KPR simulation URL
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const budgetParam = searchParams.get('budget');
+    if (budgetParam) {
+      const budgetVal = parseInt(budgetParam, 10);
+      if (!isNaN(budgetVal) && budgetVal > 0) {
+        setBudgetFilter(budgetVal);
+      }
+    }
+  }, []);
+
+  // Close dropdowns on clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (typeRef.current && !typeRef.current.contains(event.target as Node)) {
+        setTypeOpen(false);
+      }
+      if (kawasanRef.current && !kawasanRef.current.contains(event.target as Node)) {
+        setKawasanOpen(false);
+      }
+      if (statusRef.current && !statusRef.current.contains(event.target as Node)) {
+        setStatusOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   // Filter Logic
@@ -88,8 +136,15 @@ export default function PublicPropertiCatalogPage() {
       result = result.filter((p) => p.status === selectedStatus);
     }
 
+    if (budgetFilter) {
+      result = result.filter((p) => {
+        const priceNum = typeof p.price === 'string' ? parseInt(p.price, 10) : Number(p.price);
+        return priceNum <= budgetFilter;
+      });
+    }
+
     setFilteredProperties(result);
-  }, [search, selectedType, selectedKawasan, selectedStatus, properties]);
+  }, [search, selectedType, selectedKawasan, selectedStatus, budgetFilter, properties]);
 
   // Scroll Lock Helper
   useEffect(() => {
@@ -118,7 +173,7 @@ export default function PublicPropertiCatalogPage() {
     for (let i = 0; i < id.length; i++) {
       sum += id.charCodeAt(i);
     }
-    return (sum % 6) + 1; // Returns 1 to 6
+    return (sum % 6) + 1;
   }
 
   function getTipeLabel(tipe: string): string {
@@ -133,6 +188,28 @@ export default function PublicPropertiCatalogPage() {
     };
     return map[siap] || siap;
   }
+
+  // Handle image load tracking
+  const handleImageLoad = (id: string) => {
+    setLoadedImages((prev) => ({ ...prev, [id]: true }));
+  };
+
+  // Compare properties trigger
+  const toggleCompare = (e: React.MouseEvent, property: Property) => {
+    e.stopPropagation();
+    
+    const exists = compareList.find((p) => p.id === property.id);
+    if (exists) {
+      setCompareList((prev) => prev.filter((p) => p.id !== property.id));
+    } else {
+      if (compareList.length >= 3) {
+        alert('Anda hanya dapat membandingkan maksimal 3 properti sekaligus.');
+        return;
+      }
+      setCompareList((prev) => [...prev, property]);
+      setCompareDrawerOpen(true);
+    }
+  };
 
   return (
     <div className={styles.pageWrapper}>
@@ -153,10 +230,10 @@ export default function PublicPropertiCatalogPage() {
         </div>
       </section>
 
-      {/* Filter Controls Panel */}
+      {/* Filter Controls Panel (With Premium Custom Dropdowns) */}
       <section className={styles.controlsSection}>
         <div className={styles.controlsPanel}>
-          {/* Search */}
+          {/* Search Box */}
           <div className={styles.searchBox}>
             <span className={styles.searchIcon}>🔍</span>
             <input
@@ -173,52 +250,132 @@ export default function PublicPropertiCatalogPage() {
             )}
           </div>
 
-          {/* Type Select */}
-          <div className={styles.filterGroup}>
+          {/* Premium Custom Type Dropdown */}
+          <div className={styles.customSelectWrapper} ref={typeRef}>
             <label className={styles.filterLabel}>TIPE</label>
-            <select
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value)}
-              className={styles.filterSelect}
+            <div 
+              className={styles.customSelectTrigger} 
+              onClick={() => {
+                setTypeOpen(!typeOpen);
+                setKawasanOpen(false);
+                setStatusOpen(false);
+              }}
             >
-              <option value="ALL">Semua Tipe</option>
-              <option value="VILLA">Villa Premium</option>
-              <option value="RUKO">Ruko Komersial</option>
-            </select>
+              <span>{selectedType === 'ALL' ? 'Semua Tipe' : selectedType === 'VILLA' ? 'Villa Premium' : 'Ruko Komersial'}</span>
+              <span className={`${styles.selectArrow} ${typeOpen ? styles.arrowRotate : ''}`}>▾</span>
+            </div>
+            {typeOpen && (
+              <ul className={styles.customOptionsList}>
+                <li 
+                  className={selectedType === 'ALL' ? styles.optionActive : ''}
+                  onClick={() => { setSelectedType('ALL'); setTypeOpen(false); }}
+                >
+                  Semua Tipe
+                </li>
+                <li 
+                  className={selectedType === 'VILLA' ? styles.optionActive : ''}
+                  onClick={() => { setSelectedType('VILLA'); setTypeOpen(false); }}
+                >
+                  Villa Premium
+                </li>
+                <li 
+                  className={selectedType === 'RUKO' ? styles.optionActive : ''}
+                  onClick={() => { setSelectedType('RUKO'); setTypeOpen(false); }}
+                >
+                  Ruko Komersial
+                </li>
+              </ul>
+            )}
           </div>
 
-          {/* Kawasan Select */}
-          <div className={styles.filterGroup}>
+          {/* Premium Custom Kawasan Dropdown */}
+          <div className={styles.customSelectWrapper} ref={kawasanRef}>
             <label className={styles.filterLabel}>KAWASAN</label>
-            <select
-              value={selectedKawasan}
-              onChange={(e) => setSelectedKawasan(e.target.value)}
-              className={styles.filterSelect}
+            <div 
+              className={styles.customSelectTrigger} 
+              onClick={() => {
+                setKawasanOpen(!kawasanOpen);
+                setTypeOpen(false);
+                setStatusOpen(false);
+              }}
             >
-              <option value="ALL">Semua Wilayah</option>
-              <option value="Krakatau">Krakatau</option>
-              <option value="Pancing">Pancing</option>
-              <option value="Helvetia">Helvetia</option>
-              <option value="Cemara Asri">Cemara Asri</option>
-              <option value="Sunggal">Sunggal</option>
-              <option value="Tembung">Tembung</option>
-            </select>
+              <span>{selectedKawasan === 'ALL' ? 'Semua Wilayah' : selectedKawasan}</span>
+              <span className={`${styles.selectArrow} ${kawasanOpen ? styles.arrowRotate : ''}`}>▾</span>
+            </div>
+            {kawasanOpen && (
+              <ul className={styles.customOptionsList}>
+                {['ALL', 'Krakatau', 'Pancing', 'Helvetia', 'Cemara Asri', 'Sunggal', 'Tembung'].map((kaw) => (
+                  <li 
+                    key={kaw}
+                    className={selectedKawasan === kaw ? styles.optionActive : ''}
+                    onClick={() => { setSelectedKawasan(kaw); setKawasanOpen(false); }}
+                  >
+                    {kaw === 'ALL' ? 'Semua Wilayah' : kaw}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
-          {/* Status Select */}
-          <div className={styles.filterGroup}>
+          {/* Premium Custom Status Dropdown */}
+          <div className={styles.customSelectWrapper} ref={statusRef}>
             <label className={styles.filterLabel}>STATUS</label>
-            <select
-              value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
-              className={styles.filterSelect}
+            <div 
+              className={styles.customSelectTrigger} 
+              onClick={() => {
+                setStatusOpen(!statusOpen);
+                setTypeOpen(false);
+                setKawasanOpen(false);
+              }}
             >
-              <option value="ALL">Semua Status</option>
-              <option value="IN_STOCK">Tersedia (In Stock)</option>
-              <option value="SOLD_OUT">Terjual (Sold Out)</option>
-            </select>
+              <span>{selectedStatus === 'ALL' ? 'Semua Status' : selectedStatus === 'IN_STOCK' ? 'Tersedia' : 'Terjual'}</span>
+              <span className={`${styles.selectArrow} ${statusOpen ? styles.arrowRotate : ''}`}>▾</span>
+            </div>
+            {statusOpen && (
+              <ul className={styles.customOptionsList}>
+                <li 
+                  className={selectedStatus === 'ALL' ? styles.optionActive : ''}
+                  onClick={() => { setSelectedStatus('ALL'); setStatusOpen(false); }}
+                >
+                  Semua Status
+                </li>
+                <li 
+                  className={selectedStatus === 'IN_STOCK' ? styles.optionActive : ''}
+                  onClick={() => { setSelectedStatus('IN_STOCK'); setStatusOpen(false); }}
+                >
+                  Tersedia
+                </li>
+                <li 
+                  className={selectedStatus === 'SOLD_OUT' ? styles.optionActive : ''}
+                  onClick={() => { setSelectedStatus('SOLD_OUT'); setStatusOpen(false); }}
+                >
+                  Terjual
+                </li>
+              </ul>
+            )}
           </div>
         </div>
+
+        {/* Dynamic Golden Active KPR Budget Tag */}
+        {budgetFilter && (
+          <div className={styles.activeBudgetBadgeWrapper}>
+            <div className={styles.activeBudgetBadge}>
+              <span className={styles.badgeLabel}>⚡ BUDGET KPR AKTIF</span>
+              <span className={styles.badgeVal}>Maksimal {formatRupiah(budgetFilter)}</span>
+              <button 
+                className={styles.clearBudgetBtn} 
+                onClick={() => {
+                  setBudgetFilter(null);
+                  // Remove budget from URL query params
+                  window.history.pushState({}, '', window.location.pathname);
+                }}
+                title="Hapus filter budget"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Main Grid Catalog */}
@@ -226,7 +383,7 @@ export default function PublicPropertiCatalogPage() {
         {isLoading ? (
           /* High-Fidelity Skeletons */
           <div className={styles.catalogGrid}>
-            {[1, 2, 6, 4, 5, 6].map((i) => (
+            {[1, 2, 3, 4, 5, 6].map((i) => (
               <div key={i} className={styles.skeletonCard}>
                 <div className={styles.skeletonImage} />
                 <div className={styles.skeletonTextTitle} />
@@ -237,31 +394,51 @@ export default function PublicPropertiCatalogPage() {
             ))}
           </div>
         ) : filteredProperties.length === 0 ? (
-          /* Empty State */
+          /* Custom budget-specific Empty State */
           <div className={styles.emptyState}>
-            <span className={styles.emptyIcon}>🏢</span>
-            <h3 className={styles.emptyTitle}>Properti Tidak Ditemukan</h3>
+            <span className={styles.emptyIcon}>💰</span>
+            <h3 className={styles.emptyTitle}>
+              {budgetFilter ? 'Melebihi Budget Anda' : 'Properti Tidak Ditemukan'}
+            </h3>
             <p className={styles.emptyText}>
-              Tidak ada ruko atau villa yang cocok dengan pencarian dan filter aktif Anda saat ini.
+              {budgetFilter 
+                ? `Tidak ada properti premium kami yang memiliki harga di bawah ${formatRupiah(budgetFilter)} saat ini. Silakan naikkan budget KPR Anda atau cari tipe unit lain.`
+                : 'Tidak ada ruko atau villa yang cocok dengan pencarian dan filter aktif Anda saat ini.'
+              }
             </p>
-            <button
-              className={styles.resetFiltersBtn}
-              onClick={() => {
-                setSearch('');
-                setSelectedType('ALL');
-                setSelectedKawasan('ALL');
-                setSelectedStatus('ALL');
-              }}
-            >
-              Reset Semua Filter
-            </button>
+            <div className={styles.emptyActionsRow}>
+              {budgetFilter && (
+                <button 
+                  className={styles.resetFiltersBtn} 
+                  onClick={() => {
+                    setBudgetFilter(null);
+                    window.history.pushState({}, '', window.location.pathname);
+                  }}
+                >
+                  Hapus Filter Budget KPR
+                </button>
+              )}
+              <button
+                className={`${styles.resetFiltersBtn} ${styles.outlineBtn}`}
+                onClick={() => {
+                  setSearch('');
+                  setSelectedType('ALL');
+                  setSelectedKawasan('ALL');
+                  setSelectedStatus('ALL');
+                }}
+              >
+                Reset Filter Lainnya
+              </button>
+            </div>
           </div>
         ) : (
-          /* Symmetrical Cards Grid */
+          /* Symmetrical Cards Grid with optimized smooth image loaders */
           <div className={styles.catalogGrid}>
             {filteredProperties.map((property) => {
               const imageIndex = getPropertyImageIndex(property.id);
               const kawasanArray = parseJsonArray(property.kawasan);
+              const isComparing = !!compareList.find((p) => p.id === property.id);
+              
               return (
                 <article
                   key={property.id}
@@ -272,10 +449,16 @@ export default function PublicPropertiCatalogPage() {
                     setActiveModalTab('gallery');
                   }}
                 >
-                  <div
-                    className={styles.cardImage}
-                    style={{ backgroundImage: `url(/property-villa-${imageIndex}.png)` }}
-                  >
+                  {/* Real Image tag styled with dark placeholder and fade-in loaded class */}
+                  <div className={styles.cardImageContainer}>
+                    <img 
+                      src={`/property-villa-${imageIndex}.png`} 
+                      alt={property.namaProperty} 
+                      className={`${styles.cardImageTag} ${loadedImages[property.id] ? styles.imageLoaded : ''}`}
+                      onLoad={() => handleImageLoad(property.id)}
+                      loading="lazy"
+                    />
+                    
                     <div className={styles.cardBadgeContainer}>
                       <span className={property.status === 'IN_STOCK' ? styles.badgeInStock : styles.badgeSoldOut}>
                         {property.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
@@ -284,6 +467,15 @@ export default function PublicPropertiCatalogPage() {
                         {getTipeLabel(property.tipe)}
                       </span>
                     </div>
+
+                    {/* Compare Selection Overlay */}
+                    <button
+                      className={`${styles.compareSelectBtn} ${isComparing ? styles.compareActive : ''}`}
+                      onClick={(e) => toggleCompare(e, property)}
+                      title="Bandingkan properti ini"
+                    >
+                      {isComparing ? '✓ Terpilih' : '+ Bandingkan'}
+                    </button>
                   </div>
 
                   <div className={styles.cardContent}>
@@ -307,7 +499,7 @@ export default function PublicPropertiCatalogPage() {
                     <div className={styles.cardSpecs}>
                       <div className={styles.cardSpecItem}>
                         <span className={styles.cardSpecIcon}>📐</span>
-                        <span>{property.lebar} &times; {property.panjang}</span>
+                        <span>{property.lebar} &times; {property.panjang} m</span>
                       </div>
                       <div className={styles.cardSpecItem}>
                         <span className={styles.cardSpecIcon}>🏢</span>
@@ -321,6 +513,151 @@ export default function PublicPropertiCatalogPage() {
           </div>
         )}
       </section>
+
+      {/* ─── Compare Properties Drawer ─── */}
+      {compareList.length > 0 && compareDrawerOpen && (
+        <div className={styles.compareDrawer}>
+          <div className={styles.drawerHeader}>
+            <div className={styles.drawerTitleCol}>
+              <h4 className={styles.drawerTitle}>Bandingkan Unit Properti</h4>
+              <span className={styles.drawerCount}>{compareList.length} dari 3 unit terpilih</span>
+            </div>
+            <div className={styles.drawerActions}>
+              <button 
+                className={styles.clearAllCompareBtn}
+                onClick={() => setCompareList([])}
+              >
+                Hapus Semua
+              </button>
+              <button 
+                className={styles.closeDrawerBtn}
+                onClick={() => setCompareDrawerOpen(false)}
+              >
+                ✕ Close
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.compareGridWrapper}>
+            <table className={styles.compareTable}>
+              <thead>
+                <tr>
+                  <th className={styles.specLabelCell}>METRIK BANDING</th>
+                  {compareList.map((item) => (
+                    <th key={item.id} className={styles.compareHeaderCell}>
+                      <div className={styles.compareHeaderMeta}>
+                        <img 
+                          src={`/property-villa-${getPropertyImageIndex(item.id)}.png`}
+                          alt={item.namaProperty}
+                          className={styles.compareMetaImg}
+                        />
+                        <span className={styles.compareMetaTitle}>{item.namaProperty}</span>
+                        <button 
+                          className={styles.removeCompareItemBtn}
+                          onClick={() => setCompareList((prev) => prev.filter((p) => p.id !== item.id))}
+                        >
+                          Hapus
+                        </button>
+                      </div>
+                    </th>
+                  ))}
+                  {compareList.length < 3 && (
+                    <th className={styles.comparePlaceholderCell}>
+                      <div className={styles.placeholderBox}>
+                        <span>+ Tambah unit lain</span>
+                      </div>
+                    </th>
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className={styles.specLabelCell}>HARGA UNIT</td>
+                  {compareList.map((item) => (
+                    <td key={item.id} className={styles.specValueCellGold}>
+                      {formatRupiah(typeof item.price === 'string' ? BigInt(item.price) : item.price)}
+                    </td>
+                  ))}
+                  {compareList.length < 3 && <td>-</td>}
+                </tr>
+                <tr>
+                  <td className={styles.specLabelCell}>TIPE PROPERTI</td>
+                  {compareList.map((item) => (
+                    <td key={item.id} className={styles.specValueCell}>
+                      {getTipeLabel(item.tipe)}
+                    </td>
+                  ))}
+                  {compareList.length < 3 && <td>-</td>}
+                </tr>
+                <tr>
+                  <td className={styles.specLabelCell}>DIMENSI UNIT</td>
+                  {compareList.map((item) => (
+                    <td key={item.id} className={styles.specValueCell}>
+                      {item.lebar} &times; {item.panjang} meter
+                    </td>
+                  ))}
+                  {compareList.length < 3 && <td>-</td>}
+                </tr>
+                <tr>
+                  <td className={styles.specLabelCell}>TINGKAT LANTAI</td>
+                  {compareList.map((item) => (
+                    <td key={item.id} className={styles.specValueCell}>
+                      {item.tingkat} Lantai
+                    </td>
+                  ))}
+                  {compareList.length < 3 && <td>-</td>}
+                </tr>
+                <tr>
+                  <td className={styles.specLabelCell}>ARAH HADAP</td>
+                  {compareList.map((item) => (
+                    <td key={item.id} className={styles.specValueCell}>
+                      {parseJsonArray(item.hadap).join(', ')}
+                    </td>
+                  ))}
+                  {compareList.length < 3 && <td>-</td>}
+                </tr>
+                <tr>
+                  <td className={styles.specLabelCell}>CARPORT</td>
+                  {compareList.map((item) => (
+                    <td key={item.id} className={styles.specValueCell}>
+                      {item.carport ? 'Tersedia' : 'Tidak Ada'}
+                    </td>
+                  ))}
+                  {compareList.length < 3 && <td>-</td>}
+                </tr>
+                <tr>
+                  <td className={styles.specLabelCell}>KAWASAN / WILAYAH</td>
+                  {compareList.map((item) => (
+                    <td key={item.id} className={styles.specValueCell}>
+                      {parseJsonArray(item.kawasan).join(', ')}
+                    </td>
+                  ))}
+                  {compareList.length < 3 && <td>-</td>}
+                </tr>
+                <tr>
+                  <td className={styles.specLabelCell}>KESIAPAN HUNI</td>
+                  {compareList.map((item) => (
+                    <td key={item.id} className={styles.specValueCell}>
+                      {getSiapLabel(item.siap)}
+                    </td>
+                  ))}
+                  {compareList.length < 3 && <td>-</td>}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* Floating comparison drawer toggle button */}
+      {compareList.length > 0 && !compareDrawerOpen && (
+        <button 
+          className={styles.compareFloatingToggle}
+          onClick={() => setCompareDrawerOpen(true)}
+        >
+          ⚖ Bandingkan Unit ({compareList.length})
+        </button>
+      )}
 
       {/* Glassmorphic Property Detail Modal overlay */}
       {selectedProperty && (() => {
