@@ -16,12 +16,14 @@
     radial-gradient(circle 500px at var(--mouse-x, 80%) var(--mouse-y, 50%), rgba(201, 169, 97, 0.08), transparent 85%),
     #0D0D0D;
   display: flex;
+  flex-direction: column; /* Stack vertically on mobile */
   align-items: center;
   justify-content: center;
-  padding: 100px clamp(16px, 4vw, 64px) 80px;
+  padding: 80px clamp(16px, 4vw, 64px) 60px;
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  gap: 40px;
 }
 
 .hero::before {
@@ -50,17 +52,21 @@
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 60px;
-  align-items: center;
-  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 5;
 }
 
 @media (min-width: 1024px) {
+  .hero {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 120px clamp(16px, 4vw, 64px) 100px;
+    gap: 0;
+  }
   .heroContent {
-    grid-template-columns: 1fr 1.15fr;
-    gap: 40px;
+    pointer-events: none; /* Let clicks pass to absolute image if needed */
   }
 }
 
@@ -69,6 +75,9 @@
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
+  max-width: 550px;
+  width: 100%;
+  pointer-events: auto;
 }
 
 .heroWelcome {
@@ -164,7 +173,7 @@
   color: #C9A961;
 }
 
-/* ─── Hero Visual (3D OS Dashboard Mockup) ─── */
+/* ─── Hero Visual (Cinematic Full-Bleed Blended Villa) ─── */
 
 .heroVisual {
   display: flex;
@@ -177,229 +186,94 @@
   position: relative;
   width: 100%;
   max-width: 500px;
-  height: 400px;
+  height: 350px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  perspective: 1200px;
+  overflow: hidden;
+  border-radius: 12px;
 }
 
-@media (min-width: 1024px) {
-  .visualContainer {
-    max-width: 680px;
-    height: 540px;
-  }
-}
-
-.ambientGlow {
-  position: absolute;
-  width: 380px;
-  height: 380px;
-  background: radial-gradient(circle, rgba(201, 169, 97, 0.16) 0%, transparent 70%);
-  filter: blur(50px);
-  z-index: 1;
-  pointer-events: none;
-}
-
-@media (min-width: 1024px) {
-  .ambientGlow {
-    width: 520px;
-    height: 520px;
-    background: radial-gradient(circle, rgba(201, 169, 97, 0.22) 0%, transparent 70%);
-  }
-}
-
-.gridMesh {
+.visualContainer::before {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: 60px 60px;
-  background-image: 
-    linear-gradient(to right, rgba(201, 169, 97, 0.015) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(201, 169, 97, 0.015) 1px, transparent 1px);
-  mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 60%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 60%, transparent 100%);
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(to right, #0D0D0D 0%, transparent 15%, transparent 85%, #0D0D0D 100%),
+    linear-gradient(to bottom, #0D0D0D 0%, transparent 15%, transparent 85%, #0D0D0D 100%);
+  z-index: 4;
   pointer-events: none;
-  z-index: 1;
 }
 
 .visualImg {
   position: relative;
   z-index: 3;
-  width: 85%;
-  height: auto;
-  max-height: 280px;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7));
-  animation: floatHouse 6s ease-in-out infinite;
+  animation: none; /* No floating animation */
 }
 
 @media (min-width: 1024px) {
+  .heroVisual {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 52%; /* Covers the right side viewport width seamlessly */
+    height: 100%;
+    z-index: 1; /* Sits behind centered text column */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .visualContainer {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    position: relative;
+    border-radius: 0; /* Bleeds seamlessly */
+  }
+
+  .visualContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55%; /* Deep left-to-right fade-out over half container width */
+    height: 100%;
+    background: linear-gradient(to right, #0D0D0D 0%, rgba(13, 13, 13, 0.8) 15%, transparent 100%);
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  .visualContainer::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 35%; /* Smooth bottom-to-top fade-out */
+    background: linear-gradient(to top, #0D0D0D 0%, transparent 100%);
+    z-index: 4;
+    pointer-events: none;
+  }
+
   .visualImg {
     width: 100%;
-    max-height: 450px;
+    height: 100%;
+    object-fit: cover;
+    object-position: center right; /* Align the villa to the right edge */
+    animation: none;
   }
-}
-
-@keyframes floatHouse {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
-/* 3D Orbiting Swirling Rings styling */
-.orbitContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.orbitRing {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.orbitSvg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.orbitPath {
-  fill: none;
-  stroke: rgba(201, 169, 97, 0.45);
-  stroke-width: 1.2;
-  filter: drop-shadow(0 0 8px rgba(201, 169, 97, 0.5));
-}
-
-.orbitParticle {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background-color: #C9A961;
-  border-radius: 50%;
-  box-shadow: 0 0 10px #C9A961, 0 0 20px #C9A961;
-}
-
-/* Orbit 1: Tilted left & rotating */
-.orbit1 {
-  transform: rotateX(70deg) rotateY(-30deg) rotateZ(0deg);
-  animation: spinOrbit1 12s linear infinite;
-}
-
-@keyframes spinOrbit1 {
-  to { transform: rotateX(70deg) rotateY(-30deg) rotateZ(360deg); }
-}
-
-/* Orbit 2: Tilted right & rotating opposite */
-.orbit2 {
-  transform: rotateX(65deg) rotateY(35deg) rotateZ(0deg);
-  animation: spinOrbit2 16s linear infinite reverse;
-}
-
-@keyframes spinOrbit2 {
-  to { transform: rotateX(65deg) rotateY(35deg) rotateZ(360deg); }
-}
-
-/* Orbit 3: Almost horizontal & slower */
-.orbit3 {
-  transform: rotateX(75deg) rotateY(5deg) rotateZ(0deg);
-  animation: spinOrbit3 20s linear infinite;
-}
-
-@keyframes spinOrbit3 {
-  to { transform: rotateX(75deg) rotateY(5deg) rotateZ(360deg); }
-}
-
-/* Placements for particles on their rings */
-.part1 { top: 50%; left: 0%; transform: translate(-50%, -50%); }
-.part2 { top: 50%; right: 0%; transform: translate(50%, -50%); }
-.part3 { bottom: 0%; left: 50%; transform: translate(-50%, 50%); }
-
-/* Floating overlay cards */
-.overlayCard {
-  position: absolute;
-  z-index: 4;
-  background: rgba(22, 22, 22, 0.72);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 10px 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease, border-color 0.3s ease;
-  pointer-events: auto;
-}
-
-.overlayCard:hover {
-  transform: scale(1.05);
-  border-color: rgba(201, 169, 97, 0.35);
-}
-
-.overlayCardLeft {
-  top: 15%;
-  left: 2%;
-  animation: floatCardLeft 5s ease-in-out infinite;
-}
-
-@keyframes floatCardLeft {
-  0% { transform: translateY(0px) rotate(-1deg); }
-  50% { transform: translateY(-8px) rotate(1deg); }
-  100% { transform: translateY(0px) rotate(-1deg); }
-}
-
-.overlayCardRight {
-  bottom: 12%;
-  right: 2%;
-  animation: floatCardRight 6s ease-in-out infinite;
-}
-
-@keyframes floatCardRight {
-  0% { transform: translateY(0px) rotate(1deg); }
-  50% { transform: translateY(8px) rotate(-1deg); }
-  100% { transform: translateY(0px) rotate(1deg); }
-}
-
-.overlayCardIcon {
-  width: 28px;
-  height: 28px;
-  background: rgba(201, 169, 97, 0.1);
-  border: 1px solid rgba(201, 169, 97, 0.2);
-  color: #C9A961;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-shadow: 0 0 6px rgba(201, 169, 97, 0.3);
-}
-
-.overlayCardLabel {
-  font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.overlayCardValue {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #FFFFFF;
 }
 
 /* ─── Featured Section ─────────────────────── */

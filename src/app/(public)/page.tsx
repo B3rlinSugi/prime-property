@@ -314,48 +314,17 @@ export default function Homepage() {
               </Link>
             </div>
           </div>
+        </div>
 
-          {/* Right Column: Breathtaking Cinematic Modern Villa with Swirling Orbits */}
-          <div className={styles.heroVisual}>
-            <div className={styles.visualContainer}>
-              {/* Radial glow background light streak */}
-              <div className={styles.ambientGlow}></div>
-              
-              {/* Glowing Swirling 3D Orbit Lines wrapping around */}
-              <div className={styles.orbitContainer}>
-                {/* Orbit Line 1 */}
-                <div className={`${styles.orbitRing} ${styles.orbit1}`}>
-                  <svg viewBox="0 0 400 400" className={styles.orbitSvg}>
-                    <ellipse cx="200" cy="200" rx="190" ry="60" className={styles.orbitPath} />
-                  </svg>
-                  <span className={`${styles.orbitParticle} ${styles.part1}`}></span>
-                </div>
-                
-                {/* Orbit Line 2 */}
-                <div className={`${styles.orbitRing} ${styles.orbit2}`}>
-                  <svg viewBox="0 0 400 400" className={styles.orbitSvg}>
-                    <ellipse cx="200" cy="200" rx="170" ry="70" className={styles.orbitPath} />
-                  </svg>
-                  <span className={`${styles.orbitParticle} ${styles.part2}`}></span>
-                </div>
-                
-                {/* Orbit Line 3 */}
-                <div className={`${styles.orbitRing} ${styles.orbit3}`}>
-                  <svg viewBox="0 0 400 400" className={styles.orbitSvg}>
-                    <ellipse cx="200" cy="200" rx="195" ry="50" className={styles.orbitPath} />
-                  </svg>
-                  <span className={`${styles.orbitParticle} ${styles.part3}`}></span>
-                </div>
-              </div>
-
-              {/* Modern Dark Luxury Villa Image */}
-              <img 
-                src="/luxury-villa.png" 
-                alt="Luxury Modern Villa Architecture" 
-                className={styles.visualImg} 
-              />
-
-            </div>
+        {/* Right Column: Breathtaking Cinematic Modern Villa */}
+        <div className={styles.heroVisual}>
+          <div className={styles.visualContainer}>
+            {/* Modern Dark Luxury Villa Image */}
+            <img 
+              src="/luxury-villa.png" 
+              alt="Luxury Modern Villa Architecture" 
+              className={styles.visualImg} 
+            />
           </div>
         </div>
       </section>
