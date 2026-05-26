@@ -671,7 +671,7 @@ export default function PublicPropertiCatalogPage() {
         ];
 
         return (
-          <div className={styles.modalBackdrop} onClick={() => setSelectedProperty(null)}>
+          <div className={styles.modalBackdrop} onClick={() => setSelectedProperty(null)} data-lenis-prevent>
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
               <button className={styles.modalCloseBtn} onClick={() => setSelectedProperty(null)}>
                 ✕

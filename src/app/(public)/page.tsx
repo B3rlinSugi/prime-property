@@ -529,7 +529,7 @@ export default function Homepage() {
             setSelectedProperty(null);
             setActiveModalTab('gallery');
             setActiveSlideIndex(0);
-          }}>
+          }} data-lenis-prevent>
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
               <button 
                 className={styles.modalCloseBtn} 
