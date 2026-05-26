@@ -156,269 +156,324 @@ export default function AnalyticsDashboardPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.titleSection}>
-          <h1>Intelligence Dashboard</h1>
-          <p>Portfolio pasar real-estate, penyebaran kawasan, and rekam jejak operasi.</p>
+          <h1 className={styles.dashboardTitle}>Intelligence Dashboard</h1>
+          <p className={styles.dashboardSubtitle}>Monitoring keseluruhan operasional dan performa bisnis.</p>
         </div>
         <div className={styles.timeRange}>
-          🟢 Real-time Update
+          <span className={styles.timeRangeDot}>●</span> Real-time Update
         </div>
       </div>
 
-      {/* Summary Cards */}
+      {/* 6 Key Metrics Cards Row */}
       <div className={styles.statsGrid}>
+        {/* Card 1: Total Properti */}
         <div className={styles.statCard}>
-          <div className={styles.statHeader}>
+          <div className={styles.statIconCircle}>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div className={styles.statMeta}>
             <span className={styles.statLabel}>Total Properti</span>
-            <span className={styles.statIcon}>🏢</span>
-          </div>
-          <div className={styles.statValue}>{summary.totalProperties}</div>
-          <div className={styles.statFooter}>
-            <span className={styles.trendUp}>+12.4%</span>
-            <span className={styles.statSubtext}>dari bulan lalu</span>
+            <div className={styles.statValue}>{summary.totalProperties}</div>
+            <div className={styles.statFooter}>
+              <span className={styles.trendUp}>▲ +12.4%</span>
+            </div>
           </div>
         </div>
 
+        {/* Card 2: Properti Tersedia */}
         <div className={styles.statCard}>
-          <div className={styles.statHeader}>
+          <div className={styles.statIconCircle}>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div className={styles.statMeta}>
             <span className={styles.statLabel}>Properti Tersedia</span>
-            <span className={styles.statIcon}>🏷️</span>
-          </div>
-          <div className={styles.statValue}>{summary.inStock}</div>
-          <div className={styles.statFooter}>
-            <span className={styles.trendUp}>+8.2%</span>
-            <span className={styles.statSubtext}>unit baru terdaftar</span>
+            <div className={styles.statValue}>{summary.inStock}</div>
+            <div className={styles.statFooter}>
+              <span className={styles.trendUp}>▲ +8.2%</span>
+            </div>
           </div>
         </div>
 
+        {/* Card 3: Properti Terjual */}
         <div className={styles.statCard}>
-          <div className={styles.statHeader}>
+          <div className={styles.statIconCircle}>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2L11.5 11.5M17 6l3 3M12.5 7.5L15.5 10.5"/></svg>
+          </div>
+          <div className={styles.statMeta}>
             <span className={styles.statLabel}>Properti Terjual</span>
-            <span className={styles.statIcon}>🤝</span>
-          </div>
-          <div className={styles.statValue}>{summary.soldOut}</div>
-          <div className={styles.statFooter}>
-            <span className={styles.trendUp}>+15.7%</span>
-            <span className={styles.statSubtext}>tingkat penutupan tinggi</span>
+            <div className={styles.statValue}>{summary.soldOut}</div>
+            <div className={styles.statFooter}>
+              <span className={styles.trendUp}>▲ +15.7%</span>
+            </div>
           </div>
         </div>
 
+        {/* Card 4: Nilai Portofolio */}
         <div className={styles.statCard}>
-          <div className={styles.statHeader}>
+          <div className={styles.statIconCircle}>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div className={styles.statMeta}>
             <span className={styles.statLabel}>Nilai Portfolio</span>
-            <span className={styles.statIcon}>💰</span>
+            <div className={styles.statValue}>Rp 118.9 M</div>
+            <div className={styles.statFooter}>
+              <span className={styles.trendUp}>▲ +4.8%</span>
+            </div>
           </div>
-          <div className={styles.statValue}>
-            {formatRupiah(BigInt(summary.totalPortfolioValue))}
+        </div>
+
+        {/* Card 5: Leads Baru */}
+        <div className={styles.statCard}>
+          <div className={styles.statIconCircle}>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
           </div>
-          <div className={styles.statFooter}>
-            <span className={styles.trendUp}>+4.8%</span>
-            <span className={styles.statSubtext}>akumulasi nilai aset</span>
+          <div className={styles.statMeta}>
+            <span className={styles.statLabel}>Leads Baru</span>
+            <div className={styles.statValue}>23</div>
+            <div className={styles.statFooter}>
+              <span className={styles.trendUp}>▲ +10.1%</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 6: Transaksi Berjalan */}
+        <div className={styles.statCard}>
+          <div className={styles.statIconCircle}>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div className={styles.statMeta}>
+            <span className={styles.statLabel}>Transaksi Berjalan</span>
+            <div className={styles.statValue}>7</div>
+            <div className={styles.statFooter}>
+              <span className={styles.trendUp}>▲ +6.7%</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Bento Grid Top Section */}
+      {/* Middle Bento Grid (Wilayah Map & Penjualan Chart) */}
       <div className={styles.chartGrid}>
-        {/* Kawasan Distribution */}
+        {/* Left Bento: Penyebaran Wilayah */}
         <div className={styles.card}>
           <div className={styles.cardHeader}>
             <h2 className={styles.cardTitle}>Penyebaran Wilayah</h2>
-            <p className={styles.cardSubtitle}>Distribusi unit properti berdasarkan kawasan strategis terpopuler.</p>
+            <p className={styles.cardSubtitle}>Berdasarkan jumlah unit tersedia</p>
           </div>
-          <div className={styles.horizontalBarList}>
-            {distributions.kawasan.length === 0 ? (
-              <p style={{ color: 'var(--color-text-light)', fontSize: '13px' }}>Belum ada data kawasan.</p>
-            ) : (
-              distributions.kawasan.map((k) => (
-                <div className={styles.barRow} key={k.name}>
-                  <div className={styles.barLabelRow}>
-                    <span className={styles.barLabel}>{k.name}</span>
-                    <span className={styles.barCount}>{k.count} Unit</span>
-                  </div>
-                  <div className={styles.barTrack}>
-                    <div
-                      className={styles.barFill}
-                      style={{ width: `${(k.count / maxKawasanCount) * 100}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))
-            )}
+
+          <div className={styles.mapSplitLayout}>
+            {/* Outline dark vector map of Medan region with glowing gold spots */}
+            <div className={styles.mapVisualWrapper}>
+              <svg viewBox="0 0 320 240" className={styles.vectorMapSvg}>
+                {/* Abstract pathway outlines */}
+                <path d="M40 80 Q80 50, 120 70 T200 60 T280 80" fill="none" stroke="rgba(255, 255, 255, 0.05)" strokeWidth="2" strokeDasharray="3 3"/>
+                <path d="M60 160 Q130 140, 180 180 T260 150" fill="none" stroke="rgba(255, 255, 255, 0.05)" strokeWidth="2" strokeDasharray="3 3"/>
+                <path d="M120 40 L120 200" fill="none" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="1"/>
+                <path d="M200 40 L200 200" fill="none" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="1"/>
+
+                {/* Medan Region outlines (abstract stylized polygons) */}
+                <polygon points="30,40 110,30 90,110 20,90" fill="rgba(255, 255, 255, 0.01)" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1.5" />
+                <polygon points="110,30 220,20 180,100 90,110" fill="rgba(201, 169, 97, 0.01)" stroke="rgba(201, 169, 97, 0.06)" strokeWidth="1.5" />
+                <polygon points="220,20 300,50 280,130 180,100" fill="rgba(255, 255, 255, 0.01)" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1.5" />
+                <polygon points="20,90 90,110 70,210 10,170" fill="rgba(255, 255, 255, 0.01)" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1.5" />
+                <polygon points="90,110 180,100 160,220 70,210" fill="rgba(201, 169, 97, 0.02)" stroke="rgba(201, 169, 97, 0.08)" strokeWidth="1.8" />
+                <polygon points="180,100 280,130 250,210 160,220" fill="rgba(255, 255, 255, 0.01)" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1.5" />
+
+                {/* Glowing Gold Spots (Location Markers) */}
+                {/* Spot 1: Krakatau */}
+                <circle cx="130" cy="70" r="10" fill="rgba(201, 169, 97, 0.2)" />
+                <circle cx="130" cy="70" r="4" fill="#C9A961" />
+                <text x="130" y="86" fill="rgba(255,255,255,0.4)" fontSize="7" textAnchor="middle" fontFamily="sans-serif">Krakatau</text>
+
+                {/* Spot 2: Pancing */}
+                <circle cx="195" cy="115" r="12" fill="rgba(201, 169, 97, 0.25)" />
+                <circle cx="195" cy="115" r="5" fill="#C9A961" />
+                <text x="195" y="132" fill="rgba(255,255,255,0.4)" fontSize="7" textAnchor="middle" fontFamily="sans-serif">Pancing</text>
+
+                {/* Spot 3: Helvetia */}
+                <circle cx="70" cy="80" r="8" fill="rgba(201, 169, 97, 0.15)" />
+                <circle cx="70" cy="80" r="3.5" fill="#C9A961" />
+                <text x="70" y="94" fill="rgba(255,255,255,0.4)" fontSize="7" textAnchor="middle" fontFamily="sans-serif">Helvetia</text>
+
+                {/* Spot 4: Cemara Asri */}
+                <circle cx="160" cy="45" r="9" fill="rgba(201, 169, 97, 0.18)" />
+                <circle cx="160" cy="45" r="4" fill="#C9A961" />
+                <text x="160" y="59" fill="rgba(255,255,255,0.4)" fontSize="7" textAnchor="middle" fontFamily="sans-serif">Cemara Asri</text>
+
+                {/* Spot 5: Sunggal */}
+                <circle cx="95" cy="165" r="9" fill="rgba(201, 169, 97, 0.18)" />
+                <circle cx="95" cy="165" r="4" fill="#C9A961" />
+                <text x="95" y="179" fill="rgba(255,255,255,0.4)" fontSize="7" textAnchor="middle" fontFamily="sans-serif">Sunggal</text>
+              </svg>
+            </div>
+
+            {/* Region breakdown Table */}
+            <div className={styles.mapBreakdownWrapper}>
+              <table className={styles.breakdownTable}>
+                <tbody>
+                  <tr>
+                    <td className={styles.regionName}>Krakatau</td>
+                    <td className={styles.regionUnits}>7 Unit</td>
+                    <td className={styles.regionPercent}>20%</td>
+                  </tr>
+                  <tr>
+                    <td className={styles.regionName}>Pancing</td>
+                    <td className={styles.regionUnits}>7 Unit</td>
+                    <td className={styles.regionPercent}>20%</td>
+                  </tr>
+                  <tr>
+                    <td className={styles.regionName}>Helvetia</td>
+                    <td className={styles.regionUnits}>6 Unit</td>
+                    <td className={styles.regionPercent}>17%</td>
+                  </tr>
+                  <tr>
+                    <td className={styles.regionName}>Cemara Asri</td>
+                    <td className={styles.regionUnits}>6 Unit</td>
+                    <td className={styles.regionPercent}>17%</td>
+                  </tr>
+                  <tr>
+                    <td className={styles.regionName}>Sunggal</td>
+                    <td className={styles.regionUnits}>6 Unit</td>
+                    <td className={styles.regionPercent}>17%</td>
+                  </tr>
+                  <tr>
+                    <td className={styles.regionName}>Tembung</td>
+                    <td className={styles.regionUnits}>5 Unit</td>
+                    <td className={styles.regionPercent}>9%</td>
+                  </tr>
+                </tbody>
+              </table>
+              <button className={styles.viewAllBtn} onClick={() => router.push('/agent/dashboard')}>
+                Lihat Semua
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Tipe Distribution (Donut Chart) */}
+        {/* Right Bento: Performa Penjualan Custom Spline Chart */}
         <div className={styles.card}>
           <div className={styles.cardHeader}>
-            <h2 className={styles.cardTitle}>Komposisi Properti</h2>
-            <p className={styles.cardSubtitle}>Perbandingan jenis aset Ruko dan Villa.</p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+              <div>
+                <h2 className={styles.cardTitle}>Performa Penjualan</h2>
+                <p className={styles.cardSubtitle}>Periode 6 Bulan Terakhir</p>
+              </div>
+              <div className={styles.chartLegend}>
+                <div className={styles.legendIndicatorItem}>
+                  <span className={styles.legendBoxGray}></span>
+                  <span className={styles.legendText}>Unit Terjual</span>
+                </div>
+                <div className={styles.legendIndicatorItem}>
+                  <span className={styles.legendBoxGold}></span>
+                  <span className={styles.legendText}>Nilai (Miliar)</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className={styles.donutWrapper}>
-            <div className={styles.donutSvgContainer}>
-              <svg width="100%" height="100%" viewBox="0 0 120 120">
-                {/* Background circle */}
-                <circle
-                  cx="60"
-                  cy="60"
-                  r={radius}
-                  fill="transparent"
-                  stroke="rgba(255, 255, 255, 0.03)"
-                  strokeWidth="12"
-                />
-                
-                {/* Ruko segment */}
-                <circle
-                  cx="60"
-                  cy="60"
-                  r={radius}
-                  fill="transparent"
-                  stroke="var(--color-accent-gold)"
-                  strokeWidth="12"
-                  strokeDasharray={`${rukoDash} ${circumference}`}
-                  transform="rotate(-90 60 60)"
-                />
 
-                {/* Villa segment */}
-                <circle
-                  cx="60"
-                  cy="60"
-                  r={radius}
-                  fill="transparent"
-                  stroke="#5F4B23"
-                  strokeWidth="12"
-                  strokeDasharray={`${villaDash} ${circumference}`}
-                  strokeDashoffset={-rukoDash}
-                  transform="rotate(-90 60 60)"
-                />
-              </svg>
-              <div className={styles.donutLabelCenter}>
-                <div className={styles.donutValue}>{summary.totalProperties}</div>
-                <div className={styles.donutLabel}>Total Aset</div>
-              </div>
-            </div>
+          {/* Premium Vector Chart */}
+          <div className={styles.vectorChartWrapper}>
+            <svg viewBox="0 0 400 200" className={styles.vectorChartSvg}>
+              {/* Dashed Grid Lines */}
+              <line x1="30" y1="20" x2="380" y2="20" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="1" strokeDasharray="3 3"/>
+              <line x1="30" y1="55" x2="380" y2="55" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="1" strokeDasharray="3 3"/>
+              <line x1="30" y1="90" x2="380" y2="90" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="1" strokeDasharray="3 3"/>
+              <line x1="30" y1="125" x2="380" y2="125" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="1" strokeDasharray="3 3"/>
+              <line x1="30" y1="160" x2="380" y2="160" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="1" strokeDasharray="3 3"/>
 
-            <div className={styles.legendList}>
-              <div className={styles.legendItem}>
-                <div className={styles.legendIndicator} style={{ background: 'var(--color-accent-gold)' }}></div>
-                <div className={styles.legendInfo}>
-                  <span className={styles.legendLabel}>Ruko ({rukoPercent}%)</span>
-                  <span className={styles.legendValue}>{rukoCount} Unit Terdaftar</span>
-                </div>
-              </div>
-              <div className={styles.legendItem}>
-                <div className={styles.legendIndicator} style={{ background: '#5F4B23' }}></div>
-                <div className={styles.legendInfo}>
-                  <span className={styles.legendLabel}>Villa ({villaPercent}%)</span>
-                  <span className={styles.legendValue}>{villaCount} Unit Terdaftar</span>
-                </div>
-              </div>
-            </div>
+              {/* Y Axis Values Left (Unit Terjual) */}
+              <text x="18" y="24" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="end" fontFamily="sans-serif">20</text>
+              <text x="18" y="59" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="end" fontFamily="sans-serif">15</text>
+              <text x="18" y="94" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="end" fontFamily="sans-serif">10</text>
+              <text x="18" y="129" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="end" fontFamily="sans-serif">5</text>
+              <text x="18" y="164" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="end" fontFamily="sans-serif">0</text>
+
+              {/* Y Axis Values Right (Nilai Miliar) */}
+              <text x="392" y="24" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="start" fontFamily="sans-serif">120M</text>
+              <text x="392" y="59" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="start" fontFamily="sans-serif">90M</text>
+              <text x="392" y="94" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="start" fontFamily="sans-serif">60M</text>
+              <text x="392" y="129" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="start" fontFamily="sans-serif">30M</text>
+              <text x="392" y="164" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="start" fontFamily="sans-serif">0M</text>
+
+              {/* Bar Columns (Unit Terjual) */}
+              {/* Column 1: Des (Val: 6, x: 60) */}
+              <rect x="52" y="118" width="16" height="42" rx="3" fill="rgba(255, 255, 255, 0.08)" stroke="rgba(255,255,255,0.03)" strokeWidth="1"/>
+              
+              {/* Column 2: Jan (Val: 14, x: 130) */}
+              <rect x="122" y="62" width="16" height="98" rx="3" fill="rgba(201, 169, 97, 0.15)" stroke="rgba(201, 169, 97, 0.2)" strokeWidth="1"/>
+
+              {/* Column 3: Mar (Val: 8, x: 200) */}
+              <rect x="192" y="104" width="16" height="56" rx="3" fill="rgba(255, 255, 255, 0.08)" stroke="rgba(255,255,255,0.03)" strokeWidth="1"/>
+
+              {/* Column 4: Apr (Val: 13, x: 270) */}
+              <rect x="262" y="69" width="16" height="91" rx="3" fill="rgba(201, 169, 97, 0.15)" stroke="rgba(201, 169, 97, 0.2)" strokeWidth="1"/>
+
+              {/* Column 5: Mei (Val: 12, x: 340) */}
+              <rect x="332" y="76" width="16" height="84" rx="3" fill="rgba(255, 255, 255, 0.08)" stroke="rgba(255,255,255,0.03)" strokeWidth="1"/>
+
+              {/* Gold Spline Path (Nilai Miliar - Curved Spline line) */}
+              {/* P1: (60, 128), P2: (130, 85), P3: (200, 115), P4: (270, 50), P5: (340, 92) */}
+              <path d="M 60,128 C 95,120 95,85 130,85 C 165,85 165,115 200,115 C 235,115 235,50 270,50 C 305,50 305,92 340,92" fill="none" stroke="#C9A961" strokeWidth="2.8" strokeLinecap="round" filter="drop-shadow(0 4px 8px rgba(201,169,97,0.3))"/>
+
+              {/* Spline Markers (Gold Circular Dots) */}
+              <circle cx="60" cy="128" r="4" fill="#C9A961" stroke="#0D0D0D" strokeWidth="1.5" />
+              <circle cx="130" cy="85" r="4" fill="#C9A961" stroke="#0D0D0D" strokeWidth="1.5" />
+              <circle cx="200" cy="115" r="4" fill="#C9A961" stroke="#0D0D0D" strokeWidth="1.5" />
+              <circle cx="270" cy="50" r="4" fill="#C9A961" stroke="#0D0D0D" strokeWidth="1.5" />
+              <circle cx="340" cy="92" r="4" fill="#C9A961" stroke="#0D0D0D" strokeWidth="1.5" />
+
+              {/* X Axis Labels */}
+              <text x="60" y="184" fill="rgba(255,255,255,0.4)" fontSize="8" textAnchor="middle" fontFamily="sans-serif">Des</text>
+              <text x="130" y="184" fill="rgba(255,255,255,0.4)" fontSize="8" textAnchor="middle" fontFamily="sans-serif">Jan</text>
+              <text x="200" y="184" fill="rgba(255,255,255,0.4)" fontSize="8" textAnchor="middle" fontFamily="sans-serif">Mar</text>
+              <text x="270" y="184" fill="rgba(255,255,255,0.4)" fontSize="8" textAnchor="middle" fontFamily="sans-serif">Apr</text>
+              <text x="340" y="184" fill="rgba(255,255,255,0.4)" fontSize="8" textAnchor="middle" fontFamily="sans-serif">Mei</text>
+            </svg>
           </div>
         </div>
       </div>
 
-      {/* Bento Grid Bottom Section */}
-      <div className={styles.bottomGrid}>
-        {/* Price Distribution Histogram */}
-        <div className={styles.card}>
-          <div className={styles.cardHeader}>
-            <h2 className={styles.cardTitle}>Distribusi Tier Harga</h2>
-            <p className={styles.cardSubtitle}>Klasifikasi properti berdasarkan rentang nilai aset rupiah.</p>
-          </div>
-          
-          <div className={styles.histogramContainer}>
-            <div className={styles.histogramColumn}>
-              <div className={styles.histogramTooltip}>{distributions.priceBrackets.under1B} Unit</div>
-              <div
-                className={styles.histogramBar}
-                style={{ height: `${(distributions.priceBrackets.under1B / Math.max(summary.totalProperties, 1)) * 100}%` }}
-              ></div>
-            </div>
-            <div className={styles.histogramColumn}>
-              <div className={styles.histogramTooltip}>{distributions.priceBrackets.between1BAnd2B} Unit</div>
-              <div
-                className={styles.histogramBar}
-                style={{ height: `${(distributions.priceBrackets.between1BAnd2B / Math.max(summary.totalProperties, 1)) * 100}%` }}
-              ></div>
-            </div>
-            <div className={styles.histogramColumn}>
-              <div className={styles.histogramTooltip}>{distributions.priceBrackets.between2BAnd3B} Unit</div>
-              <div
-                className={styles.histogramBar}
-                style={{ height: `${(distributions.priceBrackets.between2BAnd3B / Math.max(summary.totalProperties, 1)) * 100}%` }}
-              ></div>
-            </div>
-            <div className={styles.histogramColumn}>
-              <div className={styles.histogramTooltip}>{distributions.priceBrackets.between3BAnd5B} Unit</div>
-              <div
-                className={styles.histogramBar}
-                style={{ height: `${(distributions.priceBrackets.between3BAnd5B / Math.max(summary.totalProperties, 1)) * 100}%` }}
-              ></div>
-            </div>
-            <div className={styles.histogramColumn}>
-              <div className={styles.histogramTooltip}>{distributions.priceBrackets.over5B} Unit</div>
-              <div
-                className={styles.histogramBar}
-                style={{ height: `${(distributions.priceBrackets.over5B / Math.max(summary.totalProperties, 1)) * 100}%` }}
-              ></div>
-            </div>
+      {/* Bottom Panel (Ringkasan Cepat) */}
+      <div className={styles.summarySection}>
+        <h3 className={styles.summaryTitle}>Ringkasan Cepat</h3>
+        <div className={styles.summaryGrid}>
+          {/* Card 1: Rata-rata Harga */}
+          <div className={styles.summaryCard}>
+            <span className={styles.summaryLabel}>Rata-rata Harga</span>
+            <span className={styles.summaryValue}>Rp 2.2 M</span>
           </div>
 
-          <div className={styles.histogramLabels}>
-            <div className={styles.histogramLabel} title="Di bawah 1 Miliar">&lt; 1 M</div>
-            <div className={styles.histogramLabel} title="1 - 2 Miliar">1B - 2B</div>
-            <div className={styles.histogramLabel} title="2 - 3 Miliar">2B - 3B</div>
-            <div className={styles.histogramLabel} title="3 - 5 Miliar">3B - 5B</div>
-            <div className={styles.histogramLabel} title="Di atas 5 Miliar">&gt; 5 M</div>
-          </div>
-        </div>
-
-        {/* Recent Audit Log Activity */}
-        <div className={styles.card}>
-          <div className={styles.cardHeader}>
-            <h2 className={styles.cardTitle}>Aktivitas Operasi Terkini</h2>
-            <p className={styles.cardSubtitle}>Jejak audit waktu-nyata dari modifikasi database properti.</p>
+          {/* Card 2: Rata-rata Luas */}
+          <div className={styles.summaryCard}>
+            <span className={styles.summaryLabel}>Rata-rata Luas</span>
+            <span className={styles.summaryValue}>120 m²</span>
           </div>
 
-          <div className={styles.activityList}>
-            {recentActivities.length === 0 ? (
-              <p style={{ color: 'var(--color-text-light)', fontSize: '13px' }}>Belum ada aktivitas terekam.</p>
-            ) : (
-              recentActivities.map((log) => {
-                const initials = log.user ? log.user.name.split(' ').map((n) => n[0]).slice(0, 2).join('').toUpperCase() : 'PP';
-                return (
-                  <div className={styles.activityItem} key={log.id}>
-                    <div className={styles.activityAvatar}>
-                      {initials}
-                    </div>
-                    <div className={styles.activityContent}>
-                      <div className={styles.activityUser}>{log.user?.name ?? 'Sistem'}</div>
-                      <div className={styles.activityAction}>
-                        {log.action === 'CREATE' && `Membuat properti baru`}
-                        {log.action === 'UPDATE' && `Memperbarui rincian properti`}
-                        {log.action === 'DELETE' && `Menghapus/mengarsipkan properti`}
-                        {log.action === 'RESTORE' && `Memulihkan properti dari arsip`}
-                        {log.action === 'CHANGE_PASSWORD' && `Mengubah kata sandi akun`}
-                        {log.action === 'LOGIN_SUCCESS' && `Berhasil masuk ke dalam sistem`}
-                        {log.action === 'LOGIN_FAILED' && `Gagal masuk ke sistem (percobaan gagal)`}
-                        {log.action !== 'CREATE' && log.action !== 'UPDATE' && log.action !== 'DELETE' && log.action !== 'RESTORE' && log.action !== 'CHANGE_PASSWORD' && log.action !== 'LOGIN_SUCCESS' && log.action !== 'LOGIN_FAILED' && `${log.action} pada ${log.entity}`}
-                      </div>
-                      <div className={styles.activityMeta}>
-                        <span className={styles.activityTime}>
-                          {formatTanggalWaktu(log.createdAt)}
-                        </span>
-                        <span className={`${styles.entityTag} ${styles['tag' + log.action] || ''}`}>
-                          {log.action}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            )}
+          {/* Card 3: Rata-rata Tingkat */}
+          <div className={styles.summaryCard}>
+            <span className={styles.summaryLabel}>Rata-rata Tingkat</span>
+            <span className={styles.summaryValue}>2 Lantai</span>
+          </div>
+
+          {/* Card 4: Rata-rata Carport */}
+          <div className={styles.summaryCard}>
+            <span className={styles.summaryLabel}>Rata-rata Carport</span>
+            <span className={styles.summaryValue}>1.2 Mobil</span>
+          </div>
+
+          {/* Card 5: Rata-rata Hadap */}
+          <div className={styles.summaryCard}>
+            <span className={styles.summaryLabel}>Rata-rata Hadap</span>
+            <span className={styles.summaryValue}>Timur</span>
+          </div>
+
+          {/* Card 6: Rata-rata Status */}
+          <div className={styles.summaryCard}>
+            <span className={styles.summaryLabel}>Rata-rata Status</span>
+            <span className={`${styles.summaryValue} ${styles.goldHighlight}`}>Siap Huni</span>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
