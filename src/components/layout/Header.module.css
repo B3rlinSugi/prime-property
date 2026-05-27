@@ -1,121 +1,117 @@
-/* ============================================
+/* ==========================================================================
    Header — Prime Property
-   Sticky navigation with dark theme + gold accents
-   ============================================ */
+   Premium sticky navbar with a floating center capsule menu and gold details
+   ========================================================================== */
 
 .header {
   position: sticky;
   top: 0;
   z-index: 200;
-  background: rgba(13, 13, 13, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(10, 10, 10, 0.72); /* Glass dark header background */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 0 clamp(16px, 4vw, 64px);
-  height: 72px;
+  height: 76px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(201, 169, 97, 0.15);
-  transition: background var(--transition-base, 250ms ease), box-shadow var(--transition-base, 250ms ease);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Faint modern separator */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
-/* ─── Logo ──────────────────────────────────── */
+/* ─── Logo ──────────────────────────────────────────────────────────────── */
 .logo {
   display: flex;
   align-items: center;
   text-decoration: none;
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: #FFFFFF;
   user-select: none;
   flex-shrink: 0;
 }
 
-.logoPrime {
-  color: #FFFFFF;
-}
-
-.logoDot {
-  color: #C9A961;
-  margin: 0 1px;
-}
-
-.logoProperty {
-  color: #C9A961;
-}
-
-/* ─── Desktop Navigation ────────────────────── */
+/* ─── Desktop Navigation (Floating Center Capsule) ────────────────────────── */
 .nav {
   display: flex;
   align-items: center;
-  gap: 32px;
+  background: rgba(255, 255, 255, 0.03); /* Faint dark glass backdrop */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Fine elegant frame border */
+  border-radius: 9999px; /* Pill capsule shape */
+  padding: 4px 6px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .navLink {
-  color: #FFFFFF;
-  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between SVG outline icon and text */
+  color: rgba(255, 255, 255, 0.75);
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   text-decoration: none;
-  transition: opacity var(--transition-fast, 150ms ease), color var(--transition-fast, 150ms ease);
+  padding: 8px 18px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 9999px; /* Highlight matches link boundary */
   position: relative;
-  padding: 4px 0;
-}
-
-.navLink::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: #C9A961;
-  transition: width var(--transition-base, 250ms ease);
-}
-
-.navLink:hover {
-  opacity: 1;
-  color: #FFFFFF;
-}
-
-.navLink:hover::after {
-  width: 100%;
 }
 
 .navLinkActive {
-  opacity: 1;
+  color: #C9A961; /* Active gold link */
+  background: rgba(255, 255, 255, 0.05); /* Highlight active link pill */
+  font-weight: 600;
 }
 
-.navLinkActive::after {
-  width: 100%;
+.navLink:hover {
+  color: #C9A961;
+  background: rgba(255, 255, 255, 0.08);
 }
 
-/* ─── Login Agent Button (Subtle) ───────────── */
+.navIcon {
+  stroke: currentColor;
+  flex-shrink: 0;
+  transition: stroke 0.25s ease;
+}
+
+/* ─── Capsule Separator lines ───────────────────────────────────────────── */
+.navDivider {
+  width: 1px;
+  height: 16px;
+  background-color: rgba(255, 255, 255, 0.08);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* ─── Desktop Login Button ──────────────────────────────────────────────── */
 .loginBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Space between user SVG icon and text */
   border: 1px solid #C9A961;
   color: #C9A961;
-  padding: 8px 20px;
-  border-radius: 6px;
+  padding: 9px 18px;
+  border-radius: 8px;
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
   background: transparent;
-  transition: background var(--transition-fast, 150ms ease),
-              color var(--transition-fast, 150ms ease),
-              box-shadow var(--transition-fast, 150ms ease);
-  opacity: 1;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
   white-space: nowrap;
 }
 
-.loginBtn:hover {
-  background: rgba(201, 169, 97, 0.1);
-  opacity: 1;
-  box-shadow: 0 0 12px rgba(201, 169, 97, 0.15);
+.loginIcon {
+  stroke: currentColor;
+  flex-shrink: 0;
 }
 
-/* ─── Hamburger Button ──────────────────────── */
+.loginBtn:hover {
+  background: #C9A961;
+  color: #0A0A0A; /* Premium high contrast dark text */
+  box-shadow: 0 4px 16px rgba(201, 169, 97, 0.3);
+  transform: translateY(-1px);
+}
+
+/* ─── Hamburger Button ──────────────────────────────────────────────────── */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -138,9 +134,9 @@
   height: 2px;
   background: #FFFFFF;
   border-radius: 2px;
-  transition: transform var(--transition-base, 250ms ease),
-              opacity var(--transition-base, 250ms ease),
-              background var(--transition-base, 250ms ease);
+  transition: transform 250ms ease,
+              opacity 250ms ease,
+              background 250ms ease;
   transform-origin: center;
 }
 
@@ -158,7 +154,7 @@
   transform: translateY(-7px) rotate(-45deg);
 }
 
-/* ─── Mobile Menu Overlay ───────────────────── */
+/* ─── Mobile Menu Overlay ───────────────────────────────────────────────── */
 .mobileOverlay {
   display: none;
   position: fixed;
@@ -166,11 +162,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 199;
   opacity: 0;
-  transition: opacity var(--transition-base, 250ms ease);
+  transition: opacity 250ms ease;
   pointer-events: none;
+  backdrop-filter: blur(4px);
 }
 
 .mobileOverlayOpen {
@@ -178,7 +175,7 @@
   pointer-events: auto;
 }
 
-/* ─── Mobile Menu Panel ─────────────────────── */
+/* ─── Mobile Menu Panel ─────────────────────────────────────────────────── */
 .mobileMenu {
   display: none;
   position: fixed;
@@ -187,14 +184,15 @@
   width: min(320px, 85vw);
   height: 100vh;
   height: 100dvh;
-  background: #1A1A1A;
+  background: #121212;
   z-index: 205;
   flex-direction: column;
-  padding: 88px 32px 32px;
+  padding: 96px 28px 32px;
   transform: translateX(100%);
-  transition: transform var(--transition-slow, 350ms ease);
-  border-left: 1px solid rgba(201, 169, 97, 0.15);
+  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
   overflow-y: auto;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
 }
 
 .mobileMenuOpen {
@@ -207,52 +205,71 @@
   width: 100%;
 }
 
+.mobileNavLink {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.05rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Space between mobile SVG icon and text */
+}
+
+.mobileNavIcon {
+  color: currentColor;
+  flex-shrink: 0;
+}
+
 .mobileNavLinkActive {
   color: #C9A961 !important;
   font-weight: 600 !important;
 }
 
-.mobileNavLink {
-  color: #FFFFFF;
-  font-size: 1.1rem;
-  font-weight: 500;
-  text-decoration: none;
-  padding: 16px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  transition: color var(--transition-fast, 150ms ease),
-              padding-left var(--transition-fast, 150ms ease);
-  display: block;
-}
-
 .mobileNavLink:hover {
   color: #C9A961;
-  padding-left: 8px;
+  padding-left: 6px;
 }
 
 .mobileLoginBtn {
-  display: inline-block;
-  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
   border: 1px solid #C9A961;
   color: #C9A961;
   padding: 12px 24px;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
   text-decoration: none;
-  text-align: center;
   background: transparent;
-  transition: background var(--transition-fast, 150ms ease);
-  opacity: 0.7;
+  transition: all 0.25s ease;
 }
 
 .mobileLoginBtn:hover {
-  background: rgba(201, 169, 97, 0.1);
-  opacity: 1;
+  background: rgba(201, 169, 97, 0.08);
 }
 
-/* ─── Responsive ────────────────────────────── */
+/* ─── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 991px) {
+  /* Increase padding context spacing for medium screens */
+  .navLink {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    gap: 6px;
+  }
+}
+
 @media (max-width: 768px) {
   .nav {
+    display: none;
+  }
+
+  .loginBtn {
     display: none;
   }
 
