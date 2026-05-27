@@ -42,19 +42,19 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
 
         {/* Pillar 1: Left Wing / Arrowhead (Gold) */}
         <path
-          d="M 42,82 L 42,20 L 32,30 L 12,50 L 32,44 L 32,92 Z"
+          d="M 42,84 L 42,22 L 32,32 L 12,52 L 32,46 L 32,74 Z"
           fill={accentColor}
         />
         
         {/* Pillar 2: Center Vertical Pillar (Red) - Diagonal cuts */}
         <path
-          d="M 45,89 L 55,79 L 55,7 L 45,17 Z"
+          d="M 45,81 L 55,91 L 55,9 L 45,19 Z"
           fill={redColor}
         />
 
         {/* Pillar 3: Right Hollow Geometric "P" (Contrast Light/Dark) */}
         <path
-          d="M 58,7 L 68,17 L 88,37 L 88,47 L 68,67 L 68,69 L 58,79 Z M 68,27 L 68,57 L 78,47 L 78,37 Z"
+          d="M 58,9 L 68,19 L 88,39 L 88,49 L 68,69 L 68,81 L 58,91 Z M 68,29 L 68,59 L 78,49 L 78,39 Z"
           fill={thirdPillarColor}
           fillRule="evenodd"
         />
