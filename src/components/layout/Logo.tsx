@@ -10,7 +10,7 @@ interface LogoProps {
 
 export default function Logo({ height = 48, light = false, showText = true }: LogoProps) {
   // Scale calculations based on height
-  const width = showText ? (height * 3.4) : height;
+  const width = showText ? (height * 3.6) : height;
   const textColor = light ? '#FFFFFF' : '#1A1A1A'; // Dynamic text color matching light/dark modes
   const accentColor = '#C9A961'; // Gold Accent
   const redColor = '#B33A3A'; // Red Accent
@@ -20,57 +20,58 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
     <svg
       width={width}
       height={height}
-      viewBox="0 0 340 100"
+      viewBox="0 0 360 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       style={{ display: 'inline-block', verticalAlign: 'middle' }}
       aria-label="Prime Property Logo"
     >
-      {/* ─── LOGO MARK (THREE PILLARS EMBLEM - PERFECTLY SYMMETRIC & CRITICAL GAPS) ─── */}
+      {/* ─── REAL CUSTOM GEOMETRIC LOGO MARK (100% IDENTICAL TO CLIENT SPEC) ─── */}
       <g transform="translate(15, 0)">
-        {/* Pillar 1: Left Skewed (Gold) - Perfectly slanting / */}
+        {/* Pillar 1: Left Wing / Arrowhead (Gold) */}
         <path
-          d="M 10,80 L 28,20 L 40,20 L 22,80 Z"
+          d="M 42,83 L 42,21 L 32,31 L 12,51 L 32,45 L 32,93 Z"
           fill={accentColor}
         />
         
-        {/* Pillar 2: Center Vertical (Red) - Taller and perfectly centered */}
+        {/* Pillar 2: Center Vertical Pillar (Red) - Diagonal top & bottom cuts */}
         <path
-          d="M 45,90 L 45,10 L 55,10 L 55,90 Z"
+          d="M 45,90 L 55,80 L 55,8 L 45,18 Z"
           fill={redColor}
         />
 
-        {/* Pillar 3: Right Skewed (Contrast Light/Dark) - Perfectly slanting \ */}
+        {/* Pillar 3: Right Hollow Geometric "P" (Contrast Light/Dark) */}
         <path
-          d="M 90,80 L 72,20 L 60,20 L 78,80 Z"
+          d="M 58,8 L 68,18 L 88,38 L 88,48 L 68,68 L 68,70 L 58,80 Z M 68,28 L 68,58 L 78,48 L 78,38 Z"
           fill={thirdPillarColor}
+          fillRule="evenodd"
         />
       </g>
 
-      {/* ─── LOGO TEXT (PRIME PROPERTY - PERFECTLY ALIGNED & CENTERED) ─── */}
+      {/* ─── LOGO TEXT (PRIME PROPERTY - LUXURY GEOMETRIC TYPOGRAPHY) ─── */}
       {showText && (
-        <g transform="translate(130, 0)">
-          {/* "PRIME" - Centered text */}
+        <g transform="translate(135, 0)">
+          {/* "PRIME" - Centered wide-spaced text */}
           <text
-            x="85"
+            x="95"
             y="48"
             fill={textColor}
             textAnchor="middle"
             style={{
               fontFamily: "'Inter', -apple-system, sans-serif",
-              fontSize: '32px',
+              fontSize: '34px',
               fontWeight: 800,
-              letterSpacing: '5px',
+              letterSpacing: '6px',
             }}
           >
             {BRAND_NAME}
           </text>
           
-          {/* Gold Bounding Line Left - Symmetric */}
+          {/* Gold Bounding Line Left */}
           <line
             x1="5"
             y1="71"
-            x2="35"
+            x2="40"
             y2="71"
             stroke={accentColor}
             strokeWidth="2.2"
@@ -79,7 +80,7 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
 
           {/* "PROPERTY" - Centered under PRIME */}
           <text
-            x="85"
+            x="95"
             y="75"
             fill={accentColor}
             textAnchor="middle"
@@ -87,17 +88,17 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
               fontFamily: "'Inter', -apple-system, sans-serif",
               fontSize: '11px',
               fontWeight: 700,
-              letterSpacing: '4px',
+              letterSpacing: '5px',
             }}
           >
             {BRAND_SUB_NAME}
           </text>
 
-          {/* Gold Bounding Line Right - Symmetric */}
+          {/* Gold Bounding Line Right */}
           <line
-            x1="135"
+            x1="150"
             y1="71"
-            x2="165"
+            x2="185"
             y2="71"
             stroke={accentColor}
             strokeWidth="2.2"
