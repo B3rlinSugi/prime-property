@@ -14,7 +14,7 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
   const textColor = light ? '#FFFFFF' : '#1A1A1A'; // Dynamic text color matching light/dark modes
   const accentColor = '#C9A961'; // Gold Accent
   const redColor = '#B33A3A'; // Red Accent
-  const thirdPillarColor = light ? '#FFFFFF' : '#1A1A1A'; // Symmetrical to textColor
+  const thirdPillarColor = '#1A1A1A'; // Constantly charcoal-black to match client logo on white background
 
   return (
     <svg
@@ -28,21 +28,33 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
     >
       {/* ─── REAL CUSTOM GEOMETRIC LOGO MARK (100% IDENTICAL TO CLIENT SPEC) ─── */}
       <g transform="translate(15, 0)">
+        {/* White Backing Card with premium gold border to prevent dark overlaps */}
+        <rect
+          x="2"
+          y="2"
+          width="96"
+          height="96"
+          rx="18"
+          fill="#FFFFFF"
+          stroke="#C9A961"
+          strokeWidth="3"
+        />
+
         {/* Pillar 1: Left Wing / Arrowhead (Gold) */}
         <path
-          d="M 42,83 L 42,21 L 32,31 L 12,51 L 32,45 L 32,93 Z"
+          d="M 42,82 L 42,20 L 32,30 L 12,50 L 32,44 L 32,92 Z"
           fill={accentColor}
         />
         
-        {/* Pillar 2: Center Vertical Pillar (Red) - Diagonal top & bottom cuts */}
+        {/* Pillar 2: Center Vertical Pillar (Red) - Diagonal cuts */}
         <path
-          d="M 45,90 L 55,80 L 55,8 L 45,18 Z"
+          d="M 45,89 L 55,79 L 55,7 L 45,17 Z"
           fill={redColor}
         />
 
         {/* Pillar 3: Right Hollow Geometric "P" (Contrast Light/Dark) */}
         <path
-          d="M 58,8 L 68,18 L 88,38 L 88,48 L 68,68 L 68,70 L 58,80 Z M 68,28 L 68,58 L 78,48 L 78,38 Z"
+          d="M 58,7 L 68,17 L 88,37 L 88,47 L 68,67 L 68,69 L 58,79 Z M 68,27 L 68,57 L 78,47 L 78,37 Z"
           fill={thirdPillarColor}
           fillRule="evenodd"
         />
