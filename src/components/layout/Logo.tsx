@@ -6,15 +6,16 @@ interface LogoProps {
   height?: number;
   light?: boolean; // If true, renders with light colors (white text) for dark backgrounds
   showText?: boolean;
+  noBackground?: boolean; // If true, removes white box and renders elegant transparent hexagon
 }
 
-export default function Logo({ height = 48, light = false, showText = true }: LogoProps) {
+export default function Logo({ height = 48, light = false, showText = true, noBackground = false }: LogoProps) {
   // Scale calculations based on height
   const width = showText ? (height * 3.6) : height;
   const textColor = light ? '#FFFFFF' : '#1A1A1A'; // Dynamic text color matching light/dark modes
   const accentColor = '#C9A961'; // Gold Accent
-  const redColor = '#B33A3A'; // Red Accent
-  const thirdPillarColor = '#1A1A1A'; // Constantly charcoal-black to match client logo on white background
+  const redColor = noBackground ? '#C9A961' : '#B33A3A'; // Red Accent (Gold if no background)
+  const thirdPillarColor = noBackground ? '#FFFFFF' : (light ? '#FFFFFF' : '#1A1A1A'); // Charcoal-black on light, white on dark/no-bg
 
   return (
     <svg
@@ -28,17 +29,27 @@ export default function Logo({ height = 48, light = false, showText = true }: Lo
     >
       {/* ─── REAL CUSTOM GEOMETRIC LOGO MARK (100% IDENTICAL TO CLIENT SPEC) ─── */}
       <g transform="translate(15, 0)">
-        {/* White Backing Card with premium gold border to prevent dark overlaps */}
-        <rect
-          x="2"
-          y="2"
-          width="96"
-          height="96"
-          rx="18"
-          fill="#FFFFFF"
-          stroke="#C9A961"
-          strokeWidth="3"
-        />
+        {/* Elegant Hexagonal/Square border depending on background setting */}
+        {!noBackground ? (
+          <rect
+            x="2"
+            y="2"
+            width="96"
+            height="96"
+            rx="18"
+            fill="#FFFFFF"
+            stroke="#C9A961"
+            strokeWidth="3"
+          />
+        ) : (
+          <polygon
+            points="50,4 90,24 90,76 50,96 10,76 10,24"
+            fill="none"
+            stroke="#C9A961"
+            strokeWidth="4"
+            strokeLinejoin="round"
+          />
+        )}
 
         {/* Pillar 1: Left Wing / Arrowhead (Gold) */}
         <path

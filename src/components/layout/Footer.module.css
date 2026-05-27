@@ -1,29 +1,95 @@
-/* ============================================
+/* ==========================================================================
    Footer — Prime Property
-   Dark theme with gold accents, 4-column layout
-   ============================================ */
+   Premium dark luxury card with gold accents & solid gold gradient bottom bar
+   ========================================================================== */
 
 .footer {
-  background: #0D0D0D;
-  color: #FFFFFF;
-  padding: 80px clamp(16px, 4vw, 64px) 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  background: #050505; /* Deep rich black base */
+  padding: 40px clamp(16px, 4vw, 64px) 60px;
+  overflow: hidden;
 }
 
-/* ─── Main Content Grid ─────────────────────── */
+/* ─── Premium Rounded Card Container ────────────────────────────────────── */
+.footerCard {
+  position: relative;
+  background: #0B0B0B; /* Dark card background */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ─── Top-Left Design Option Label ───────────────────────────────────────── */
+.optionBadge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 8px 18px;
+  border-bottom-right-radius: 12px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 10;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-transform: uppercase;
+  font-family: var(--font-family, 'Inter', sans-serif);
+}
+
+/* ─── Subtle Blended Villa Background ────────────────────────────────────── */
+.footerVisualContainer {
+  position: absolute;
+  inset: 0;
+  opacity: 0.045; /* Extremely faint architectural details */
+  pointer-events: none;
+  z-index: 1;
+}
+
+.footerVisualContainer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(11, 11, 11, 0.2) 0%, rgba(11, 11, 11, 0.8) 100%);
+}
+
+.footerVisual {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(115%);
+}
+
+/* ─── Main Footer Content Layout ────────────────────────────────────────── */
+.footerContent {
+  position: relative;
+  z-index: 5;
+  padding: 72px 64px 64px;
+}
+
+@media (max-width: 768px) {
+  .footerContent {
+    padding: 60px 24px 40px;
+  }
+}
+
 .footerGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
+  grid-template-columns: 1.2fr 0.8fr 1fr 1fr;
+  gap: 48px;
   max-width: 1200px;
   margin: 0 auto;
-  padding-bottom: 64px;
 }
 
 @media (max-width: 1024px) {
   .footerGrid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 48px;
+    gap: 44px;
   }
 }
 
@@ -34,55 +100,57 @@
   }
 }
 
-/* ─── Column Styling ────────────────────────── */
+/* ─── Column Styling ────────────────────────────────────────────────────── */
 .footerCol {
   display: flex;
   flex-direction: column;
 }
 
-/* ─── Logo & Description ────────────────────── */
 .footerLogo {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   user-select: none;
 }
 
 .footerDescription {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.45);
   font-size: 0.85rem;
-  line-height: 1.7;
-  max-width: 260px;
+  line-height: 1.75;
+  max-width: 290px;
   margin-bottom: 24px;
 }
 
-/* ─── Social Media Icons ────────────────────── */
+/* ─── Social Media Icons (Thin Gold Circles) ────────────────────────────── */
 .socialWrapper {
   display: flex;
   gap: 12px;
+  margin-top: auto; /* Align to bottom if height permits */
 }
 
 .socialIcon {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(201, 169, 97, 0.4); /* Gold border */
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.65);
-  transition: all 0.25s ease;
+  color: #C9A961; /* Gold icon */
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: transparent;
 }
 
 .socialIcon:hover {
+  background-color: #C9A961;
+  color: #0A0A0A; /* Deep black icon color on hover */
   border-color: #C9A961;
-  color: #C9A961;
-  background-color: rgba(201, 169, 97, 0.05);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(201, 169, 97, 0.25);
 }
 
-/* ─── Column Titles ─────────────────────────── */
+/* ─── Titles & Lists ────────────────────────────────────────────────────── */
 .footerTitle {
   font-size: 0.95rem;
   font-weight: 700;
@@ -91,7 +159,6 @@
   margin-bottom: 24px;
 }
 
-/* ─── Links & Contact ────────────────────────── */
 .footerLinks {
   list-style: none;
   padding: 0;
@@ -102,11 +169,11 @@
 }
 
 .footerLink {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.55);
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 500;
-  transition: color 0.2s ease, padding-left 0.2s ease;
+  transition: all 0.2s ease;
   display: inline-block;
 }
 
@@ -115,30 +182,32 @@
   padding-left: 4px;
 }
 
-/* Contact List */
+/* ─── Contacts with Gold SVG Icons ───────────────────────────────────────── */
 .footerContactList {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
 .contactListItem {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
 }
 
 .contactListIcon {
-  font-size: 0.95rem;
+  color: #C9A961;
   flex-shrink: 0;
-  margin-top: 1px;
+  margin-top: 3px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .contactListValue {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.55);
   font-size: 0.85rem;
   line-height: 1.5;
   text-decoration: none;
@@ -149,10 +218,19 @@ a.contactListValue:hover {
   color: #C9A961;
 }
 
-/* ─── Bottom Bar ────────────────────────────── */
+/* ─── Bottom Solid Gold Gradient Bar ────────────────────────────────────── */
 .footerBottom {
+  position: relative;
+  background: linear-gradient(135deg, #C9A961 0%, #B8974D 100%); /* Solid gold gradient */
+  padding: 22px 64px;
+  z-index: 5;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 24px 0;
+}
+
+@media (max-width: 768px) {
+  .footerBottom {
+    padding: 18px 24px;
+  }
 }
 
 .bottomFlex {
@@ -162,20 +240,22 @@ a.contactListValue:hover {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px;
 }
 
 @media (max-width: 600px) {
   .bottomFlex {
     flex-direction: column;
     text-align: center;
+    gap: 10px;
   }
 }
 
 .footerCopyright {
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 0.78rem;
-  letter-spacing: 0.2px;
+  color: #0A0A0A; /* Premium high contrast dark text */
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.1px;
 }
 
 .bottomLinks {
@@ -185,18 +265,20 @@ a.contactListValue:hover {
 }
 
 .bottomLink {
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 0.78rem;
+  color: #0A0A0A; /* Premium high contrast dark text */
+  font-size: 0.82rem;
+  font-weight: 600;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 
 .bottomLink:hover {
-  color: #C9A961;
+  opacity: 0.75;
 }
 
 .bottomLinkDivider {
-  color: rgba(255, 255, 255, 0.15);
-  font-size: 0.7rem;
+  color: #0A0A0A;
+  font-size: 0.82rem;
+  font-weight: 600;
   user-select: none;
 }
