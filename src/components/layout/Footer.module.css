@@ -1,45 +1,14 @@
 /* ==========================================================================
    Footer — Prime Property
-   Premium dark luxury card with gold accents & solid gold gradient bottom bar
+   Premium full-width dark luxury footer with gold accents & solid gold gradient
    ========================================================================== */
 
 .footer {
-  background: #050505; /* Deep rich black base */
-  padding: 40px clamp(16px, 4vw, 64px) 60px;
-  overflow: hidden;
-}
-
-/* ─── Premium Rounded Card Container ────────────────────────────────────── */
-.footerCard {
   position: relative;
-  background: #0B0B0B; /* Dark card background */
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
+  background: #0B0B0B; /* Dark footer background matching Opsi 02 */
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   overflow: hidden;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
-/* ─── Top-Left Design Option Label ───────────────────────────────────────── */
-.optionBadge {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  padding: 8px 18px;
-  border-bottom-right-radius: 12px;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  z-index: 10;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  text-transform: uppercase;
-  font-family: var(--font-family, 'Inter', sans-serif);
+  width: 100%;
 }
 
 /* ─── Subtle Blended Villa Background ────────────────────────────────────── */
@@ -69,7 +38,10 @@
 .footerContent {
   position: relative;
   z-index: 5;
-  padding: 72px 64px 64px;
+  padding: 80px clamp(16px, 4vw, 64px) 64px;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -222,9 +194,10 @@ a.contactListValue:hover {
 .footerBottom {
   position: relative;
   background: linear-gradient(135deg, #C9A961 0%, #B8974D 100%); /* Solid gold gradient */
-  padding: 22px 64px;
+  padding: 22px clamp(16px, 4vw, 64px);
   z-index: 5;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
+  width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -241,6 +214,7 @@ a.contactListValue:hover {
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
+  width: 100%;
 }
 
 @media (max-width: 600px) {
