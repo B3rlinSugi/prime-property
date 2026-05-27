@@ -733,56 +733,187 @@
 
 /* ─── CTA Banner Section ───────────────────── */
 
+/* ─── CTA Banner Section — Redesigned to Opsi 06 ─── */
+
 .ctaBanner {
-  background: radial-gradient(circle at center, rgba(201, 169, 97, 0.08), transparent 70%), #0D0D0D;
+  position: relative;
+  background-color: #0A0A0A;
   color: #FFFFFF;
   text-align: center;
-  padding: 96px clamp(16px, 4vw, 64px);
-  position: relative;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 108px clamp(16px, 4vw, 64px) 48px; /* Room for bottom features row */
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Subtle blended background living room image in the right 45% */
+.ctaVisualContainer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 45%;
+  opacity: 0.35; /* Subtle and low-contrast background look */
+  pointer-events: none;
+  z-index: 1;
+  mask-image: linear-gradient(to left, rgba(0,0,0,1) 30%, transparent 100%),
+              linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 30%, transparent 100%),
+                      linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, transparent 100%);
+}
+
+.ctaVisual {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center right;
 }
 
 .ctaContent {
+  position: relative;
   max-width: 800px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 5; /* Sit on top of visual background */
+  text-align: center;
+}
+
+/* Small gold accent bar above title */
+.ctaAccentBar {
+  width: 56px;
+  height: 3px;
+  background: #C9A961;
+  margin-bottom: 24px;
+  border-radius: 1.5px;
 }
 
 .ctaTitle {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   color: #FFFFFF;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
 }
 
 .ctaSubtitle {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 32px;
-  line-height: 1.65;
+  font-size: clamp(0.95rem, 1.8vw, 1.08rem);
+  color: rgba(255, 255, 255, 0.55);
+  max-width: 620px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
 }
 
+/* Rounded gold button with dark text & arrow */
 .ctaBtn {
-  display: inline-block;
-  background: linear-gradient(135deg, #C9A961 0%, #B8974D 100%);
-  color: #0D0D0D;
-  padding: 16px 40px;
-  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #C9A961;
+  color: #0A0A0A;
+  padding: 14px 34px;
+  font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(201, 169, 97, 0.25);
-  transition: transform 0.25s, box-shadow 0.25s;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(201, 169, 97, 0.15);
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .ctaBtn:hover {
-  background-color: #D4B872;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(201, 169, 97, 0.4);
-  color: #0D0D0D;
+  background: #D4B872;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(201, 169, 97, 0.35);
+  color: #0A0A0A;
+}
+
+.ctaBtnArrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.ctaBtn:hover .ctaBtnArrow {
+  transform: translateX(4px);
+}
+
+/* Horizontal Divider Glow line */
+.ctaDividerGlow {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201, 169, 97, 0.25) 50%, transparent);
+  margin: 54px auto 32px;
+  z-index: 5;
+}
+
+.ctaDividerGlow::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 5px;
+  background: radial-gradient(ellipse, rgba(201, 169, 97, 0.6) 0%, transparent 70%);
+  filter: blur(2px);
+}
+
+/* Symmetrical features row */
+.ctaFeaturesRow {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(12px, 3vw, 40px);
+  max-width: 900px;
+  margin: 0 auto;
+  z-index: 5;
+}
+
+.ctaFeatureItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.ctaFeatureIcon {
+  width: 20px;
+  height: 20px;
+  color: #C9A961;
+  stroke-width: 2.2;
+}
+
+.ctaFeatureText {
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.ctaFeatureDivider {
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Responsive features folding */
+@media (max-width: 640px) {
+  .ctaFeaturesRow {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ctaFeatureDivider {
+    display: none; /* Hide vertical dividers on stacked layout */
+  }
+
+  .ctaBanner {
+    padding: 80px 20px 48px;
+  }
 }
 
 /* ─── Loading / Empty States ───────────────── */

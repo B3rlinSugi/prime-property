@@ -548,14 +548,58 @@ export default function Homepage() {
 
       {/* CTA Section */}
       <section className={styles.ctaBanner}>
+        {/* Subtle blended background living room image */}
+        <div className={styles.ctaVisualContainer}>
+          <img 
+            src="/cta_luxury_living.png" 
+            alt="Luxury Living Room" 
+            className={styles.ctaVisual} 
+          />
+        </div>
+
         <div className={`${styles.ctaContent} reveal`}>
-          <h2 className={styles.ctaTitle}>Siap Menemukan Properti Terbaik?</h2>
+          <div className={styles.ctaAccentBar}></div>
+          <h2 className={styles.ctaTitle}>
+            Siap Menemukan Properti <span className={styles.titleGold}>Terbaik?</span>
+          </h2>
           <p className={styles.ctaSubtitle}>
-            Hubungi tim konsultan properti profesional kami untuk memilih unit ruko komersial atau villa premium impian Anda.
+            Hubungi tim konsultan properti profesional kami untuk membantu Anda menemukan properti impian Anda.
           </p>
-          <Link href="/kontak" className={`${styles.ctaBtn} gold-shimmer`}>
-            Hubungi Kami
+          <Link href="/kontak" className={styles.ctaBtn}>
+            Hubungi Kami <span className={styles.ctaBtnArrow}>&rarr;</span>
           </Link>
+        </div>
+
+        {/* Horizontal light glow divider */}
+        <div className={styles.ctaDividerGlow}></div>
+
+        {/* 3 Symmetrical features listed below with dividers */}
+        <div className={`${styles.ctaFeaturesRow} reveal`}>
+          <div className={styles.ctaFeatureItem}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={styles.ctaFeatureIcon}>
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span className={styles.ctaFeatureText}>Terpercaya</span>
+          </div>
+          
+          <div className={styles.ctaFeatureDivider}></div>
+
+          <div className={styles.ctaFeatureItem}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={styles.ctaFeatureIcon}>
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            <span className={styles.ctaFeatureText}>Profesional</span>
+          </div>
+
+          <div className={styles.ctaFeatureDivider}></div>
+
+          <div className={styles.ctaFeatureItem}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={styles.ctaFeatureIcon}>
+              <circle cx="12" cy="8" r="7"/>
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+            </svg>
+            <span className={styles.ctaFeatureText}>Berpengalaman</span>
+          </div>
         </div>
       </section>
 
