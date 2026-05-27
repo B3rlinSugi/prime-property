@@ -437,55 +437,111 @@ export default function Homepage() {
       {/* Why Choose Us Section */}
       <section className={styles.valueProps}>
         <div className={`${styles.sectionHeader} reveal`}>
-          <h2 className={styles.sectionTitle}>Mengapa Prime Property?</h2>
+          <h2 className={styles.sectionTitle}>
+            Mengapa <span className={styles.titleGold}>Prime Property</span>?
+          </h2>
+          <div className={styles.titleDivider}></div>
           <p className={styles.sectionSubtitle}>
             Komitmen kami untuk memberikan standar kualitas tertinggi dalam setiap layanan
           </p>
         </div>
 
         <div className={styles.valueGrid}>
-          {/* Proposition 1 */}
+          {/* Proposition 1: Data Akurat & Terpercaya */}
           <div className={`${styles.valueCard} reveal`}>
-            <div className={styles.valueIconWrapper}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.iconSvg}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div className={styles.valueImageWrapper}>
+              <img 
+                src="/why_us_accuracy.png" 
+                alt="Data Akurat & Terpercaya" 
+                className={styles.valueCardImage}
+              />
             </div>
-            <h3 className={styles.valueTitle}>Data Akurat & Terpercaya</h3>
-            <p className={styles.valueText}>
-              Semua informasi properti diverifikasi secara ketat dan selalu diperbarui untuk menjamin legalitas aset.
-            </p>
+            <div className={styles.valueIconWrapper}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={styles.iconSvg}>
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <polyline points="9 11 11 13 15 9" />
+              </svg>
+            </div>
+            <div className={styles.valueTextWrapper}>
+              <h3 className={styles.valueTitle}>Data Akurat & Terpercaya</h3>
+              <p className={styles.valueText}>
+                Informasi diverifikasi dan selalu diperbarui.
+              </p>
+            </div>
           </div>
 
-          {/* Proposition 2 */}
+          {/* Proposition 2: Inventory Premium */}
           <div className={`${styles.valueCard} reveal`}>
-            <div className={styles.valueIconWrapper}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.iconSvg}><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5" /><polyline points="12 22 12 12" /><line x1="12" y1="12" x2="22" y2="8.5" /><line x1="12" y1="12" x2="2" y2="8.5" /></svg>
+            <div className={styles.valueImageWrapper}>
+              <img 
+                src="/why_us_premium.png" 
+                alt="Inventory Premium" 
+                className={styles.valueCardImage}
+              />
             </div>
-            <h3 className={styles.valueTitle}>Inventory Premium</h3>
-            <p className={styles.valueText}>
-              Koleksi unit ruko komersial dan villa mewah pilihan di lokasi-lokasi paling strategis dengan capital gain tinggi.
-            </p>
+            <div className={styles.valueIconWrapper}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={styles.iconSvg}>
+                <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5" />
+                <polyline points="12 22 12 12" />
+                <line x1="12" y1="12" x2="22" y2="8.5" />
+                <line x1="12" y1="12" x2="2" y2="8.5" />
+              </svg>
+            </div>
+            <div className={styles.valueTextWrapper}>
+              <h3 className={styles.valueTitle}>Inventory Premium</h3>
+              <p className={styles.valueText}>
+                Koleksi unit premium di lokasi strategis.
+              </p>
+            </div>
           </div>
 
-          {/* Proposition 3 */}
+          {/* Proposition 3: Manajemen Mudah */}
           <div className={`${styles.valueCard} reveal`}>
-            <div className={styles.valueIconWrapper}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.iconSvg}><rect x="3" y="3" width="7" height="9" /><rect x="14" y="3" width="7" height="5" /><rect x="14" y="12" width="7" height="9" /><rect x="3" y="16" width="7" height="5" /></svg>
+            <div className={styles.valueImageWrapper}>
+              <img 
+                src="/why_us_management.png" 
+                alt="Manajemen Mudah" 
+                className={styles.valueCardImage}
+              />
             </div>
-            <h3 className={styles.valueTitle}>Manajemen Mudah</h3>
-            <p className={styles.valueText}>
-              Portal platform agen internal yang intuitif untuk mengelola, menyaring, dan melacak seluruh data listing properti.
-            </p>
+            <div className={styles.valueIconWrapper}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={styles.iconSvg}>
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+                <path d="M3 20h18" />
+                <polyline points="12 4 18 10" />
+              </svg>
+            </div>
+            <div className={styles.valueTextWrapper}>
+              <h3 className={styles.valueTitle}>Manajemen Mudah</h3>
+              <p className={styles.valueText}>
+                Kelola, filter, dan lacak dengan mudah.
+              </p>
+            </div>
           </div>
 
-          {/* Proposition 4 */}
+          {/* Proposition 4: Keamanan Terjamin */}
           <div className={`${styles.valueCard} reveal`}>
-            <div className={styles.valueIconWrapper}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.iconSvg}><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+            <div className={styles.valueImageWrapper}>
+              <img 
+                src="/why_us_security.png" 
+                alt="Keamanan Terjamin" 
+                className={styles.valueCardImage}
+              />
             </div>
-            <h3 className={styles.valueTitle}>Keamanan Terjamin</h3>
-            <p className={styles.valueText}>
-              Sistem keamanan berlapis, database-backed limiter, audit log security, dan otorisasi role terenskripsi.
-            </p>
+            <div className={styles.valueIconWrapper}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={styles.iconSvg}>
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </div>
+            <div className={styles.valueTextWrapper}>
+              <h3 className={styles.valueTitle}>Keamanan Terjamin</h3>
+              <p className={styles.valueText}>
+                Keamanan berlapis dan terstruktur.
+              </p>
+            </div>
           </div>
         </div>
       </section>
