@@ -106,11 +106,10 @@ export default function GlassRevealIntro() {
                 fill="#B33A3A"
               />
 
-              {/* Pillar 3: Right Hollow Geometric "P" (Charcoal Black) */}
+              {/* Pillar 3: Right Hollow Geometric Open "P" (Charcoal Black) */}
               <path
-                d="M 58,9 L 68,19 L 88,39 L 88,49 L 68,69 L 68,81 L 58,91 Z M 68,29 L 68,59 L 78,49 L 78,39 Z"
+                d="M 58,9 L 68,19 L 88,39 L 88,49 L 76,61 L 72,55 L 78,49 L 78,39 L 68,29 L 68,81 L 58,91 Z"
                 fill="#1A1A1A"
-                fillRule="evenodd"
               />
             </svg>
 
