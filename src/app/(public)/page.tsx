@@ -299,11 +299,11 @@ export default function Homepage() {
               Welcome to Prime Property
             </div>
             <h1 ref={headingRef} className={styles.heroHeading}>
-              <span className={styles.heroHeadingLine1}>Exclusive Property</span>
-              <span className={styles.heroHeadingLine2}>Intelligence Platform</span>
+              <span className={styles.heroHeadingLine1}>Hunian Eksklusif untuk</span>
+              <span className={styles.heroHeadingLine2}>Gaya Hidup Modern</span>
             </h1>
             <p className={styles.heroSubheading}>
-              Kelola inventory properti premium dengan cepat, presisi, dan elegan. Semua data dalam satu platform.
+              Temukan properti premium yang dikurasi khusus untuk kenyamanan dan investasi masa depan Anda.
             </p>
             <div className={styles.heroActions}>
               <a href="#properti-unggulan" className={`${styles.heroCta} gold-shimmer`}>

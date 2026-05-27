@@ -11,19 +11,17 @@
 /* ─── Hero Section ─────────────────────────── */
 
 .hero {
-  min-height: 85vh;
-  background: 
-    radial-gradient(circle 500px at var(--mouse-x, 80%) var(--mouse-y, 50%), rgba(201, 169, 97, 0.08), transparent 85%),
-    #0D0D0D;
+  min-height: 92vh;
+  min-height: 92dvh;
+  background: #0A0A0A; /* Deep dark base */
   display: flex;
-  flex-direction: column; /* Stack vertically on mobile */
   align-items: center;
   justify-content: center;
-  padding: 80px clamp(16px, 4vw, 64px) 60px;
+  padding: 100px clamp(16px, 4vw, 64px) 80px;
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  gap: 40px;
+  width: 100%;
 }
 
 .hero::before {
@@ -35,12 +33,13 @@
   bottom: 0;
   background-size: 40px 40px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
   mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 65%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 65%, transparent 100%);
   animation: gridMove 30s linear infinite;
   pointer-events: none;
+  z-index: 3;
 }
 
 @keyframes gridMove {
@@ -53,21 +52,9 @@
   width: 100%;
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
-  z-index: 5;
-}
-
-@media (min-width: 1024px) {
-  .hero {
-    flex-direction: row;
-    justify-content: flex-start;
-    padding: 120px clamp(16px, 4vw, 64px) 100px;
-    gap: 0;
-  }
-  .heroContent {
-    pointer-events: none; /* Let clicks pass to absolute image if needed */
-  }
+  z-index: 10; /* Sits above full-width visual background */
+  position: relative;
 }
 
 .heroText {
@@ -75,30 +62,30 @@
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  max-width: 550px;
+  max-width: 620px;
   width: 100%;
-  pointer-events: auto;
 }
 
 .heroWelcome {
   color: #C9A961;
   font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
-  margin-bottom: 16px;
-  text-shadow: 0 0 10px rgba(201, 169, 97, 0.25);
+  margin-bottom: 18px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .heroHeading {
   display: flex;
   flex-direction: column;
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2.25rem, 5.5vw, 4.3rem);
-  font-weight: 500;
+  font-size: clamp(2.4rem, 5.8vw, 4.2rem);
+  font-weight: 700;
   line-height: 1.15;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   letter-spacing: -0.01em;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.6);
 }
 
 .heroHeadingLine1 {
@@ -114,10 +101,11 @@
 
 .heroSubheading {
   font-size: 1.05rem;
-  color: rgba(255, 255, 255, 0.65);
-  max-width: 520px;
-  line-height: 1.7;
-  margin-bottom: 36px;
+  color: rgba(255, 255, 255, 0.8); /* Faint but high contrast against dark gradient overlay */
+  max-width: 500px;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .heroActions {
@@ -138,13 +126,13 @@
   font-weight: 600;
   text-decoration: none;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(201, 169, 97, 0.3);
+  box-shadow: 0 4px 20px rgba(201, 169, 97, 0.35);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .heroCta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(201, 169, 97, 0.45);
+  box-shadow: 0 8px 24px rgba(201, 169, 97, 0.5);
   color: #0D0D0D;
 }
 
@@ -155,8 +143,10 @@
 
 .heroSecondaryCta {
   display: inline-block;
-  border: 1.5px solid rgba(201, 169, 97, 0.45);
-  background: transparent;
+  border: 1.5px solid rgba(201, 169, 97, 0.6);
+  background: rgba(10, 10, 10, 0.2);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   color: #C9A961;
   padding: 14.5px 36px;
   font-size: 0.95rem;
@@ -169,117 +159,65 @@
 .heroSecondaryCta:hover {
   background: rgba(201, 169, 97, 0.08);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(201, 169, 97, 0.1);
+  box-shadow: 0 8px 24px rgba(201, 169, 97, 0.15);
   color: #C9A961;
 }
 
-/* ─── Hero Visual (Cinematic Full-Bleed Blended Villa) ─── */
+/* ─── Hero Visual (Cinematic Full-Width Background Villa) ─── */
 
 .heroVisual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: absolute;
+  inset: 0;
   width: 100%;
+  height: 100%;
+  z-index: 1; /* Sits behind text content */
+  overflow: hidden;
 }
 
 .visualContainer {
   position: relative;
   width: 100%;
-  max-width: 500px;
-  height: 350px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
+  height: 100%;
+  margin: 0;
   overflow: hidden;
-  border-radius: 12px;
-  /* Beautiful progressive fading mask to dissolve box borders entirely on mobile */
-  mask-image: radial-gradient(circle at center, #000 30%, rgba(0, 0, 0, 0.85) 55%, rgba(0, 0, 0, 0.3) 80%, transparent 100%);
-  -webkit-mask-image: radial-gradient(circle at center, #000 30%, rgba(0, 0, 0, 0.85) 55%, rgba(0, 0, 0, 0.3) 80%, transparent 100%);
+  border-radius: 0; /* Bleeds across the entire screen layout */
 }
 
-.visualContainer::before {
+/* Progressive multi-directional dark overlay to melt into white/gold text column */
+.visualContainer::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    linear-gradient(to right, #0D0D0D 0%, transparent 20%, transparent 80%, #0D0D0D 100%),
-    linear-gradient(to bottom, #0D0D0D 0%, transparent 20%, transparent 80%, #0D0D0D 100%);
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(10, 10, 10, 0.88) 0%,
+    rgba(10, 10, 10, 0.72) 40%,
+    rgba(10, 10, 10, 0.35) 75%,
+    rgba(10, 10, 10, 0.15) 100%
+  );
   z-index: 4;
   pointer-events: none;
 }
 
+@media (max-width: 768px) {
+  .visualContainer::after {
+    background: linear-gradient(
+      to bottom,
+      rgba(10, 10, 10, 0.9) 0%,
+      rgba(10, 10, 10, 0.65) 60%,
+      rgba(10, 10, 10, 0.4) 100%
+    );
+  }
+}
+
 .visualImg {
   position: relative;
-  z-index: 3;
+  z-index: 2;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7));
-  animation: none; /* No floating animation */
-}
-
-@media (min-width: 1024px) {
-  .heroVisual {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 52%; /* Covers the right side viewport width seamlessly */
-    height: 100%;
-    z-index: 1; /* Sits behind centered text column */
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    overflow: hidden;
-  }
-
-  .visualContainer {
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    margin: 0;
-    position: relative;
-    border-radius: 0; /* Bleeds seamlessly */
-    /* Majestic progressive fading ellipse mask to dissolve left/top/bottom edges entirely on desktop */
-    mask-image: radial-gradient(ellipse 95% 85% at 75% 50%, #000 35%, rgba(0, 0, 0, 0.8) 55%, rgba(0, 0, 0, 0.3) 75%, transparent 100%);
-    -webkit-mask-image: radial-gradient(ellipse 95% 85% at 75% 50%, #000 35%, rgba(0, 0, 0, 0.8) 55%, rgba(0, 0, 0, 0.3) 75%, transparent 100%);
-  }
-
-  .visualContainer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 60%; /* Deeper left-to-right fade-out over more container width */
-    height: 100%;
-    background: linear-gradient(to right, #0D0D0D 0%, rgba(13, 13, 13, 0.85) 20%, transparent 100%);
-    z-index: 4;
-    pointer-events: none;
-  }
-
-  .visualContainer::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 40%; /* Smooth bottom-to-top fade-out */
-    background: linear-gradient(to top, #0D0D0D 0%, transparent 100%);
-    z-index: 4;
-    pointer-events: none;
-  }
-
-  .visualImg {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center right; /* Align the villa to the right edge */
-    animation: none;
-  }
+  object-position: center; /* Beautifully centers the luxury living room details */
+  filter: brightness(0.9);
 }
 
 /* ─── Featured Section ─────────────────────── */
