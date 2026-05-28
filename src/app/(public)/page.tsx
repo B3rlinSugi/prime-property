@@ -321,7 +321,7 @@ export default function Homepage() {
           <div className={styles.visualContainer}>
             {/* Modern Dark Luxury Villa Image */}
             <img 
-              src="/luxury-villa.png" 
+              src="/luxury-villa-hd-4k.png" 
               alt="Luxury Modern Villa Architecture" 
               className={styles.visualImg} 
             />
