@@ -53,13 +53,15 @@
   color: rgba(255, 255, 255, 0.65);
   text-decoration: none;
   border-radius: var(--radius-md);
-  transition: color var(--transition-fast), background-color var(--transition-fast);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   white-space: nowrap;
 }
 
 .navLink:hover {
-  color: var(--color-white);
+  color: #C9A961;
   background-color: rgba(255, 255, 255, 0.08);
+  transform: translateX(6px);
+  text-shadow: 0 0 8px rgba(201, 169, 97, 0.4);
 }
 
 .navLinkActive {
@@ -85,6 +87,8 @@
 .navLinkActive:hover {
   color: var(--color-accent-gold);
   background-color: rgba(201, 169, 97, 0.15);
+  transform: translateX(6px);
+  text-shadow: 0 0 8px rgba(201, 169, 97, 0.4);
 }
 
 /* ─── Right Section ─────────────────────────── */
@@ -440,5 +444,36 @@
   .sidebarCollapseBtn:hover {
     color: var(--color-accent-gold);
     background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.logoutBtn {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .logoutBtn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: auto;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: rgba(255, 100, 100, 0.7);
+    background: none;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-family: var(--font-family);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    white-space: nowrap;
+  }
+  
+  .logoutBtn:hover {
+    color: #FF4D4D;
+    background-color: rgba(255, 77, 77, 0.1);
+    transform: translateX(6px);
+    text-shadow: 0 0 8px rgba(255, 77, 77, 0.4);
   }
 }

@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { getSiapLabel } from '@/lib/utils';
 import styles from './page.module.css';
 
@@ -49,7 +49,7 @@ interface AnalyticsData {
   averages: Averages;
 }
 
-export default function AnalyticsDashboardPage() {
+function AnalyticsDashboardContent() {
   const { data: session, status: authStatus } = useSession();
   const router = useRouter();
 
@@ -59,6 +59,24 @@ export default function AnalyticsDashboardPage() {
 
   // Switch between Tab 1 (Screenshot 1: Kinerja Portofolio) and Tab 2 (Screenshot 2: Ringkasan Eksekutif)
   const [activeTab, setActiveTab] = useState<'kinerja' | 'eksekutif'>('kinerja');
+
+  const searchParams = useSearchParams();
+  const tabQuery = searchParams.get('tab');
+
+  useEffect(() => {
+    if (tabQuery === 'eksekutif' || tabQuery === 'kinerja') {
+      setActiveTab(tabQuery);
+    } else {
+      setActiveTab('kinerja');
+    }
+  }, [tabQuery]);
+
+  const handleTabChange = (tab: 'kinerja' | 'eksekutif') => {
+    setActiveTab(tab);
+    const params = new URLSearchParams(window.location.search);
+    params.set('tab', tab);
+    router.push(`/agent/dashboard/analytics?${params.toString()}`);
+  };
 
   // Authenticate check
   useEffect(() => {
@@ -151,13 +169,13 @@ export default function AnalyticsDashboardPage() {
           <div className={styles.tabContainer}>
             <button 
               className={`${styles.tabBtn} ${activeTab === 'kinerja' ? styles.tabBtnActive : ''}`}
-              onClick={() => setActiveTab('kinerja')}
+              onClick={() => handleTabChange('kinerja')}
             >
               Kinerja Portofolio
             </button>
             <button 
               className={`${styles.tabBtn} ${activeTab === 'eksekutif' ? styles.tabBtnActive : ''}`}
-              onClick={() => setActiveTab('eksekutif')}
+              onClick={() => handleTabChange('eksekutif')}
             >
               Ringkasan Eksekutif
             </button>
@@ -893,5 +911,18 @@ export default function AnalyticsDashboardPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function AnalyticsDashboardPage() {
+  return (
+    <Suspense fallback={
+      <div className={styles.loadingContainer}>
+        <div className={styles.spinner}></div>
+        <p>Menghitung dan memuat data analitik...</p>
+      </div>
+    }>
+      <AnalyticsDashboardContent />
+    </Suspense>
   );
 }

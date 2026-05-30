@@ -82,6 +82,13 @@ function renderIcon(iconName: string) {
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
         </svg>
       );
+    case 'pesan':
+      return (
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '12px' }}>
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+          <polyline points="22,6 12,13 2,6" />
+        </svg>
+      );
     default:
       return null;
   }
@@ -128,9 +135,10 @@ export default function DashboardHeader() {
   const isSuperAdmin = user?.role === 'SUPERADMIN';
 
   const navLinks = [
-    { href: '/agent/dashboard/analytics', label: 'Dashboard', iconName: 'dashboard', visible: true },
+    { href: '/agent/dashboard/analytics?tab=kinerja', label: 'Dashboard', iconName: 'dashboard', visible: true },
     { href: '/agent/dashboard', label: 'Properti', iconName: 'properti', visible: true },
-    { href: '/agent/dashboard/analytics', label: 'Analytics', iconName: 'analytics', visible: true },
+    { href: '/agent/dashboard/analytics?tab=eksekutif', label: 'Analytics', iconName: 'analytics', visible: true },
+    { href: '/agent/dashboard/messages', label: 'Pesan Masuk', iconName: 'pesan', visible: true },
     { href: '/agent/dashboard/users', label: 'Admin', iconName: 'admin', visible: isSuperAdmin },
     { href: '/agent/dashboard/audit-log', label: 'Audit Log', iconName: 'audit', visible: isSuperAdmin },
     { href: '/agent/dashboard?archived=true', label: 'Arsip', iconName: 'arsip', visible: isSuperAdmin },
@@ -138,16 +146,31 @@ export default function DashboardHeader() {
   ];
 
   function isActive(href: string): boolean {
-    if (href.includes('archived=true')) {
-      return pathname === '/agent/dashboard' && searchParams.get('archived') === 'true';
+    try {
+      const url = new URL(href, 'http://localhost');
+      const targetPath = url.pathname;
+      
+      if (pathname !== targetPath) {
+        return false;
+      }
+      
+      if (href.includes('archived=true')) {
+        return searchParams.get('archived') === 'true';
+      }
+      if (targetPath === '/agent/dashboard' && !href.includes('archived=true')) {
+        return searchParams.get('archived') !== 'true';
+      }
+      if (href.includes('tab=kinerja')) {
+        return searchParams.get('tab') === 'kinerja' || !searchParams.get('tab');
+      }
+      if (href.includes('tab=eksekutif')) {
+        return searchParams.get('tab') === 'eksekutif';
+      }
+      
+      return true;
+    } catch (e) {
+      return pathname.startsWith(href);
     }
-    if (href === '/agent/dashboard') {
-      return pathname === '/agent/dashboard' && searchParams.get('archived') !== 'true';
-    }
-    if (href === '/agent/dashboard/analytics') {
-      return pathname === '/agent/dashboard/analytics';
-    }
-    return pathname.startsWith(href);
   }
 
   async function handleLogout() {
@@ -222,6 +245,16 @@ export default function DashboardHeader() {
               </Link>
             ))}
         </nav>
+
+        {/* Desktop Logout Button at the bottom of sidebar */}
+        <button className={styles.logoutBtn} onClick={handleLogout}>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '12px' }}>
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          Keluar
+        </button>
 
         {/* User profile menu for mobile drawer / fallback */}
         <div className={styles.rightSection}>

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { auth } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 
 // POST /api/contact — Public contact form submission
@@ -64,5 +65,57 @@ export async function POST(request: Request) {
   } catch (err: any) {
     console.error('POST contact message error:', err);
     return NextResponse.json({ message: 'Gagal mengirim pesan. Terjadi kesalahan internal.', error: err.message }, { status: 500 });
+  }
+}
+
+// GET /api/contact — Authenticated listing of contact messages
+export async function GET() {
+  try {
+    const session = await auth();
+    if (!session || !session.user) {
+      return NextResponse.json({ message: 'Sesi habis, silakan login kembali.' }, { status: 401 });
+    }
+
+    // Fetch all contact messages ordered by newest first
+    const messages = await prisma.contactMessage.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return NextResponse.json({ data: messages });
+  } catch (err: any) {
+    console.error('GET contact messages error:', err);
+    return NextResponse.json({ message: 'Gagal mengambil pesan. Terjadi kesalahan internal.', error: err.message }, { status: 500 });
+  }
+}
+
+// DELETE /api/contact — Authenticated deletion of a contact message
+export async function DELETE(request: Request) {
+  try {
+    const session = await auth();
+    if (!session || !session.user) {
+      return NextResponse.json({ message: 'Sesi habis, silakan login kembali.' }, { status: 401 });
+    }
+
+    // Read ID from query string
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json({ message: 'ID pesan wajib disertakan.' }, { status: 400 });
+    }
+
+    // Delete the contact message
+    await prisma.contactMessage.delete({
+      where: {
+        id,
+      },
+    });
+
+    return NextResponse.json({ message: 'Pesan berhasil dihapus.' });
+  } catch (err: any) {
+    console.error('DELETE contact message error:', err);
+    return NextResponse.json({ message: 'Gagal menghapus pesan. Terjadi kesalahan internal.', error: err.message }, { status: 500 });
   }
 }
