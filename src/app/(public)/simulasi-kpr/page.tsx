@@ -106,8 +106,8 @@ export default function PublicKprCalculatorPage() {
 
   // Modal Detail States
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
-  const [activeModalTab, setActiveModalTab] = useState<'gallery' | 'video'>('gallery');
-  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const [activeModalTab, setActiveModalTab] = useState<'overview' | 'gallery' | 'floorplan' | 'location' | 'investment'>('overview');
+  const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
   const [showBudgetModal, setShowBudgetModal] = useState(false);
   const [showApplyKprModal, setShowApplyKprModal] = useState(false);
   const [applyKprName, setApplyKprName] = useState('');
@@ -779,9 +779,11 @@ export default function PublicKprCalculatorPage() {
         </div>
       )}
 
-      {/* Glassmorphic Property Detail Modal overlay (Directly on KPR page) */}
+      {/* ─── Premium Glassmorphic Property Detail Modal ─── */}
       {selectedProperty && (() => {
         const imageIndex = getPropertyImageIndex(selectedProperty.id);
+
+        // Generate 5 distinct high-quality images deterministically for each property
         const slideImages = [
           { url: `/property-villa-${imageIndex}.png`, label: 'FASAD DEPAN (FACADE)' },
           { url: '/lobby.png', label: 'LOBI RESEPSIONIS (LOBBY)' },
@@ -790,202 +792,172 @@ export default function PublicKprCalculatorPage() {
           { url: `/property-villa-${((imageIndex + 2) % 6) + 1}.png`, label: 'AREA DINAMIS & SOSIAL' }
         ];
 
+        const handleNextSlide = () => {
+          if (activeSlideIndex === -1) return;
+          setActiveSlideIndex((prev) => (prev + 1) % 5);
+        };
+
+        const handlePrevSlide = () => {
+          if (activeSlideIndex === -1) return;
+          setActiveSlideIndex((prev) => (prev - 1 + 5) % 5);
+        };
+
         return (
-          <div className={styles.modalBackdrop} onClick={() => setSelectedProperty(null)} data-lenis-prevent>
+          <div className={styles.modalBackdrop} onClick={() => {
+            setSelectedProperty(null);
+            setActiveModalTab('overview');
+            setActiveSlideIndex(0);
+          }} data-lenis-prevent>
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-              <button className={styles.modalCloseBtn} onClick={() => setSelectedProperty(null)}>
+              <button 
+                className={styles.modalCloseBtn} 
+                onClick={() => {
+                  setSelectedProperty(null);
+                  setActiveModalTab('overview');
+                  setActiveSlideIndex(0);
+                }} 
+                aria-label="Tutup Detail"
+              >
                 ✕
               </button>
-
+              
               <div className={styles.modalGrid}>
-                {/* Media Showcase */}
-                <div className={styles.modalVisualCol}>
-                  <div className={styles.modalTabWrapper}>
-                    <div className={styles.segmentedControl}>
-                      <button 
-                        className={`${styles.controlTabBtn} ${activeModalTab === 'gallery' ? styles.controlTabActive : ''}`}
-                        onClick={() => setActiveModalTab('gallery')}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.tabIconSvg}><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                        JELAJAH RUANG
-                      </button>
-                      <button 
-                        className={`${styles.controlTabBtn} ${activeModalTab === 'video' ? styles.controlTabActive : ''}`}
-                        onClick={() => {
-                          setActiveModalTab('video');
-                          setActiveSlideIndex(0);
-                        }}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.tabIconSvg}><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                        TUR SINEMATIK
-                        <span className={styles.recordingDot}></span>
-                      </button>
-                    </div>
-                  </div>
+                {/* 1. Left Sidebar Navigation Column */}
+                <div className={styles.modalSidebarCol}>
+                  <button 
+                    className={`${styles.sidebarTabBtn} ${activeModalTab === 'overview' ? styles.sidebarTabActive : ''}`}
+                    onClick={() => setActiveModalTab('overview')}
+                  >
+                    <span className={styles.tabNumber}>01</span>
+                    <span className={styles.tabLabel}>Overview</span>
+                  </button>
+                  <button 
+                    className={`${styles.sidebarTabBtn} ${activeModalTab === 'gallery' ? styles.sidebarTabActive : ''}`}
+                    onClick={() => {
+                      setActiveModalTab('gallery');
+                      setActiveSlideIndex(0);
+                    }}
+                  >
+                    <span className={styles.tabNumber}>02</span>
+                    <span className={styles.tabLabel}>Gallery</span>
+                  </button>
+                  <button 
+                    className={`${styles.sidebarTabBtn} ${activeModalTab === 'floorplan' ? styles.sidebarTabActive : ''}`}
+                    onClick={() => setActiveModalTab('floorplan')}
+                  >
+                    <span className={styles.tabNumber}>03</span>
+                    <span className={styles.tabLabel}>Floor Plan</span>
+                  </button>
+                  <button 
+                    className={`${styles.sidebarTabBtn} ${activeModalTab === 'location' ? styles.sidebarTabActive : ''}`}
+                    onClick={() => setActiveModalTab('location')}
+                  >
+                    <span className={styles.tabNumber}>04</span>
+                    <span className={styles.tabLabel}>Location</span>
+                  </button>
+                  <button 
+                    className={`${styles.sidebarTabBtn} ${activeModalTab === 'investment' ? styles.sidebarTabActive : ''}`}
+                    onClick={() => setActiveModalTab('investment')}
+                  >
+                    <span className={styles.tabNumber}>05</span>
+                    <span className={styles.tabLabel}>Investment</span>
+                  </button>
+                </div>
 
-                  {activeModalTab === 'gallery' ? (
-                    <div className={styles.modalGalleryContainer}>
-                      <div 
-                        className={styles.modalSlider}
-                        style={{ backgroundImage: `url(${slideImages[activeSlideIndex].url})` }}
-                      >
-                        <div className={styles.modalSlideLabel}>
-                          <span className={styles.slideDot}>●</span> {slideImages[activeSlideIndex].label}
-                        </div>
-                        <button className={`${styles.modalNavBtn} ${styles.modalNavBtnLeft}`} onClick={() => setActiveSlideIndex((prev) => (prev - 1 + 5) % 5)}>
-                          ‹
-                        </button>
-                        <button className={`${styles.modalNavBtn} ${styles.modalNavBtnRight}`} onClick={() => setActiveSlideIndex((prev) => (prev + 1) % 5)}>
-                          ›
-                        </button>
-                        <div className={styles.modalSlideCount}>
-                          0{activeSlideIndex + 1} / 05
-                        </div>
-                      </div>
-
-                      <div className={styles.modalThumbRow}>
-                        {slideImages.map((slide, idx) => (
-                          <div 
-                            key={idx}
-                            className={`${styles.modalThumbWrapper} ${activeSlideIndex === idx ? styles.modalThumbWrapperActive : ''}`}
-                            onClick={() => setActiveSlideIndex(idx)}
-                          >
-                            <img src={slide.url} alt={slide.label} className={styles.modalThumbImg} />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className={styles.modalVideoContainer}>
-                      <iframe
-                        src="https://www.youtube.com/embed/tPe9n8P6Azo?autoplay=1&mute=1"
-                        title="Cinematic Property Tour Video Walkthrough"
-                        width="100%"
-                        height="100%"
-                        style={{ border: 0 }}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
+                {/* 2. Middle Media Panel Column */}
+                <div className={styles.modalMediaCol}>
+                  {activeModalTab === 'overview' && (
+                    <div className={styles.overviewCoverWrapper}>
+                      <img 
+                        src={`/property-villa-${imageIndex}.png`} 
+                        alt={selectedProperty.namaProperty} 
+                        className={styles.overviewCoverImg}
+                      />
                     </div>
                   )}
 
-                  {/* Location Map */}
-                  <div className={styles.modalMapWrapper}>
-                    <h4 className={styles.modalMapTitle}>Lokasi Properti</h4>
-                    <div className={styles.modalMapIframeContainer}>
-                      <iframe
-                        src={`https://maps.google.com/maps?q=${encodeURIComponent(selectedProperty.namaProperty + ' ' + parseJsonArray(selectedProperty.kawasan).join(' ') + ' Medan')}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
-                        width="100%"
-                        height="100%"
-                        style={{ border: 0 }}
-                        allowFullScreen
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        className={styles.modalGoogleMap}
-                      ></iframe>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Details Meta */}
-                <div className={styles.modalDetailsCol}>
-                  <div className={styles.modalHeaderSec}>
-                    <div className={styles.modalHeaderTop}>
-                      <div className={styles.modalHeaderLeftGroup}>
-                        <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
-                        <div className={styles.modalBadges}>
-                          <span className={selectedProperty.status === 'IN_STOCK' ? styles.modalBadgeInStock : styles.modalBadgeSoldOut}>
-                            {selectedProperty.status === 'IN_STOCK' ? 'In Stock' : 'Sold Out'}
-                          </span>
-                          <span className={styles.modalBadgeType}>
-                            {getTipeLabel(selectedProperty.tipe)}
-                          </span>
+                  {activeModalTab === 'gallery' && (
+                    <div className={styles.modalGalleryContainer}>
+                      {/* Media Tab Selector */}
+                      <div className={styles.modalTabWrapper}>
+                        <div className={styles.segmentedControl}>
+                          <button 
+                            className={`${styles.controlTabBtn} ${activeSlideIndex !== -1 ? styles.controlTabActive : ''}`}
+                            onClick={() => setActiveSlideIndex(0)}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.tabIconSvg}><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            JELAJAH RUANG
+                          </button>
+                          <button 
+                            className={`${styles.controlTabBtn} ${activeSlideIndex === -1 ? styles.controlTabActive : ''}`}
+                            onClick={() => setActiveSlideIndex(-1)}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.tabIconSvg}><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                            TUR SINEMATIK
+                            <span className={styles.recordingDot}></span>
+                          </button>
                         </div>
                       </div>
-                    </div>
-                    
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px', width: '100%', marginTop: '12px' }}>
-                      <div>
-                        <h2 className={styles.modalTitle} style={{ margin: 0 }}>{selectedProperty.namaProperty}</h2>
-                        <div className={styles.modalPrice} style={{ marginTop: '4px', marginBottom: 0 }}>
-                          {formatRupiah(typeof selectedProperty.price === 'string' ? BigInt(selectedProperty.price) : selectedProperty.price)}
+
+                      {activeSlideIndex !== -1 ? (
+                        <div className={styles.modalGalleryContainer} style={{ padding: 0, background: 'none', border: 'none', boxShadow: 'none' }}>
+                          {/* Active Slide Box (Clean without overlaid type badges) */}
+                          <div 
+                            className={styles.modalSlider}
+                            style={{ backgroundImage: `url(${slideImages[activeSlideIndex].url})` }}
+                          >
+                            <div className={styles.modalSlideLabel}>
+                              <span className={styles.slideDot}>●</span> {slideImages[activeSlideIndex].label}
+                            </div>
+
+                            {/* Slide Navigation Arrows */}
+                            <button className={`${styles.modalNavBtn} ${styles.modalNavBtnLeft}`} onClick={handlePrevSlide} aria-label="Slide Sebelumnya">
+                              ‹
+                            </button>
+                            <button className={`${styles.modalNavBtn} ${styles.modalNavBtnRight}`} onClick={handleNextSlide} aria-label="Slide Berikutnya">
+                              ›
+                            </button>
+
+                            {/* Slide counter formatted with leading zero */}
+                            <div className={styles.modalSlideCount}>
+                              0{activeSlideIndex + 1} / 05
+                            </div>
+                          </div>
+
+                          {/* Horizontal Scrollable Thumbnails below visual slider */}
+                          <div className={styles.modalThumbRow}>
+                            {slideImages.map((slide, idx) => (
+                              <div 
+                                key={idx}
+                                className={`${styles.modalThumbWrapper} ${activeSlideIndex === idx ? styles.modalThumbWrapperActive : ''}`}
+                                onClick={() => setActiveSlideIndex(idx)}
+                              >
+                                <img src={slide.url} alt={slide.label} className={styles.modalThumbImg} />
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                      <button 
-                        onClick={() => window.print()} 
-                        className={styles.modalPrintBtn}
-                        title="Unduh Brosur Properti PDF"
-                      >
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'middle' }}>
-                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                          <polyline points="7 10 12 15 17 10" />
-                          <line x1="12" y1="15" x2="12" y2="3" />
-                        </svg>
-                        Cetak Brosur PDF
-                      </button>
+                      ) : (
+                        /* Video Walkthrough Player */
+                        <div className={styles.modalVideoWrapper}>
+                          <div className={styles.modalVideoContainer}>
+                            <iframe
+                              src="https://www.youtube.com/embed/tPe9n8P6Azo?autoplay=1&mute=1"
+                              title="Cinematic Property Tour Video Walkthrough"
+                              width="100%"
+                              height="100%"
+                              style={{ border: 0 }}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen={true}
+                            ></iframe>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  </div>
+                  )}
 
-                  <div className={styles.modalSpecsGrid}>
-                    <div className={styles.modalSpecCard}>
-                      <span className={styles.specIcon}>📐</span>
-                      <div className={styles.modalSpecMeta}>
-                        <span className={styles.modalSpecLabel}>DIMENSI</span>
-                        <span className={styles.modalSpecVal}>{selectedProperty.lebar} &times; {selectedProperty.panjang} m</span>
-                      </div>
-                    </div>
-                    <div className={styles.modalSpecCard}>
-                      <span className={styles.specIcon}>🏢</span>
-                      <div className={styles.modalSpecMeta}>
-                        <span className={styles.modalSpecLabel}>TINGKAT</span>
-                        <span className={styles.modalSpecVal}>{selectedProperty.tingkat} Lantai</span>
-                      </div>
-                    </div>
-                    <div className={styles.modalSpecCard}>
-                      <span className={styles.specIcon}>🧭</span>
-                      <div className={styles.modalSpecMeta}>
-                        <span className={styles.modalSpecLabel}>HADAP</span>
-                        <span className={styles.modalSpecVal}>{parseJsonArray(selectedProperty.hadap).join(', ')}</span>
-                      </div>
-                    </div>
-                    <div className={styles.modalSpecCard}>
-                      <span className={styles.specIcon}>🚗</span>
-                      <div className={styles.modalSpecMeta}>
-                        <span className={styles.modalSpecLabel}>CARPORT</span>
-                        <span className={styles.modalSpecVal}>{selectedProperty.carport ? 'Tersedia' : 'Tidak Ada'}</span>
-                      </div>
-                    </div>
-                    <div className={styles.modalSpecCard}>
-                      <span className={styles.specIcon}>🔑</span>
-                      <div className={styles.modalSpecMeta}>
-                        <span className={styles.modalSpecLabel}>STATUS UNIT</span>
-                        <span className={styles.modalSpecVal}>{getSiapLabel(selectedProperty.siap)}</span>
-                      </div>
-                    </div>
-                    <div className={styles.modalSpecCard}>
-                      <span className={styles.specIcon}>ℹ️</span>
-                      <div className={styles.modalSpecMeta}>
-                        <span className={styles.modalSpecLabel}>INFO TAMBAHAN</span>
-                        <span className={styles.modalSpecVal}>{selectedProperty.unit || '-'}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.modalDescSection}>
-                    <h4 className={styles.modalSectionSub}>Deskripsi Properti</h4>
-                    <p className={styles.modalDescText}>
-                      {selectedProperty.tipe === 'VILLA' 
-                        ? 'Villa mewah dengan desain arsitektur modern kontemporer yang menyajikan kenyamanan eksklusif bagi keluarga Anda. Berlokasi di kawasan premium bebas banjir dengan sistem keamanan terpadu 24 jam dan akses langsung ke fasilitas utama kota.'
-                        : 'Ruko komersial strategis yang sangat cocok untuk kantor bisnis, outlet retail premium, maupun investasi jangka panjang. Memiliki tingkat traffic harian yang sangat tinggi dan area parkir luas.'}
-                    </p>
-                  </div>
-
-                  {/* Interactive Floor Plan Section */}
-                  <div className={styles.floorPlanSection}>
-                    <h4 className={styles.modalSectionSub}>📐 Denah & Tata Letak Eksklusif</h4>
-                    <p className={styles.floorPlanSub}>Jelajahi denah tata letak 2D interaktif unit kami dengan presisi tata ruang tinggi.</p>
-                    
-                    <div className={styles.floorPlanVisualWrapper}>
+                  {activeModalTab === 'floorplan' && (
+                    <div className={styles.floorPlanVisualWrapper} style={{ height: '100%', minHeight: '350px', display: 'flex', alignItems: 'center' }}>
                       {selectedProperty.tipe === 'VILLA' ? (
                         /* Villa interactive floor plan SVG */
                         <svg viewBox="0 0 600 320" className={styles.floorPlanSvg}>
@@ -1048,22 +1020,220 @@ export default function PublicKprCalculatorPage() {
 
                           {/* Backyard */}
                           <g className={styles.planRoom} tabIndex={0}>
-                            <rect x="260" y="245" width="200" height="40" rx="4" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                            <rect x="260" y="245" width="200" height="40" rx="4" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
                             <text x="360" y="270" className={styles.planRoomText} style={{ fontSize: '9px' }}>BACKYARD GARDEN</text>
                           </g>
                         </svg>
                       )}
                     </div>
-                  </div>
+                  )}
 
-                  <a 
-                    href={`https://wa.me/6281234567890?text=${encodeURIComponent(`Halo Prime Property, saya sangat tertarik dengan unit *${selectedProperty.namaProperty}* di kawasan *${parseJsonArray(selectedProperty.kawasan).join(', ')}* yang ditawarkan dengan harga *${formatRupiah(typeof selectedProperty.price === 'string' ? BigInt(selectedProperty.price) : selectedProperty.price)}*. Apakah unit ini masih tersedia untuk jadwal survey lokasi?`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`${styles.modalWaBtn} gold-shimmer`}
-                  >
-                    Hubungi Agen via WhatsApp
-                  </a>
+                  {activeModalTab === 'location' && (
+                    <div className={styles.modalMapIframeContainer} style={{ height: '100%', minHeight: '380px' }}>
+                      <iframe
+                        src={`https://maps.google.com/maps?q=${encodeURIComponent(selectedProperty.namaProperty + ' ' + parseJsonArray(selectedProperty.kawasan).join(' ') + ' Medan')}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0, minHeight: '380px' }}
+                        allowFullScreen={true}
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        className={styles.modalGoogleMap}
+                      ></iframe>
+                    </div>
+                  )}
+
+                  {activeModalTab === 'investment' && (
+                    <div className={styles.investmentChartWrapper}>
+                      <div className={styles.investmentVisualCard}>
+                        <h4 className={styles.investmentChartTitle}>ESTIMASI KINERJA INVESTASI</h4>
+                        <div className={styles.chartPlaceholder}>
+                          <svg viewBox="0 0 400 200" className={styles.investmentSvg}>
+                            <rect x="10" y="10" width="380" height="180" rx="6" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.05)" />
+                            <line x1="40" y1="40" x2="360" y2="40" stroke="rgba(255,255,255,0.03)" />
+                            <line x1="40" y1="90" x2="360" y2="90" stroke="rgba(255,255,255,0.03)" />
+                            <line x1="40" y1="140" x2="360" y2="140" stroke="rgba(255,255,255,0.03)" />
+                            <rect x="60" y="90" width="30" height="70" rx="3" fill="rgba(255,255,255,0.1)" />
+                            <rect x="120" y="70" width="30" height="90" rx="3" fill="rgba(255,255,255,0.15)" />
+                            <rect x="180" y="50" width="30" height="110" rx="3" fill="rgba(255,255,255,0.2)" />
+                            <rect x="240" y="30" width="30" height="130" rx="3" fill="rgba(201,169,97,0.4)" />
+                            <rect x="300" y="15" width="30" height="145" rx="3" fill="url(#goldGradient)" />
+                            <defs>
+                              <linearGradient id="goldGradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stopColor="#E8D09B" />
+                                <stop offset="100%" stopColor="#C9A961" stopOpacity="0.8" />
+                              </linearGradient>
+                            </defs>
+                            <text x="75" y="180" fill="rgba(255,255,255,0.3)" fontSize="9" textAnchor="middle">Thn 1</text>
+                            <text x="135" y="180" fill="rgba(255,255,255,0.3)" fontSize="9" textAnchor="middle">Thn 2</text>
+                            <text x="195" y="180" fill="rgba(255,255,255,0.3)" fontSize="9" textAnchor="middle">Thn 3</text>
+                            <text x="255" y="180" fill="rgba(255,255,255,0.4)" fontSize="9" textAnchor="middle">Thn 4</text>
+                            <text x="315" y="180" fill="#C9A961" fontSize="9" textAnchor="middle" fontWeight="bold">Thn 5</text>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* 3. Right Information Column */}
+                <div className={styles.modalDetailsCol}>
+                  {activeModalTab === 'overview' && (
+                    <div className={styles.infoColOverview}>
+                      <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
+                      <h2 className={styles.modalTitle}>{selectedProperty.namaProperty}</h2>
+                      <span className={styles.modalSubtitle}>
+                        {selectedProperty.tipe === 'VILLA' ? 'Luxury Residential Property' : 'Luxury Commercial Property'}
+                      </span>
+                      <div className={styles.ctaAccentBar} style={{ margin: '14px 0', alignSelf: 'flex-start' }}></div>
+                      
+                      <p className={styles.modalDescText} style={{ margin: '10px 0 20px', fontSize: '0.85rem', lineHeight: '1.6' }}>
+                        {selectedProperty.tipe === 'VILLA' 
+                          ? 'Villa mewah dengan desain arsitektur modern kontemporer yang menyajikan kenyamanan eksklusif bagi keluarga Anda. Berlokasi di kawasan premium bebas banjir dengan sistem keamanan terpadu.' 
+                          : 'Ruko komersial strategis yang sangat cocok untuk kantor bisnis, outlet retail premium, maupun investasi jangka panjang. Memiliki tingkat traffic harian yang sangat tinggi.'}
+                      </p>
+
+                      {/* Specifications Grid */}
+                      <div className={styles.mockupSpecsGrid}>
+                        <div className={styles.mockupSpecItem}>
+                          <div className={styles.mockupSpecIconWrapper}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.modalSpecIconSvg}><rect x="2" y="2" width="20" height="20" rx="2" ry="2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+                          </div>
+                          <div className={styles.mockupSpecMeta}>
+                            <span className={styles.mockupSpecLabel}>Dimensi</span>
+                            <span className={styles.mockupSpecVal}>{selectedProperty.lebar} &times; {selectedProperty.panjang} m</span>
+                          </div>
+                        </div>
+                        <div className={styles.mockupSpecItem}>
+                          <div className={styles.mockupSpecIconWrapper}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.modalSpecIconSvg}><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                          </div>
+                          <div className={styles.mockupSpecMeta}>
+                            <span className={styles.mockupSpecLabel}>Tingkat</span>
+                            <span className={styles.mockupSpecVal}>{selectedProperty.tingkat} Lantai</span>
+                          </div>
+                        </div>
+                        <div className={styles.mockupSpecItem}>
+                          <div className={styles.mockupSpecIconWrapper}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.modalSpecIconSvg}><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                          </div>
+                          <div className={styles.mockupSpecMeta}>
+                            <span className={styles.mockupSpecLabel}>Hadap</span>
+                            <span className={styles.mockupSpecVal}>{parseJsonArray(selectedProperty.hadap).join(', ')}</span>
+                          </div>
+                        </div>
+                        <div className={styles.mockupSpecItem}>
+                          <div className={styles.mockupSpecIconWrapper}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.modalSpecIconSvg}><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.778-7.778zm0 0L20 4l2 2-1.61 1.61"/></svg>
+                          </div>
+                          <div className={styles.mockupSpecMeta}>
+                            <span className={styles.mockupSpecLabel}>Status Unit</span>
+                            <span className={styles.mockupSpecVal}>{getSiapLabel(selectedProperty.siap)}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* CTA Row */}
+                      <div className={styles.mockupCtaRow}>
+                        <a 
+                          href={`https://wa.me/6281234567890?text=${encodeURIComponent(`Halo Prime Property, saya sangat tertarik dengan unit *${selectedProperty.namaProperty}* di kawasan *${parseJsonArray(selectedProperty.kawasan).join(', ')}* yang ditawarkan dengan harga *${formatRupiah(typeof selectedProperty.price === 'string' ? BigInt(selectedProperty.price) : selectedProperty.price)}*. Apakah unit ini masih tersedia untuk jadwal survey lokasi?`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.mockupGoldBtn}
+                        >
+                          Jelajahi Detail <span className={styles.arrowIcon}>→</span>
+                        </a>
+                        <div className={styles.playVideoCol}>
+                          <button 
+                            className={styles.playVideoBtn}
+                            onClick={() => {
+                              setActiveModalTab('gallery');
+                              setActiveSlideIndex(-1); // Switch to video walkthrough
+                            }}
+                            aria-label="Lihat Video"
+                          >
+                            ▷
+                          </button>
+                          <span className={styles.playLabel}>Lihat Video</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeModalTab === 'gallery' && (
+                    <div className={styles.infoColOverview}>
+                      <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
+                      <h2 className={styles.modalTitle}>Galeri & Tur Virtual</h2>
+                      <span className={styles.modalSubtitle}>Spatial Exploration Showcase</span>
+                      <div className={styles.ctaAccentBar} style={{ margin: '14px 0', alignSelf: 'flex-start' }}></div>
+                      <p className={styles.modalDescText} style={{ fontSize: '0.85rem', lineHeight: '1.6' }}>
+                        Jelajahi visualisasi mendalam ruko komersial atau villa mewah kami. Anda dapat melihat lobi resepsionis, area interior, luar ruangan, dan eksterior facade secara interaktif.
+                      </p>
+                      <button 
+                        onClick={() => window.print()} 
+                        className={styles.modalPrintBtn}
+                        style={{ marginTop: '20px', width: '100%', justifyContent: 'center' }}
+                      >
+                        Cetak Brosur PDF
+                      </button>
+                    </div>
+                  )}
+
+                  {activeModalTab === 'floorplan' && (
+                    <div className={styles.infoColOverview}>
+                      <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
+                      <h2 className={styles.modalTitle}>Denah Arsitektural</h2>
+                      <span className={styles.modalSubtitle}>Precision Spatial Floor Plan</span>
+                      <div className={styles.ctaAccentBar} style={{ margin: '14px 0', alignSelf: 'flex-start' }}></div>
+                      <p className={styles.modalDescText} style={{ fontSize: '0.85rem', lineHeight: '1.6' }}>
+                        Setiap unit dirancang dengan detail arsitektur modern kontemporer yang efisien. Memiliki sirkulasi udara optimal dan tata ruang fungsional tinggi untuk produktivitas atau hunian.
+                      </p>
+                      <div className={styles.floorPlanDimensions} style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)' }}>
+                        <div><strong>Luas Tanah:</strong> {selectedProperty.lebar * selectedProperty.panjang} m²</div>
+                        <div><strong>Tipe Bangunan:</strong> {selectedProperty.tipe} ({selectedProperty.tingkat} Lantai)</div>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeModalTab === 'location' && (
+                    <div className={styles.infoColOverview}>
+                      <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
+                      <h2 className={styles.modalTitle}>Akses & Lokasi</h2>
+                      <span className={styles.modalSubtitle}>Strategic Connectivity Hub</span>
+                      <div className={styles.ctaAccentBar} style={{ margin: '14px 0', alignSelf: 'flex-start' }}></div>
+                      <p className={styles.modalDescText} style={{ fontSize: '0.85rem', lineHeight: '1.6' }}>
+                        Berlokasi di kawasan strategis Medan dengan tingkat aksesibilitas tinggi. Dekat dengan tol bandara, pusat perbelanjaan, sekolah internasional, dan pusat komersial bisnis terpadu.
+                      </p>
+                      <a 
+                        href={selectedProperty.mapsLink || `https://maps.google.com/?q=${encodeURIComponent(selectedProperty.namaProperty + ' Medan')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.modalPrintBtn}
+                        style={{ marginTop: '20px', width: '100%', justifyContent: 'center', textAlign: 'center', textDecoration: 'none' }}
+                      >
+                        Buka di Google Maps 🗺️
+                      </a>
+                    </div>
+                  )}
+
+                  {activeModalTab === 'investment' && (
+                    <div className={styles.infoColOverview}>
+                      <span className={styles.modalKawasan}>{parseJsonArray(selectedProperty.kawasan).join(', ')}</span>
+                      <h2 className={styles.modalTitle}>Analisis Investasi</h2>
+                      <span className={styles.modalSubtitle}>Investment Return & Financing</span>
+                      <div className={styles.ctaAccentBar} style={{ margin: '14px 0', alignSelf: 'flex-start' }}></div>
+                      <p className={styles.modalDescText} style={{ fontSize: '0.85rem', lineHeight: '1.6' }}>
+                        Unit ini memiliki capital gain luar biasa tinggi sebesar 8-12% pertahun dengan potensi yield sewa tahunan berkisar antara 7-9%. Investasi ideal jangka panjang yang sangat solid.
+                      </p>
+                      <Link 
+                        href={`/simulasi-kpr?price=${selectedProperty.price}`}
+                        className={styles.modalPrintBtn}
+                        style={{ marginTop: '20px', width: '100%', justifyContent: 'center', textAlign: 'center', textDecoration: 'none' }}
+                      >
+                        Mulai Simulasi KPR 💰
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

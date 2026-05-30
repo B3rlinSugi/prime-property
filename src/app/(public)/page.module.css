@@ -895,17 +895,17 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   width: 100%;
-  max-width: 1100px;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-width: 1150px;
+  max-height: 92vh;
   box-shadow: 
     0 25px 60px rgba(0, 0, 0, 0.8),
     inset 0 1px 1px rgba(255, 255, 255, 0.15),
     0 0 40px rgba(201, 169, 97, 0.04);
-  padding: 36px;
+  padding: 0; /* Bento Grid fits to edge */
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow: hidden;
   animation: slideUpModal 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -916,21 +916,21 @@
 
 .modalCloseBtn {
   position: absolute;
-  top: 24px;
-  right: 24px;
-  width: 36px;
-  height: 36px;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.6);
-  font-size: 1rem;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  z-index: 10;
+  z-index: 100;
 }
 
 .modalCloseBtn:hover {
@@ -940,100 +940,239 @@
   transform: rotate(90deg);
 }
 
+/* ─── Redesigned 3-Column Bento Grid Layout ─── */
 .modalGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 36px;
-  align-items: start;
+  grid-template-columns: 160px 1fr 360px;
+  width: 100%;
+  min-height: 540px;
+  max-height: 92vh;
+  align-items: stretch;
 }
 
-@media (max-width: 768px) {
-  .modalGrid {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-}
-
-/* Left Column: Visual elements */
-.modalVisualCol {
+/* 1. Left Sidebar Navigation Column */
+.modalSidebarCol {
+  background: rgba(255, 255, 255, 0.01);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
+  padding: 40px 16px 24px;
 }
 
-.modalHeroImg {
+.sidebarTabBtn {
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  cursor: pointer;
+  padding: 6px 12px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.tabNumber {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.25);
+  margin-bottom: 2px;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+.tabLabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+.sidebarTabBtn:hover .tabLabel {
+  color: #FFFFFF;
+}
+
+.sidebarTabActive .tabNumber {
+  color: #C9A961;
+  font-weight: bold;
+}
+
+.sidebarTabActive .tabLabel {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+/* 2. Middle Media Panel Column */
+.modalMediaCol {
+  padding: 40px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Cover Image Wrapper inside Media Column */
+.overviewCoverWrapper {
   width: 100%;
-  height: 280px;
+  height: 380px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+}
+
+.overviewCoverImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Gallery, Carousel, Video & Floor Plan inside Media Column */
+.modalGalleryContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.modalSlider {
+  position: relative;
+  width: 100%;
+  height: 290px;
   border-radius: 12px;
   background-size: cover;
   background-position: center;
-  position: relative;
   border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: background-image 0.3s ease;
 }
 
-.modalImageBadges {
+.modalSlideLabel {
   position: absolute;
-  top: 16px;
-  left: 16px;
+  top: 14px;
+  left: 14px;
+  background: rgba(18, 18, 18, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 30px;
+  padding: 4px 12px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 5;
+}
+
+.slideDot {
+  color: #C9A961;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.modalNavBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(22, 22, 22, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 6;
+  user-select: none;
+}
+
+.modalNavBtn:hover {
+  background: rgba(201, 169, 97, 0.25);
+  border-color: #C9A961;
+  color: #C9A961;
+  transform: translateY(-50%) scale(1.06);
+}
+
+.modalNavBtnLeft { left: 14px; }
+.modalNavBtnRight { right: 14px; }
+
+.modalSlideCount {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  background: rgba(18, 18, 18, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  z-index: 5;
+}
+
+.modalThumbRow {
   display: flex;
   gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 6px;
 }
 
-.modalBadgeInStock {
-  background: rgba(76, 175, 80, 0.15);
-  color: #4CAF50;
-  border: 1px solid rgba(76, 175, 80, 0.3);
-  padding: 4px 10px;
-  font-size: 0.72rem;
+.modalThumbRow::-webkit-scrollbar { height: 3px; }
+.modalThumbRow::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.01); }
+.modalThumbRow::-webkit-scrollbar-thumb { background: rgba(201, 169, 97, 0.15); }
+
+.modalThumbWrapper {
+  width: 64px;
+  height: 44px;
   border-radius: 4px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  opacity: 0.5;
 }
 
-.modalBadgeSoldOut {
-  background: rgba(244, 67, 54, 0.15);
-  color: #F44336;
-  border: 1px solid rgba(244, 67, 54, 0.3);
-  padding: 4px 10px;
-  font-size: 0.72rem;
-  border-radius: 4px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+.modalThumbWrapper:hover { opacity: 0.8; }
+.modalThumbWrapperActive {
+  border-color: #C9A961 !important;
+  box-shadow: 0 0 10px rgba(201, 169, 97, 0.3);
+  opacity: 1 !important;
 }
 
-.modalBadgeType {
-  background: rgba(201, 169, 97, 0.15);
-  color: #C9A961;
-  border: 1px solid rgba(201, 169, 97, 0.3);
-  padding: 4px 10px;
-  font-size: 0.72rem;
-  border-radius: 4px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+.modalThumbImg { width: 100%; height: 100%; object-fit: cover; }
+
+.modalVideoWrapper { width: 100%; }
+.modalVideoContainer {
+  width: 100%;
+  height: 290px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: #000000;
 }
 
-/* Real Map inside Modal */
-.modalMapWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.modalMapTitle {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #FFFFFF;
-  margin: 0;
-  letter-spacing: 0.5px;
-}
-
+/* Maps and Floor Plan Wrapper */
 .modalMapIframeContainer {
   width: 100%;
-  height: 200px;
-  border-radius: 8px;
+  height: 360px;
+  border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  position: relative;
 }
 
 .modalGoogleMap {
@@ -1041,98 +1180,110 @@
   height: 100%;
   border: none;
   filter: grayscale(100%) invert(90%) hue-rotate(180deg) brightness(85%) contrast(90%);
-  opacity: 0.8;
-  transition: opacity 0.3s ease;
 }
 
-.modalGoogleMap:hover {
-  opacity: 1;
+.floorPlanVisualWrapper {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 24px;
 }
 
-/* Right Column: Text & Spec Details */
-.modalDetailsCol {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.modalHeaderTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Investment Visual Area */
+.investmentChartWrapper {
   width: 100%;
-  margin-bottom: 6px;
-  padding-right: 48px; /* Safe space to prevent overlapping with the absolute close button */
 }
 
-.modalHeaderLeftGroup {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+.investmentVisualCard {
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 24px;
 }
 
-.modalBadges {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+.investmentChartTitle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1.5px;
+  margin: 0 0 16px;
+  text-align: center;
 }
 
-.modalHeaderSec {
+.investmentSvg {
+  width: 100%;
+  height: auto;
+  max-height: 240px;
+}
+
+/* 3. Right Information Column */
+.modalDetailsCol {
+  background: rgba(0, 0, 0, 0.05);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 40px 24px 32px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  padding-bottom: 16px;
+  overflow-y: auto;
+}
+
+.infoColOverview {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .modalKawasan {
-  font-size: 0.8rem;
-  color: rgba(201, 169, 97, 0.85);
+  font-size: 0.75rem;
+  color: #C9A961;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
 }
 
 .modalTitle {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.85rem;
+  font-size: 1.8rem;
   font-weight: 500;
   color: #FFFFFF;
-  margin: 0;
+  line-height: 1.25;
+  margin: 0 0 4px;
 }
 
-.modalPrice {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #C9A961;
-  margin-top: 4px;
+.modalSubtitle {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.5px;
 }
 
-.modalSpecsGrid {
+.modalDescText {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.6;
+  margin: 12px 0 20px;
+}
+
+/* Custom Grid Specs in Mockup */
+.mockupSpecsGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.mockupSpecItem {
+  display: flex;
+  align-items: center;
   gap: 12px;
 }
 
-.modalSpecCard {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  border-radius: 10px;
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.modalSpecCard:hover {
-  background: rgba(251, 237, 203, 0.02);
-  border-color: rgba(201, 169, 97, 0.15);
-}
-
-.modalSpecIconWrapper {
+.mockupSpecIconWrapper {
   color: #C9A961;
+  background: rgba(201, 169, 97, 0.05);
+  border: 1px solid rgba(201, 169, 97, 0.15);
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1140,85 +1291,103 @@
 }
 
 .modalSpecIconSvg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   stroke-width: 1.8;
 }
 
-.modalSpecMeta {
+.mockupSpecMeta {
   display: flex;
   flex-direction: column;
-  gap: 3px;
 }
 
-.modalSpecLabel {
+.mockupSpecLabel {
   font-size: 0.65rem;
   color: rgba(255, 255, 255, 0.35);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 600;
-}
-
-.modalSpecVal {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: #FFFFFF;
-}
-
-.modalDescSection {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.modalSectionSub {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #FFFFFF;
-  margin: 0;
   letter-spacing: 0.5px;
 }
 
-.modalDescText {
-  font-size: 0.86rem;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.6;
-  margin: 0;
+.mockupSpecVal {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #FFFFFF;
 }
 
-.modalWaBtn {
+/* Custom CTA Button & Video Circular Trigger in Mockup */
+.mockupCtaRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 24px;
+}
+
+.mockupGoldBtn {
+  background: #C9A961;
+  color: #0A0A0A;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
-  background: linear-gradient(135deg, #C9A961 0%, #B8974D 100%);
-  color: #0D0D0D;
-  padding: 14px 28px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(201, 169, 97, 0.25);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  width: 100%;
-  margin-top: 8px;
-  text-align: center;
+  transition: background 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 15px rgba(201, 169, 97, 0.2);
 }
 
-.modalWaIconSvg {
-  width: 20px;
-  height: 20px;
-  stroke-width: 2.2;
-  flex-shrink: 0;
-}
-
-.modalWaBtn:hover {
+.mockupGoldBtn:hover {
+  background: #D4B872;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(201, 169, 97, 0.4);
-  color: #0D0D0D;
 }
 
-/* Premium Segmented Control Selector */
+.arrowIcon {
+  font-size: 1.05rem;
+}
+
+.playVideoCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.playVideoBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  padding-left: 2px; /* Centering the play arrow */
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.playVideoBtn:hover {
+  border-color: #C9A961;
+  color: #C9A961;
+  transform: scale(1.08);
+  box-shadow: 0 0 10px rgba(201, 169, 97, 0.2);
+}
+
+.playLabel {
+  font-size: 0.58rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Tab selector wrapper in media */
 .modalTabWrapper {
   display: flex;
   justify-content: flex-start;
@@ -1243,231 +1412,38 @@
   color: rgba(255, 255, 255, 0.5);
   padding: 8px 20px;
   border-radius: 9999px;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.5px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  outline: none;
 }
 
-.controlTabBtn:hover {
-  color: #FFFFFF;
-}
-
+.controlTabBtn:hover { color: #FFFFFF; }
 .controlTabActive {
   background: rgba(201, 169, 97, 0.12) !important;
   color: #C9A961 !important;
   border: 1.5px solid rgba(201, 169, 97, 0.25) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-  padding: 6.5px 18.5px !important;
 }
 
-.tabIconSvg {
-  width: 14px;
-  height: 14px;
-  stroke-width: 2;
-  transition: transform 0.2s ease;
-}
+.tabIconSvg { width: 12px; height: 12px; stroke-width: 2; }
 
-.controlTabBtn:hover .tabIconSvg {
-  transform: translateY(-0.5px);
-}
-
-/* Pulsing Red Recording Dot */
 .recordingDot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   background-color: #ff3b30;
   border-radius: 50%;
   display: inline-block;
-  box-shadow: 0 0 8px #ff3b30, 0 0 15px #ff3b30;
   animation: pulseDot 1.5s infinite;
 }
 
 @keyframes pulseDot {
   0% { transform: scale(0.9); opacity: 0.7; }
-  50% { transform: scale(1.25); opacity: 1; box-shadow: 0 0 10px #ff3b30, 0 0 18px #ff3b30; }
+  50% { transform: scale(1.25); opacity: 1; }
   100% { transform: scale(0.9); opacity: 0.7; }
-}
-
-/* Gallery Slider Components */
-.modalGalleryContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-}
-
-.modalSlider {
-  position: relative;
-  width: 100%;
-  height: 320px;
-  border-radius: 12px;
-  background-size: cover;
-  background-position: center;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  transition: background-image 0.3s ease;
-}
-
-.modalSlideLabel {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  background: rgba(18, 18, 18, 0.75);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 30px;
-  padding: 6px 14px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #FFFFFF;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  z-index: 5;
-}
-
-.slideDot {
-  color: #C9A961;
-  font-size: 0.8rem;
-  line-height: 1;
-}
-
-/* Slider Nav Buttons */
-.modalNavBtn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(22, 22, 22, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #FFFFFF;
-  font-size: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 6;
-  user-select: none;
-}
-
-.modalNavBtn:hover {
-  background: rgba(201, 169, 97, 0.25);
-  border-color: #C9A961;
-  color: #C9A961;
-  transform: translateY(-50%) scale(1.06);
-}
-
-.modalNavBtnLeft {
-  left: 16px;
-}
-
-.modalNavBtnRight {
-  right: 16px;
-}
-
-.modalSlideCount {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  background: rgba(18, 18, 18, 0.75);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  padding: 5px 12px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #FFFFFF;
-  letter-spacing: 0.5px;
-  z-index: 5;
-}
-
-/* Slider Thumbnails */
-.modalThumbRow {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 4px 2px 8px;
-}
-
-/* Thin sleek custom scrollbar for thumbnails */
-.modalThumbRow::-webkit-scrollbar {
-  height: 4px;
-}
-
-.modalThumbRow::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 4px;
-}
-
-.modalThumbRow::-webkit-scrollbar-thumb {
-  background: rgba(201, 169, 97, 0.2);
-  border-radius: 4px;
-}
-
-.modalThumbRow::-webkit-scrollbar-thumb:hover {
-  background: rgba(201, 169, 97, 0.45);
-}
-
-.modalThumbWrapper {
-  width: 76px;
-  height: 52px;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 1.5px solid rgba(255, 255, 255, 0.1);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  flex-shrink: 0;
-  position: relative;
-  opacity: 0.5;
-}
-
-.modalThumbWrapper:hover {
-  opacity: 0.85;
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-.modalThumbWrapperActive {
-  border-color: #C9A961 !important;
-  box-shadow: 0 0 12px rgba(201, 169, 97, 0.35);
-  opacity: 1 !important;
-  transform: translateY(-1px);
-}
-
-.modalThumbImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Video Walkthrough Player */
-.modalVideoWrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.modalVideoContainer {
-  width: 100%;
-  height: 320px;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  background-color: #000000;
 }
 
 /* ─── MODAL PRINT BUTTON STYLES ─── */
@@ -1677,161 +1653,71 @@
 }
 
 /* ─── ULTRA-MOBILE RESPONSIVENESS OVERRIDES (iPHONE 13, ANDROID, TABLET) ─── */
-@media (max-width: 768px) {
-  .hero {
-    padding: 60px 20px 40px;
-    gap: 30px;
+@media (max-width: 1024px) {
+  .modalGrid {
+    grid-template-columns: 140px 1fr !important;
   }
-  .visualContainer {
-    height: 280px;
-  }
-  .modalContent {
-    padding: 24px 20px;
-  }
-  .modalTitle {
-    font-size: 1.5rem;
-  }
-  .modalPrice {
-    font-size: 1.25rem;
-  }
-  .segmentedControl {
-    display: flex;
-    width: 100%;
-  }
-  .controlTabBtn {
-    flex: 1;
-    justify-content: center;
-    padding: 8px 12px;
-    font-size: 0.7rem;
+  .modalDetailsCol {
+    grid-column: span 2;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: none;
   }
 }
 
-@media (max-width: 480px) {
-  .heroHeading {
-    font-size: 1.85rem !important;
-    line-height: 1.2;
-    text-align: center;
+@media (max-width: 768px) {
+  .modalGrid {
+    grid-template-columns: 1fr !important;
   }
-  .heroWelcome {
-    align-self: center;
-    font-size: 0.75rem;
-  }
-  .heroSubheading {
-    font-size: 0.88rem;
-    line-height: 1.6;
-    text-align: center;
-    margin-bottom: 24px;
-  }
-  .heroActions {
-    justify-content: center;
-    width: 100%;
+  .modalSidebarCol {
+    grid-column: span 1;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    flex-direction: row !important;
+    overflow-x: auto;
     gap: 12px;
+    padding: 24px 16px 12px;
   }
-  .heroCta, .heroSecondaryCta {
-    width: 100%;
+  .sidebarTabBtn {
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+  }
+  .sidebarTabActive {
+    border-color: rgba(201, 169, 97, 0.4) !important;
+    background: rgba(201, 169, 97, 0.05) !important;
+  }
+  .tabNumber {
+    margin-bottom: 0;
+  }
+  .modalMediaCol {
+    grid-column: span 1;
+    padding: 20px 16px;
+  }
+  .modalDetailsCol {
+    grid-column: span 1;
+    padding: 20px 16px;
+  }
+  .mockupCtaRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .mockupGoldBtn {
     justify-content: center;
-    padding: 12px 24px;
-    font-size: 0.88rem;
-    text-align: center;
   }
-  .visualContainer {
-    height: 220px;
-  }
-  .modalBackdrop {
-    padding: 10px;
-  }
-  .modalContent {
-    padding: 20px 14px;
-    border-radius: 12px;
-    max-height: 95vh;
-  }
-  .modalCloseBtn {
-    top: 12px;
-    right: 12px;
-    width: 30px;
-    height: 30px;
-    font-size: 0.8rem;
-  }
-  .modalHeaderTop {
-    padding-right: 32px;
-  }
-  .modalKawasan {
-    font-size: 0.75rem;
-    letter-spacing: 0.5px;
-  }
-  .modalTitle {
-    font-size: 1.35rem;
-    line-height: 1.3;
-  }
-  .modalPrice {
-    font-size: 1.15rem;
-    margin-top: 2px;
-  }
-  .modalSpecsGrid {
-    grid-template-columns: 1fr;
+  .playVideoCol {
+    flex-direction: row;
+    justify-content: center;
     gap: 8px;
   }
-  .modalSpecCard {
-    padding: 10px 12px;
-    gap: 10px;
-  }
-  .modalSpecIconSvg {
-    width: 16px;
-    height: 16px;
-  }
-  .modalSpecLabel {
-    font-size: 0.6rem;
-  }
-  .modalSpecVal {
-    font-size: 0.8rem;
-  }
-  .modalDescText {
-    font-size: 0.8rem;
-    line-height: 1.5;
-  }
-  .modalSlider {
-    height: 190px;
-  }
-  .modalSlideLabel {
-    top: 10px;
-    left: 10px;
-    padding: 4px 10px;
-    font-size: 0.6rem;
-  }
-  .modalSlideCount {
-    bottom: 10px;
-    right: 10px;
-    padding: 3px 8px;
-    font-size: 0.6rem;
-  }
-  .modalNavBtn {
-    width: 32px;
-    height: 32px;
-    font-size: 1.1rem;
-  }
-  .modalThumbWrapper {
-    width: 58px;
-    height: 40px;
-  }
-  .modalVideoContainer, .modalMapIframeContainer {
-    height: 170px;
-  }
-  .modalWaBtn {
-    padding: 12px 20px;
-    font-size: 0.85rem;
-  }
-  .floorPlanSection {
-    margin-top: 16px;
-    padding-top: 16px;
-  }
-  .floorPlanSub {
-    font-size: 0.72rem;
-    margin-bottom: 8px;
-  }
-  .floorPlanVisualWrapper {
-    padding: 10px;
-  }
 }
+
 
 
 
