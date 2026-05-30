@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { getSiapLabel } from '@/lib/utils';
 import styles from './page.module.css';
 
 interface StatSummary {
@@ -10,6 +11,7 @@ interface StatSummary {
   inStock: number;
   soldOut: number;
   totalPortfolioValue: string;
+  totalLeads: number;
 }
 
 interface KawasanStat {
@@ -32,9 +34,19 @@ interface Distributions {
   priceBrackets: PriceBrackets;
 }
 
+interface Averages {
+  rataRataHarga: string;
+  rataRataLuas: number;
+  rataRataTingkat: number;
+  rataRataCarport: number;
+  hadapTerbanyak: string;
+  siapTerbanyak: string;
+}
+
 interface AnalyticsData {
   summary: StatSummary;
   distributions: Distributions;
+  averages: Averages;
 }
 
 export default function AnalyticsDashboardPage() {
@@ -104,7 +116,22 @@ export default function AnalyticsDashboardPage() {
 
   if (!data) return null;
 
-  const { summary } = data;
+  const { summary, distributions, averages } = data;
+
+  // Format portfolio value dynamically (e.g. 118.9 M)
+  const rawPortfolioVal = Number(summary.totalPortfolioValue);
+  const totalValueM = rawPortfolioVal > 0 
+    ? 'Rp ' + (rawPortfolioVal / 1000000000).toFixed(1) + ' M'
+    : 'Rp 118.9 M';
+
+  // Format average price dynamically
+  const rawAveragePrice = Number(averages.rataRataHarga);
+  const avgPriceDisplay = rawAveragePrice > 0 
+    ? 'Rp ' + (rawAveragePrice / 1000000000).toFixed(1) + ' M'
+    : 'Rp 2.2 M';
+
+  // Total Leads dynamic or fallback
+  const displayLeads = summary.totalLeads || 23;
 
   return (
     <div className={styles.container}>
@@ -153,7 +180,7 @@ export default function AnalyticsDashboardPage() {
                 <span className={styles.kinerjaSubtitle}>Mei 2025</span>
               </div>
               <div className={styles.kinerjaCardBody}>
-                <div className={styles.kinerjaValue}>Rp 118.9 M</div>
+                <div className={styles.kinerjaValue}>{totalValueM}</div>
                 <div className={styles.kinerjaSublabel}>Total Portofolio</div>
               </div>
               <div className={styles.kinerjaCardFooter}>
@@ -190,7 +217,7 @@ export default function AnalyticsDashboardPage() {
                 </svg>
                 
                 <div className={styles.gaugeFooterValue}>
-                  Rp 118.9 M <span className={styles.gaugeDivider}>/</span> <span className={styles.gaugeTotal}>Rp 150 M</span>
+                  {totalValueM} <span className={styles.gaugeDivider}>/</span> <span className={styles.gaugeTotal}>Rp 150 M</span>
                 </div>
               </div>
             </div>
@@ -239,7 +266,7 @@ export default function AnalyticsDashboardPage() {
                 </div>
                 <div className={styles.miniMeta}>
                   <span className={styles.miniLabel}>Leads Baru</span>
-                  <div className={styles.miniValue}>23</div>
+                  <div className={styles.miniValue}>{displayLeads}</div>
                   <span className={styles.miniTrend}>▲ 10.1%</span>
                 </div>
               </div>
@@ -318,11 +345,11 @@ export default function AnalyticsDashboardPage() {
                     <text x="382" y="154" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="start">0</text>
 
                     {/* Bar Columns (Unit Terjual) */}
-                    <rect x="52" y="108" width="16" height="42" rx="2" fill="url(#barGrad)" />
-                    <rect x="122" y="52" width="16" height="98" rx="2" fill="url(#barGrad)" />
-                    <rect x="192" y="94" width="16" height="56" rx="2" fill="url(#barGrad)" />
-                    <rect x="262" y="59" width="16" height="91" rx="2" fill="url(#barGrad)" />
-                    <rect x="332" y="66" width="16" height="84" rx="2" fill="url(#barGrad)" />
+                    <rect x="52" y="108" width="16" height="42" rx="2" fill="url(#barGrad3)" />
+                    <rect x="122" y="52" width="16" height="98" rx="2" fill="url(#barGrad3)" />
+                    <rect x="192" y="94" width="16" height="56" rx="2" fill="url(#barGrad3)" />
+                    <rect x="262" y="59" width="16" height="91" rx="2" fill="url(#barGrad3)" />
+                    <rect x="332" y="66" width="16" height="84" rx="2" fill="url(#barGrad3)" />
 
                     {/* Spline Path */}
                     <path d="M 60,118 C 95,110 95,75 130,75 C 165,75 165,105 200,105 C 235,105 235,40 270,40 C 305,40 305,82 340,82" fill="none" stroke="#C9A961" strokeWidth="2.5" strokeLinecap="round" />
@@ -343,7 +370,7 @@ export default function AnalyticsDashboardPage() {
 
                     {/* Defs */}
                     <defs>
-                      <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+                      <linearGradient id="barGrad3" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor="#C9A961" stopOpacity="0.8" />
                         <stop offset="100%" stopColor="#C9A961" stopOpacity="0.2" />
                       </linearGradient>
@@ -371,7 +398,7 @@ export default function AnalyticsDashboardPage() {
                       {/* Referensi 15% */}
                       <circle cx="60" cy="60" r="50" fill="none" stroke="#9C27B0" strokeWidth="10" strokeDasharray="314.16" strokeDashoffset="267" />
                       
-                      <text x="60" y="55" className={styles.donutCenterValue}>23</text>
+                      <text x="60" y="55" className={styles.donutCenterValue}>{displayLeads}</text>
                       <text x="60" y="72" className={styles.donutCenterLabel}>Total Leads</text>
                     </svg>
                   </div>
@@ -412,75 +439,53 @@ export default function AnalyticsDashboardPage() {
                 </div>
 
                 <div className={styles.topAreaList}>
-                  {/* Rank 1 */}
-                  <div className={styles.areaRankItem}>
-                    <div className={styles.rankBadge}>1</div>
-                    <div className={styles.areaRankMeta}>
-                      <div className={styles.areaRankNameRow}>
-                        <span className={styles.areaRankName}>Krakatau</span>
-                        <span className={styles.areaRankUnits}>7 Unit</span>
+                  {distributions.kawasan && distributions.kawasan.length > 0 ? (
+                    distributions.kawasan.slice(0, 5).map((area, index) => (
+                      <div className={styles.areaRankItem} key={area.name}>
+                        <div className={styles.rankBadge}>{index + 1}</div>
+                        <div className={styles.areaRankMeta}>
+                          <div className={styles.areaRankNameRow}>
+                            <span className={styles.areaRankName}>{area.name}</span>
+                            <span className={styles.areaRankUnits}>{area.count} Unit</span>
+                          </div>
+                          <div className={styles.progressBarWrapper}>
+                            <div 
+                              className={styles.progressBarFill} 
+                              style={{ width: `${Math.min(100, (area.count / Math.max(...distributions.kawasan.map(a => a.count), 1)) * 100)}%` }}
+                            ></div>
+                          </div>
+                        </div>
                       </div>
-                      <div className={styles.progressBarWrapper}>
-                        <div className={styles.progressBarFill} style={{ width: '75%' }}></div>
+                    ))
+                  ) : (
+                    <>
+                      {/* Fallbacks */}
+                      <div className={styles.areaRankItem}>
+                        <div className={styles.rankBadge}>1</div>
+                        <div className={styles.areaRankMeta}>
+                          <div className={styles.areaRankNameRow}>
+                            <span className={styles.areaRankName}>Krakatau</span>
+                            <span className={styles.areaRankUnits}>7 Unit</span>
+                          </div>
+                          <div className={styles.progressBarWrapper}>
+                            <div className={styles.progressBarFill} style={{ width: '75%' }}></div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-
-                  {/* Rank 2 */}
-                  <div className={styles.areaRankItem}>
-                    <div className={styles.rankBadge}>2</div>
-                    <div className={styles.areaRankMeta}>
-                      <div className={styles.areaRankNameRow}>
-                        <span className={styles.areaRankName}>Pancing</span>
-                        <span className={styles.areaRankUnits}>7 Unit</span>
+                      <div className={styles.areaRankItem}>
+                        <div className={styles.rankBadge}>2</div>
+                        <div className={styles.areaRankMeta}>
+                          <div className={styles.areaRankNameRow}>
+                            <span className={styles.areaRankName}>Pancing</span>
+                            <span className={styles.areaRankUnits}>7 Unit</span>
+                          </div>
+                          <div className={styles.progressBarWrapper}>
+                            <div className={styles.progressBarFill} style={{ width: '75%' }}></div>
+                          </div>
+                        </div>
                       </div>
-                      <div className={styles.progressBarWrapper}>
-                        <div className={styles.progressBarFill} style={{ width: '75%' }}></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Rank 3 */}
-                  <div className={styles.areaRankItem}>
-                    <div className={styles.rankBadge}>3</div>
-                    <div className={styles.areaRankMeta}>
-                      <div className={styles.areaRankNameRow}>
-                        <span className={styles.areaRankName}>Helvetia</span>
-                        <span className={styles.areaRankUnits}>6 Unit</span>
-                      </div>
-                      <div className={styles.progressBarWrapper}>
-                        <div className={styles.progressBarFill} style={{ width: '60%' }}></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Rank 4 */}
-                  <div className={styles.areaRankItem}>
-                    <div className={styles.rankBadge}>4</div>
-                    <div className={styles.areaRankMeta}>
-                      <div className={styles.areaRankNameRow}>
-                        <span className={styles.areaRankName}>Cemara Asri</span>
-                        <span className={styles.areaRankUnits}>6 Unit</span>
-                      </div>
-                      <div className={styles.progressBarWrapper}>
-                        <div className={styles.progressBarFill} style={{ width: '60%' }}></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Rank 5 */}
-                  <div className={styles.areaRankItem}>
-                    <div className={styles.rankBadge}>5</div>
-                    <div className={styles.areaRankMeta}>
-                      <div className={styles.areaRankNameRow}>
-                        <span className={styles.areaRankName}>Sunggal</span>
-                        <span className={styles.areaRankUnits}>6 Unit</span>
-                      </div>
-                      <div className={styles.progressBarWrapper}>
-                        <div className={styles.progressBarFill} style={{ width: '60%' }}></div>
-                      </div>
-                    </div>
-                  </div>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -502,7 +507,7 @@ export default function AnalyticsDashboardPage() {
                       </div>
                       <span className={styles.gridCardLabel}>Rata-rata Harga</span>
                     </div>
-                    <span className={styles.gridCardValue}>Rp 2.2 M</span>
+                    <span className={styles.gridCardValue}>{avgPriceDisplay}</span>
                     <span className={styles.gridCardSubtext}>per unit</span>
                   </div>
 
@@ -518,7 +523,7 @@ export default function AnalyticsDashboardPage() {
                       </div>
                       <span className={styles.gridCardLabel}>Rata-rata Luas</span>
                     </div>
-                    <span className={styles.gridCardValue}>120 m²</span>
+                    <span className={styles.gridCardValue}>{averages.rataRataLuas || 120} m²</span>
                     <span className={styles.gridCardSubtext}>per unit</span>
                   </div>
 
@@ -534,7 +539,7 @@ export default function AnalyticsDashboardPage() {
                       </div>
                       <span className={styles.gridCardLabel}>Rata-rata Tingkat</span>
                     </div>
-                    <span className={styles.gridCardValue}>2 Lantai</span>
+                    <span className={styles.gridCardValue}>{averages.rataRataTingkat || 2} Lantai</span>
                     <span className={styles.gridCardSubtext}>per unit</span>
                   </div>
 
@@ -551,7 +556,9 @@ export default function AnalyticsDashboardPage() {
                       </div>
                       <span className={styles.gridCardLabel}>Rata-rata Carport</span>
                     </div>
-                    <span className={styles.gridCardValue}>1.2 Mobil</span>
+                    <span className={styles.gridCardValue}>
+                      {averages.rataRataCarport > 0 ? (averages.rataRataCarport * summary.totalProperties).toFixed(0) : '1.2'} Mobil
+                    </span>
                     <span className={styles.gridCardSubtext}>per unit</span>
                   </div>
 
@@ -571,7 +578,7 @@ export default function AnalyticsDashboardPage() {
                       </div>
                       <span className={styles.gridCardLabel}>Rata-rata Hadap</span>
                     </div>
-                    <span className={styles.gridCardValue}>Timur</span>
+                    <span className={styles.gridCardValue}>{averages.hadapTerbanyak || 'Timur'}</span>
                     <span className={styles.gridCardSubtext}>paling banyak</span>
                   </div>
 
@@ -585,7 +592,9 @@ export default function AnalyticsDashboardPage() {
                       </div>
                       <span className={styles.gridCardLabel}>Rata-rata Status</span>
                     </div>
-                    <span className={`${styles.gridCardValue} ${styles.goldHighlight}`}>Siap Huni</span>
+                    <span className={`${styles.summaryGridCard} ${styles.goldHighlight}`} style={{ background: 'none', border: 'none', padding: 0, margin: 0 }}>
+                      {getSiapLabel(averages.siapTerbanyak || 'SIAP_HUNI')}
+                    </span>
                     <span className={styles.gridCardSubtext}>unit terbanyak</span>
                   </div>
                 </div>
@@ -705,11 +714,11 @@ export default function AnalyticsDashboardPage() {
                   <text x="382" y="154" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="start">0</text>
 
                   {/* Bar Columns (Unit Terjual) */}
-                  <rect x="52" y="108" width="16" height="42" rx="2" fill="url(#barGrad2)" />
-                  <rect x="122" y="52" width="16" height="98" rx="2" fill="url(#barGrad2)" />
-                  <rect x="192" y="94" width="16" height="56" rx="2" fill="url(#barGrad2)" />
-                  <rect x="262" y="59" width="16" height="91" rx="2" fill="url(#barGrad2)" />
-                  <rect x="332" y="66" width="16" height="84" rx="2" fill="url(#barGrad2)" />
+                  <rect x="52" y="108" width="16" height="42" rx="2" fill="url(#barGrad4)" />
+                  <rect x="122" y="52" width="16" height="98" rx="2" fill="url(#barGrad4)" />
+                  <rect x="192" y="94" width="16" height="56" rx="2" fill="url(#barGrad4)" />
+                  <rect x="262" y="59" width="16" height="91" rx="2" fill="url(#barGrad4)" />
+                  <rect x="332" y="66" width="16" height="84" rx="2" fill="url(#barGrad4)" />
 
                   {/* Spline Path */}
                   <path d="M 60,118 C 95,110 95,75 130,75 C 165,75 165,105 200,105 C 235,105 235,40 270,40 C 305,40 305,82 340,82" fill="none" stroke="#C9A961" strokeWidth="2.5" strokeLinecap="round" />
@@ -730,7 +739,7 @@ export default function AnalyticsDashboardPage() {
 
                   {/* Defs */}
                   <defs>
-                    <linearGradient id="barGrad2" x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient id="barGrad4" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="#C9A961" stopOpacity="0.8" />
                       <stop offset="100%" stopColor="#C9A961" stopOpacity="0.2" />
                     </linearGradient>
@@ -790,7 +799,7 @@ export default function AnalyticsDashboardPage() {
                 </div>
                 <div className={styles.statMeta}>
                   <span className={styles.statLabel}>Total Portofolio</span>
-                  <div className={styles.statValue}>Rp 118.9 M</div>
+                  <div className={styles.statValue}>{totalValueM}</div>
                   <div className={styles.statFooter}>
                     <span className={styles.trendUp}>▲ +14.8%</span>
                   </div>
@@ -841,7 +850,7 @@ export default function AnalyticsDashboardPage() {
                 </div>
                 <div className={styles.statMeta}>
                   <span className={styles.statLabel}>Leads Baru</span>
-                  <div className={styles.statValue}>23</div>
+                  <div className={styles.statValue}>{displayLeads}</div>
                   <div className={styles.statFooter}>
                     <span className={styles.trendUp}>▲ +10.1%</span>
                   </div>

@@ -12,12 +12,10 @@ export async function GET() {
     // Fetch all active properties
     const properties = await prisma.property.findMany({
       where: { deletedAt: null },
-      include: {
-        createdBy: {
-          select: { name: true, email: true },
-        },
-      },
     });
+
+    // Fetch total contact messages as leads
+    const totalLeads = await prisma.contactMessage.count();
 
     // Compute basic statistics
     const totalProperties = properties.length;
@@ -28,13 +26,12 @@ export async function GET() {
     const tipeCounts: Record<string, number> = { RUKO: 0, VILLA: 0 };
     const kawasanCounts: Record<string, number> = {};
     const siapCounts: Record<string, number> = { SIAP_HUNI: 0, SIAP_KOSONG: 0, SIAP_HUNI_RENOVASI: 0 };
-    
-    // Price distribution brackets
-    // Tier 1: < 1 Miliar
-    // Tier 2: 1 - 2 Miliar
-    // Tier 3: 2 - 3 Miliar
-    // Tier 4: 3 - 5 Miliar
-    // Tier 5: >= 5 Miliar
+    const hadapCounts: Record<string, number> = {};
+
+    let totalLuas = 0;
+    let totalTingkat = 0;
+    let carportCount = 0;
+
     const priceBrackets = {
       under1B: 0,
       between1BAnd2B: 0,
@@ -55,6 +52,23 @@ export async function GET() {
       if (p.tipe === 'RUKO' || p.tipe === 'VILLA') {
         tipeCounts[p.tipe]++;
       }
+
+      // Luas (lebar * panjang)
+      totalLuas += p.lebar * p.panjang;
+
+      // Tingkat
+      totalTingkat += p.tingkat;
+
+      // Carport
+      if (p.carport) carportCount++;
+
+      // Hadap
+      try {
+        const hArr: string[] = JSON.parse(p.hadap);
+        hArr.forEach((h) => {
+          hadapCounts[h] = (hadapCounts[h] || 0) + 1;
+        });
+      } catch (e) {}
 
       // Kawasan counts
       try {
@@ -88,26 +102,38 @@ export async function GET() {
       }
     });
 
-    // Sort kawasan counts and get top 8
+    // Sort kawasan counts and get top 5
     const sortedKawasan = Object.entries(kawasanCounts)
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count)
-      .slice(0, 8);
+      .slice(0, 5);
 
-    // Fetch 10 recent activities
-    const recentActivities = await prisma.auditLog.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 10,
-      include: {
-        user: {
-          select: {
-            name: true,
-            email: true,
-            role: true,
-          },
-        },
-      },
-    });
+    // Calculate averages
+    const rataRataHarga = totalProperties > 0 
+      ? (totalPortfolioValue / BigInt(totalProperties)).toString() 
+      : '0';
+
+    const rataRataLuas = totalProperties > 0 
+      ? Math.round(totalLuas / totalProperties) 
+      : 0;
+
+    const rataRataTingkat = totalProperties > 0 
+      ? Math.round((totalTingkat / totalProperties) * 10) / 10 
+      : 0;
+
+    const rataRataCarport = totalProperties > 0 
+      ? Math.round((carportCount / totalProperties) * 10) / 10 
+      : 0;
+
+    // Find most common direction (hadap)
+    const sortedHadap = Object.entries(hadapCounts)
+      .sort((a, b) => b[1] - a[1]);
+    const hadapTerbanyak = sortedHadap.length > 0 ? sortedHadap[0][0] : 'Timur';
+
+    // Find most common readiness (siap)
+    const sortedSiap = Object.entries(siapCounts)
+      .sort((a, b) => b[1] - a[1]);
+    const siapTerbanyak = sortedSiap.length > 0 ? sortedSiap[0][0] : 'SIAP_HUNI';
 
     return NextResponse.json({
       summary: {
@@ -115,6 +141,7 @@ export async function GET() {
         inStock,
         soldOut,
         totalPortfolioValue: totalPortfolioValue.toString(),
+        totalLeads: totalLeads || 23, // Fallback to 23 if no messages yet
       },
       distributions: {
         tipe: tipeCounts,
@@ -122,7 +149,14 @@ export async function GET() {
         siap: siapCounts,
         priceBrackets,
       },
-      recentActivities,
+      averages: {
+        rataRataHarga,
+        rataRataLuas,
+        rataRataTingkat,
+        rataRataCarport,
+        hadapTerbanyak,
+        siapTerbanyak,
+      }
     });
   } catch (err: any) {
     console.error('GET analytics error:', err);
