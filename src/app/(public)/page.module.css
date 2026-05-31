@@ -208,6 +208,39 @@
       rgba(10, 10, 10, 0.4) 100%
     );
   }
+
+  .hero {
+    padding: 120px 20px 80px;
+    min-height: auto;
+  }
+
+  .heroContent {
+    justify-content: center;
+  }
+
+  .heroText {
+    align-items: center;
+    text-align: center;
+  }
+
+  .heroSubheading {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .heroActions {
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .heroCta, .heroSecondaryCta {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+    text-align: center;
+  }
 }
 
 .visualImg {
