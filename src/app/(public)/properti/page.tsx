@@ -551,7 +551,7 @@ export default function PublicPropertiCatalogPage() {
             </div>
           </div>
 
-          <div className={styles.compareGridWrapper}>
+          <div className={styles.compareGridWrapper} data-lenis-prevent>
             <table className={styles.compareTable}>
               <thead>
                 <tr>
