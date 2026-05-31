@@ -5,6 +5,7 @@ import Link from 'next/link';
 import gsap from 'gsap';
 import styles from './page.module.css';
 import { SkeletonCard } from '@/components/ui/Skeleton';
+import { generatePropertyBrochure } from '@/lib/pdfGenerator';
 
 interface Property {
   id: string;
@@ -150,6 +151,18 @@ export default function Homepage() {
   const [activeModalTab, setActiveModalTab] = useState<'overview' | 'gallery' | 'floorplan' | 'location' | 'investment'>('overview');
   const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+
+  const handleDownloadPdf = async (property: any) => {
+    setIsDownloadingPdf(true);
+    try {
+      await generatePropertyBrochure(property);
+    } catch (e) {
+      console.error('Failed to generate PDF brochure:', e);
+    } finally {
+      setIsDownloadingPdf(false);
+    }
+  };
 
   // GSAP line-level reveal animation
   useEffect(() => {
@@ -981,6 +994,25 @@ export default function Homepage() {
                           <span className={styles.playLabel}>Lihat Video</span>
                         </div>
                       </div>
+
+                      {/* PDF Brochure Download Action */}
+                      <button
+                        disabled={isDownloadingPdf}
+                        onClick={() => handleDownloadPdf(selectedProperty)}
+                        className={styles.downloadPdfBtn}
+                      >
+                        {isDownloadingPdf ? (
+                          <>
+                            <div className={styles.spinnerMini}></div>
+                            <span>Menyiapkan Brosur...</span>
+                          </>
+                        ) : (
+                          <>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: '15px', height: '15px' }}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            <span>Unduh E-Brosur PDF</span>
+                          </>
+                        )}
+                      </button>
                     </div>
                   )}
 
