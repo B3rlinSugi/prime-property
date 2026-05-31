@@ -15,7 +15,7 @@ export default function Logo({ height = 48, light = false, showText = true, noBa
   const textColor = light ? '#FFFFFF' : '#1A1A1A'; // Dynamic text color matching light/dark modes
   const accentColor = '#C9A961'; // Gold Accent
   const redColor = noBackground ? '#C9A961' : '#B33A3A'; // Red Accent (Gold if no background)
-  const thirdPillarColor = noBackground ? '#FFFFFF' : (light ? '#FFFFFF' : '#1A1A1A'); // Charcoal-black on light, white on dark/no-bg
+  const thirdPillarColor = noBackground ? (light ? '#FFFFFF' : '#1A1A1A') : '#1A1A1A'; // Always charcoal inside white box background
 
   return (
     <svg
