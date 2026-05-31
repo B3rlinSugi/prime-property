@@ -105,10 +105,14 @@ export function isValidPhone(phone: string): boolean {
 // Validate Google Maps URL
 export function isValidMapsLink(url: string): boolean {
   if (!url) return true; // optional field
+  const trimmed = url.trim();
   try {
-    const parsed = new URL(url);
-    return parsed.hostname.includes('google.com') && parsed.pathname.includes('/maps');
+    new URL(trimmed);
   } catch {
     return false;
   }
+  return trimmed.includes('google.com/maps') || 
+         trimmed.includes('maps.google.com') || 
+         trimmed.includes('goo.gl/maps') || 
+         trimmed.includes('maps.app.goo.gl');
 }

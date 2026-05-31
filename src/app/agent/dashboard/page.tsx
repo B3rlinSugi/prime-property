@@ -1050,8 +1050,7 @@ function DashboardPageContent() {
             </div>
             <div className="modal-body">
               <p style={{ lineHeight: 1.6 }}>
-                Yakin ingin menghapus properti <strong>{deleteTarget.namaProperty}</strong>? 
-                Tindakan ini bersifat soft-delete dan tidak akan menghapus data di database fisik secara permanen, namun unit ini tidak akan ditampilkan lagi.
+                Yakin hapus properti <strong>{deleteTarget.namaProperty}</strong>? Tindakan ini tidak dapat dibatalkan.
               </p>
             </div>
             <div className="modal-footer">

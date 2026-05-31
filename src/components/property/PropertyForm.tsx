@@ -90,20 +90,33 @@ export default function PropertyForm({ initialData, onSubmit, isLoading, submitL
       newErrors.namaProperty = 'Nama properti minimal 3-100 karakter.';
     }
 
+    const decimalPlaces = (numStr: string) => {
+      const parts = numStr.split('.');
+      return parts.length > 1 ? parts[1].length : 0;
+    };
+
     if (!lebar || parseFloat(lebar) <= 0) {
       newErrors.lebar = 'Lebar harus berupa angka positif.';
+    } else if (decimalPlaces(lebar) > 2) {
+      newErrors.lebar = 'Lebar maksimal 2 desimal.';
     }
 
     if (!panjang || parseFloat(panjang) <= 0) {
       newErrors.panjang = 'Panjang harus berupa angka positif.';
+    } else if (decimalPlaces(panjang) > 2) {
+      newErrors.panjang = 'Panjang maksimal 2 desimal.';
     }
 
-    if (!tingkat || parseFloat(tingkat) <= 0 || parseFloat(tingkat) > 10) {
+    if (!tingkat || parseFloat(tingkat) < 1 || parseFloat(tingkat) > 10) {
       newErrors.tingkat = 'Jumlah lantai minimal 1 dan maksimal 10.';
+    } else if (decimalPlaces(tingkat) > 1) {
+      newErrors.tingkat = 'Tingkat lantai maksimal 1 desimal.';
     }
 
     if (!price || parseFloat(price) <= 0) {
       newErrors.price = 'Harga wajib diisi dengan nilai positif.';
+    } else if (price.includes('.')) {
+      newErrors.price = 'Harga harus berupa bilangan bulat rupiah.';
     }
 
     if (hadap.length === 0) {

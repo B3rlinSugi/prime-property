@@ -89,7 +89,7 @@ export default function KontakPage() {
       if (response.ok) {
         setSubmitResult({
           success: true,
-          message: 'Pesan terkirim. Terima kasih, tim kami akan segera menghubungi Anda.',
+          message: 'Pesan terkirim, tim kami akan menghubungi Anda.',
         });
         // Reset fields
         setNama('');
