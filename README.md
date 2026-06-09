@@ -1,95 +1,141 @@
-# Prime Property — Web Platform & Internal Agent Portal
-
-Platform Real Estate Premium **Prime Property** yang mencakup halaman publik (Landing Page, Tentang Kami, Kontak) dan portal manajemen internal khusus agent real estate dengan fitur Role-Based Access Control (RBAC).
-
-Proyek ini dibangun berdasarkan seluruh butir spesifikasi dokumen **Acceptance Criteria PDF (AC-1 s.d AC-10)** dengan penyempurnaan fitur premium (Arsip & Pemulihan properti, Audit Log Security Alert, dan database-backed IP rate limiting).
-
----
-
-## 🔑 Demo Kredensial (Wajib Submission)
-
-Untuk menjaga integritas dan keamanan data seeding pada database bersama agar tidak dimodifikasi secara sembarangan oleh peserta lain, kredensial password untuk akun demonstrasi di bawah ini telah disembunyikan dari berkas publik ini.
-
-**Silakan hubungi pemilik repositori ini / kirim pesan langsung (DM) untuk mendapatkan password demo.**
-
-### 👑 Akun 1: Superadmin (Akses Penuh - Full CRUD)
-*   **Email**: `super@primeproperty.id`
-*   **Password**: `[HUBUNGI VIA DM / JALUR PRIBADI]`
-*   **Wewenang**: 
-    *   Mengelola daftar properti secara penuh (Tambah, Edit, dan Hapus unit).
-    *   Mengakses halaman pengelolaan akun Admin Agent (Tambah admin, Aktifkan/Nonaktifkan akun, Reset sandi admin).
-    *   Melihat & memulihkan (*restore*) properti terhapus lewat menu **Arsip**.
-    *   Melihat audit log riwayat mutasi properti serta peringatan lockout keamanan.
-
-### 👤 Akun 2: Admin (Akses Terbatas - Read Only)
-*   **Email**: `admin@primeproperty.id`
-*   **Password**: `[HUBUNGI VIA DM / JALUR PRIBADI]`
-*   **Wewenang**: 
-    *   Hanya dapat mencari, menyaring (9 filter), dan melihat detail spesifikasi properti.
-    *   Semua tombol tambah, edit, hapus, manajemen pengguna, dan audit log disembunyikan secara visual.
-    *   Seluruh API mutasi dilindungi di sisi server (mencoba memaksa request POST/PUT/DELETE akan mengembalikan respon keamanan `403 Forbidden`).
+<div align="center">
+  <br />
+  <h1>🏢 Prime Property</h1>
+  <p>
+    <strong>A Premium Full-Stack Real Estate Management Platform</strong>
+  </p>
+  <p>
+    <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+    <img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white" alt="Prisma" />
+  </p>
+  <p>
+    <a href="https://prime-property-sigma.vercel.app/" target="_blank">View Live Demo</a>
+  </p>
+</div>
 
 ---
 
-## 🛠️ Stack Teknologi Proyek
+## 📌 Overview
 
-Sesuai kriteria bebas, kami memilih teknologi terbaik untuk performa optimal, kebersihan kode data, dan keamanan:
--   **Framework**: Next.js 16 (App Router) & React 19
--   **Bahasa**: TypeScript (Strict Type-Safety)
--   **Styling (CSS)**: Vanilla CSS Modules (Branding Luxury Gold-HSL & Responsif Mobile/Tablet)
--   **Database**: PostgreSQL (Supabase Cloud)
--   **ORM**: Prisma Client v5.22.0
--   **Autentikasi**: NextAuth.js v5 (Credentials Provider)
--   **Enkripsi**: Bcryptjs (Cost factor 10)
+**Prime Property** is a production-ready, full-stack real estate listing and management system built with the latest React and Next.js ecosystems. Designed to provide a seamless property search experience, the platform features a highly interactive UI with advanced filtering, secure admin dashboards, and automated PDF brochure generation.
 
----
+The backend architecture focuses on strict data integrity using **Prisma ORM** mapped to **PostgreSQL**, reinforced by **Next-Auth (v5)** for secure, session-based authentication with Role-Based Access Control (RBAC).
 
-## 🚀 Panduan Instalasi & Menjalankan Aplikasi Secara Lokal
+## ✨ Key Features
 
-Ikuti petunjuk di bawah ini untuk mengaktifkan server lokal Anda:
-
-### 1. Buka Direktori Proyek
-Buka terminal Anda (PowerShell/CMD) lalu masuk ke direktori utama proyek:
-```powershell
-cd "C:\Users\Berlin Sugiyanto\.gemini\antigravity\scratch\prime-property"
-```
-
-### 2. Instal Dependensi Node.js
-Pasang semua paket pustaka yang dibutuhkan:
-```powershell
-npm install
-```
-
-### 3. Setup Database & Seeding Data
-Migrasikan skema Prisma dan jalankan proses *seeding* otomatis untuk memasukkan akun demo dan 54 properti dummy:
-```powershell
-npx prisma db push
-npx prisma db seed
-```
-
-### 4. Jalankan Server Development
-Aktifkan server lokal Next.js Anda:
-```powershell
-npm run dev
-```
-Buka **http://localhost:3000** di browser Chrome/Edge Anda!
+- **Advanced Property Management**: Full CRUD capabilities for real estate listings, including detailed specifications (dimensions, facing direction, carports, unit types).
+- **Secure Authentication (Next-Auth v5)**: Encrypted password storage using `bcryptjs`, complete with brute-force protection (failed login lockouts).
+- **Role-Based Access Control (RBAC)**: Distinct permissions for `ADMIN` and `SUPERADMIN` roles.
+- **Audit Logging**: Comprehensive system tracking (`AuditLog`) that monitors every data mutation (create, update, delete) for accountability.
+- **Soft Deletion Mechanism**: Properties are never permanently deleted from the database (`deletedAt`), preserving historical data relationships.
+- **Premium UI / UX**: Smooth scroll animations powered by **Lenis**, **GSAP**, and **Framer Motion**.
+- **PDF Generation Engine**: Automated generation of property brochures using `jspdf` and `html2canvas`.
 
 ---
 
-## 🌐 Panduan Deploy Produksi (Migrasi ke PostgreSQL)
+## 🛠️ Tech Stack Architecture
 
-Jika Anda ingin mengunggah proyek ini ke hosting produksi (misalnya Vercel) dan menghubungkannya dengan database PostgreSQL riil (seperti Supabase atau Neon), Anda cukup mengikuti 3 langkah sederhana:
+### Frontend Layer
+- **Framework**: Next.js 16 (App Router)
+- **Library**: React 19
+- **Styling**: Tailwind CSS
+- **Animations**: GSAP, Framer Motion, Lenis (Smooth Scrolling)
 
-1.  Buka berkas `prisma/schema.prisma` dan ubah tipe database:
-    ```prisma
-    datasource db {
-      provider = "postgresql"
-      url      = env("DATABASE_URL")
-    }
-    ```
-2.  Buka berkas `.env` Anda dan ganti nilai `DATABASE_URL` dengan string koneksi PostgreSQL produksi Anda (contoh: `postgres://user:password@host:port/dbname`).
-3.  Jalankan perintah sinkronisasi di terminal Anda:
-    ```powershell
-    npx prisma db push
-    ```
-    *Prisma akan langsung memigrasikan seluruh struktur tabel dari SQLite lokal ke PostgreSQL produksi Anda secara instan tanpa ada fitur yang rusak!*
+### Backend & Database Layer
+- **Authentication**: Auth.js (Next-Auth v5 Beta)
+- **Security**: bcryptjs (Password Hashing)
+- **ORM**: Prisma Client v5
+- **Database**: PostgreSQL
+- **Language**: TypeScript (Strict Mode)
+
+---
+
+## 🗄️ Database Schema Highlight
+
+The system utilizes a highly relational PostgreSQL schema. Here is a brief look at the core entities:
+
+```prisma
+model User {
+  id          String     @id @default(cuid())
+  email       String     @unique
+  role        String     @default("ADMIN") // ADMIN or SUPERADMIN
+  failedLogin Int        @default(0) // Brute-force protection
+  lockedUntil DateTime?
+  // ...relations to Properties and AuditLogs
+}
+
+model Property {
+  id           String    @id @default(cuid())
+  namaProperty String
+  price        BigInt    // Handles large currency values safely
+  status       String    @default("IN_STOCK") // IN_STOCK or SOLD_OUT
+  deletedAt    DateTime? // Soft-delete capability
+  // ...property details (dimensions, type, maps link, etc.)
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String   // CREATE, UPDATE, DELETE
+  entity    String   // Target table
+  changes   String?  // JSON snapshot of the mutation
+  // ...relations to User
+}
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- **Node.js** (v18 or higher)
+- **PostgreSQL** Database
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/B3rlinSugi/prime-property.git
+   cd prime-property
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Environment Setup:**
+   Create a `.env` file in the root directory and configure your database and Auth.js secret:
+   ```env
+   DATABASE_URL="postgresql://user:password@localhost:5432/prime_property?schema=public"
+   AUTH_SECRET="generate-a-secure-random-string-here"
+   ```
+
+4. **Initialize Database:**
+   Push the Prisma schema to your database and generate the Prisma Client:
+   ```bash
+   npx prisma db push
+   npx prisma generate
+   ```
+
+5. **Run the Development Server:**
+   ```bash
+   npm run dev
+   ```
+   *The application will be available at [http://localhost:3000](http://localhost:3000).*
+
+---
+
+## 👨‍💻 Author
+
+**Berlin Sugiyanto**  
+Backend Developer & System Architect  
+- Portfolio: [berlinsugi.vercel.app](https://berlinsugi.vercel.app/)
+- LinkedIn: [linkedin.com/in/berlinsugi](https://linkedin.com/in/berlinsugi)
+
+---
+
+<div align="center">
+  <i>"Clean architecture and strict data integrity are the foundations of scalable applications."</i>
+</div>
