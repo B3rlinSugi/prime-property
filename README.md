@@ -5,7 +5,8 @@
     <strong>Enterprise-Grade Real Estate Management Platform</strong>
   </p>
   <p>
-    A high-performance, full-stack real estate listing and internal management system engineered with strict data integrity, role-based access control, and dynamic PDF brochure generation capabilities.
+    A high-performance, full-stack real estate listing and internal management system engineered with strict data integrity, role-based access control, and dynamic PDF brochure generation capabilities.<br><br>
+    <strong>🚀 Tech Stack:</strong> TypeScript, Next.js 16, React 19, Prisma ORM, Auth.js, PostgreSQL
   </p>
 
   <p>
